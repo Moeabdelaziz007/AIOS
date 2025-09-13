@@ -4,6 +4,20 @@ import { getFirestore } from 'firebase/firestore';
 import { getAuth } from 'firebase/auth';
 import { initializeDataAgent } from './api';
 
+// Initialize Firebase app
+const firebaseConfig = {
+  apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
+  authDomain: process.env.REACT_APP_FIREBASE_AUTH_DOMAIN,
+  projectId: process.env.REACT_APP_FIREBASE_PROJECT_ID,
+  storageBucket: process.env.REACT_APP_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: process.env.REACT_APP_FIREBASE_MESSAGING_SENDER_ID,
+  appId: process.env.REACT_APP_FIREBASE_APP_ID
+};
+
+const app = initializeApp(firebaseConfig);
+export const db = getFirestore(app);
+export const auth = getAuth(app);
+
 const FirebaseContext = createContext();
 
 export const useFirebase = () => {
@@ -15,35 +29,15 @@ export const useFirebase = () => {
 };
 
 export const FirebaseProvider = ({ children }) => {
-  const [firebaseApp, setFirebaseApp] = useState(null);
-  const [db, setDb] = useState(null);
-  const [auth, setAuth] = useState(null);
+  const [firebaseApp, setFirebaseApp] = useState(app);
   const [dataAgent, setDataAgent] = useState(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const initFirebase = async () => {
       try {
-        // Firebase configuration - these should come from environment variables
-        const firebaseConfig = {
-          apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
-          authDomain: process.env.REACT_APP_FIREBASE_AUTH_DOMAIN,
-          projectId: process.env.REACT_APP_FIREBASE_PROJECT_ID,
-          storageBucket: process.env.REACT_APP_FIREBASE_STORAGE_BUCKET,
-          messagingSenderId: process.env.REACT_APP_FIREBASE_MESSAGING_SENDER_ID,
-          appId: process.env.REACT_APP_FIREBASE_APP_ID
-        };
-
-        const app = initializeApp(firebaseConfig);
-        const firestore = getFirestore(app);
-        const authInstance = getAuth(app);
-
-        setFirebaseApp(app);
-        setDb(firestore);
-        setAuth(authInstance);
-
         // Initialize Data Agent
-        const agent = initializeDataAgent(firestore, authInstance);
+        const agent = initializeDataAgent(db, auth);
         setDataAgent(agent);
 
         console.log('Firebase and Data Agent initialized successfully');

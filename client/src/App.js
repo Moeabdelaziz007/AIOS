@@ -20,14 +20,22 @@ import {
   Settings as SettingsIcon,
   Dashboard as DashboardIcon,
   Apps as AppsIcon,
-  SmartToy
+  SmartToy,
+  AutoAwesome,
+  Psychology,
+  Chat,
+  People
 } from '@mui/icons-material';
 
 import Dashboard from './pages/Dashboard';
 import Apps from './pages/Apps';
 import Settings from './pages/Settings';
 import DataAgentDashboard from './pages/DataAgentDashboard';
+import AILearningLoop from './pages/AILearningLoop';
+import AILearningRules from './pages/AILearningRules';
+import OperatingSystemsList from './pages/OperatingSystemsList';
 import AuthPage from './pages/AuthPage';
+import LiveChat from './components/LiveChat';
 import { FirebaseProvider } from './services/FirebaseService';
 import { AuthProvider, useAuth } from './contexts/AuthContext';
 import { ProtectedRoute, PublicRoute } from './components/ProtectedRoute';
@@ -110,9 +118,33 @@ function AppContent() {
               </a>
             </MenuItem>
             <MenuItem onClick={handleMenuClose}>
+              <a href="/live-chat" style={{ textDecoration: 'none', color: 'inherit', display: 'flex', alignItems: 'center' }}>
+                <Chat sx={{ mr: 1 }} />
+                Live Chat
+              </a>
+            </MenuItem>
+            <MenuItem onClick={handleMenuClose}>
               <a href="/data-agent" style={{ textDecoration: 'none', color: 'inherit', display: 'flex', alignItems: 'center' }}>
                 <SmartToy sx={{ mr: 1 }} />
                 Data Agent
+              </a>
+            </MenuItem>
+            <MenuItem onClick={handleMenuClose}>
+              <a href="/ai-learning" style={{ textDecoration: 'none', color: 'inherit', display: 'flex', alignItems: 'center' }}>
+                <AutoAwesome sx={{ mr: 1 }} />
+                AI Learning Loop
+              </a>
+            </MenuItem>
+            <MenuItem onClick={handleMenuClose}>
+              <a href="/ai-rules" style={{ textDecoration: 'none', color: 'inherit', display: 'flex', alignItems: 'center' }}>
+                <Psychology sx={{ mr: 1 }} />
+                AI Learning Rules
+              </a>
+            </MenuItem>
+            <MenuItem onClick={handleMenuClose}>
+              <a href="/os-platform" style={{ textDecoration: 'none', color: 'inherit', display: 'flex', alignItems: 'center' }}>
+                <AppsIcon sx={{ mr: 1 }} />
+                OS Platform
               </a>
             </MenuItem>
             <MenuItem onClick={handleMenuClose}>
@@ -178,16 +210,36 @@ function AppContent() {
               <Apps />
             </ProtectedRoute>
           } />
-          <Route path="/data-agent" element={
+          <Route path="/live-chat" element={
             <ProtectedRoute>
-              <DataAgentDashboard />
+              <LiveChat />
             </ProtectedRoute>
           } />
-          <Route path="/settings" element={
-            <ProtectedRoute>
-              <Settings />
-            </ProtectedRoute>
-          } />
+                  <Route path="/data-agent" element={
+                    <ProtectedRoute>
+                      <DataAgentDashboard />
+                    </ProtectedRoute>
+                  } />
+                  <Route path="/ai-learning" element={
+                    <ProtectedRoute>
+                      <AILearningLoop />
+                    </ProtectedRoute>
+                  } />
+                  <Route path="/ai-rules" element={
+                    <ProtectedRoute>
+                      <AILearningRules />
+                    </ProtectedRoute>
+                  } />
+                  <Route path="/os-platform" element={
+                    <ProtectedRoute>
+                      <OperatingSystemsList />
+                    </ProtectedRoute>
+                  } />
+                  <Route path="/settings" element={
+                    <ProtectedRoute>
+                      <Settings />
+                    </ProtectedRoute>
+                  } />
           <Route path="/auth" element={
             <PublicRoute>
               <AuthPage />

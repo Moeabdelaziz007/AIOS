@@ -1,227 +1,178 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import {
   Box,
-  Card,
-  CardContent,
+  Paper,
+  Typography,
   TextField,
   Button,
-  Typography,
   Alert,
   CircularProgress,
+  Container,
+  Card,
+  CardContent,
   Divider,
-  IconButton,
-  InputAdornment
+  Link
 } from '@mui/material';
 import {
-  Visibility,
-  VisibilityOff,
-  Google,
-  GitHub,
-  Email,
-  Lock
+  Login,
+  PersonAdd,
+  SmartToy,
+  AutoAwesome
 } from '@mui/icons-material';
-import { signInWithEmailAndPassword, createUserWithEmailAndPassword, signInWithPopup, GoogleAuthProvider, GithubAuthProvider, signOut, onAuthStateChanged } from 'firebase/auth';
-import { useNavigate } from 'react-router-dom';
+import { 
+  signInWithEmailAndPassword, 
+  createUserWithEmailAndPassword,
+  signInWithPopup,
+  GoogleAuthProvider
+} from 'firebase/auth';
+import { auth } from '../services/FirebaseService';
 
 const AuthPage = () => {
   const [isLogin, setIsLogin] = useState(true);
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
-  const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
-  const [user, setUser] = useState(null);
-  
-  const navigate = useNavigate();
+  const [formData, setFormData] = useState({
+    email: '',
+    password: '',
+    confirmPassword: '',
+    displayName: ''
+  });
 
-  useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
-      setUser(user);
-      if (user) {
-        navigate('/');
-      }
+  const handleInputChange = (e) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value
     });
+  };
 
-    return () => unsubscribe();
-  }, [navigate]);
-
-  const handleEmailAuth = async (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
     setError('');
 
     try {
       if (isLogin) {
-        await signInWithEmailAndPassword(auth, email, password);
+        await signInWithEmailAndPassword(auth, formData.email, formData.password);
       } else {
-        if (password !== confirmPassword) {
+        if (formData.password !== formData.confirmPassword) {
           throw new Error('Passwords do not match');
         }
-        await createUserWithEmailAndPassword(auth, email, password);
+        await createUserWithEmailAndPassword(auth, formData.email, formData.password);
       }
-      navigate('/');
-    } catch (error) {
-      setError(error.message);
+    } catch (err) {
+      setError(err.message);
     } finally {
       setLoading(false);
     }
   };
 
-  const handleGoogleAuth = async () => {
+  const handleGoogleSignIn = async () => {
     setLoading(true);
     setError('');
 
     try {
       const provider = new GoogleAuthProvider();
       await signInWithPopup(auth, provider);
-      navigate('/');
-    } catch (error) {
-      setError(error.message);
+    } catch (err) {
+      setError(err.message);
     } finally {
       setLoading(false);
     }
   };
 
-  const handleGitHubAuth = async () => {
-    setLoading(true);
+  const toggleMode = () => {
+    setIsLogin(!isLogin);
     setError('');
-
-    try {
-      const provider = new GithubAuthProvider();
-      await signInWithPopup(auth, provider);
-      navigate('/');
-    } catch (error) {
-      setError(error.message);
-    } finally {
-      setLoading(false);
-    }
+    setFormData({
+      email: '',
+      password: '',
+      confirmPassword: '',
+      displayName: ''
+    });
   };
 
-  const handleLogout = async () => {
-    try {
-      await signOut(auth);
-      navigate('/auth');
-    } catch (error) {
-      setError(error.message);
-    }
-  };
-
-  if (user) {
     return (
-      <Box sx={{ 
-        display: 'flex', 
-        justifyContent: 'center', 
-        alignItems: 'center', 
-        minHeight: '100vh',
-        background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)'
-      }}>
-        <Card sx={{ maxWidth: 400, width: '100%', mx: 2 }}>
-          <CardContent sx={{ p: 4 }}>
-            <Typography variant="h4" gutterBottom align="center" color="primary">
-              Welcome to AIOS
+    <Container maxWidth="sm" sx={{ mt: 8 }}>
+      <Box sx={{ textAlign: 'center', mb: 4 }}>
+        <Box display="flex" justifyContent="center" alignItems="center" gap={2} mb={2}>
+          <SmartToy sx={{ fontSize: 48, color: 'primary.main' }} />
+          <Typography variant="h3" component="h1" color="primary">
+            AIOS
+          </Typography>
+        </Box>
+        <Typography variant="h5" gutterBottom>
+          AI Operating System
             </Typography>
-            <Typography variant="body1" align="center" sx={{ mb: 3 }}>
-              You are logged in as: {user.email}
+        <Typography variant="body1" color="text.secondary">
+          Join the live AI system and collaborate with others
             </Typography>
-            <Button
-              fullWidth
-              variant="contained"
-              onClick={handleLogout}
-              sx={{ mb: 2 }}
-            >
-              Logout
-            </Button>
-          </CardContent>
-        </Card>
       </Box>
-    );
-  }
 
-  return (
-    <Box sx={{ 
-      display: 'flex', 
-      justifyContent: 'center', 
-      alignItems: 'center', 
-      minHeight: '100vh',
-      background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)'
-    }}>
-      <Card sx={{ maxWidth: 400, width: '100%', mx: 2 }}>
+      <Card>
         <CardContent sx={{ p: 4 }}>
-          <Typography variant="h4" gutterBottom align="center" color="primary">
-            AIOS Authentication
+          <Box sx={{ textAlign: 'center', mb: 3 }}>
+            <Typography variant="h4" gutterBottom>
+              {isLogin ? 'Welcome Back' : 'Join AIOS'}
           </Typography>
-          <Typography variant="body2" align="center" sx={{ mb: 3, color: 'text.secondary' }}>
-            {isLogin ? 'Sign in to your account' : 'Create a new account'}
+            <Typography variant="body2" color="text.secondary">
+              {isLogin 
+                ? 'Sign in to access the live AI system' 
+                : 'Create your account to start collaborating'
+              }
           </Typography>
+          </Box>
 
           {error && (
-            <Alert severity="error" sx={{ mb: 2 }}>
+            <Alert severity="error" sx={{ mb: 3 }}>
               {error}
             </Alert>
           )}
 
-          <form onSubmit={handleEmailAuth}>
+          <form onSubmit={handleSubmit}>
+            {!isLogin && (
+              <TextField
+                fullWidth
+                label="Display Name"
+                name="displayName"
+                value={formData.displayName}
+                onChange={handleInputChange}
+                margin="normal"
+                required={!isLogin}
+              />
+            )}
+            
             <TextField
               fullWidth
               label="Email"
+              name="email"
               type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              value={formData.email}
+              onChange={handleInputChange}
               margin="normal"
               required
-              InputProps={{
-                startAdornment: (
-                  <InputAdornment position="start">
-                    <Email />
-                  </InputAdornment>
-                ),
-              }}
             />
             
             <TextField
               fullWidth
               label="Password"
-              type={showPassword ? 'text' : 'password'}
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
+              name="password"
+              type="password"
+              value={formData.password}
+              onChange={handleInputChange}
               margin="normal"
               required
-              InputProps={{
-                startAdornment: (
-                  <InputAdornment position="start">
-                    <Lock />
-                  </InputAdornment>
-                ),
-                endAdornment: (
-                  <InputAdornment position="end">
-                    <IconButton
-                      onClick={() => setShowPassword(!showPassword)}
-                      edge="end"
-                    >
-                      {showPassword ? <VisibilityOff /> : <Visibility />}
-                    </IconButton>
-                  </InputAdornment>
-                ),
-              }}
             />
 
             {!isLogin && (
               <TextField
                 fullWidth
                 label="Confirm Password"
+                name="confirmPassword"
                 type="password"
-                value={confirmPassword}
-                onChange={(e) => setConfirmPassword(e.target.value)}
+                value={formData.confirmPassword}
+                onChange={handleInputChange}
                 margin="normal"
-                required
-                InputProps={{
-                  startAdornment: (
-                    <InputAdornment position="start">
-                      <Lock />
-                    </InputAdornment>
-                  ),
-                }}
+                required={!isLogin}
               />
             )}
 
@@ -229,14 +180,16 @@ const AuthPage = () => {
               type="submit"
               fullWidth
               variant="contained"
+              size="large"
               disabled={loading}
-              sx={{ mt: 2, mb: 2 }}
+              startIcon={loading ? <CircularProgress size={20} /> : <Login />}
+              sx={{ mt: 3, mb: 2 }}
             >
-              {loading ? <CircularProgress size={24} /> : (isLogin ? 'Sign In' : 'Sign Up')}
+              {loading ? 'Please wait...' : (isLogin ? 'Sign In' : 'Create Account')}
             </Button>
           </form>
 
-          <Divider sx={{ my: 2 }}>
+          <Divider sx={{ my: 3 }}>
             <Typography variant="body2" color="text.secondary">
               OR
             </Typography>
@@ -245,37 +198,37 @@ const AuthPage = () => {
           <Button
             fullWidth
             variant="outlined"
-            startIcon={<Google />}
-            onClick={handleGoogleAuth}
+            size="large"
+            onClick={handleGoogleSignIn}
             disabled={loading}
-            sx={{ mb: 2 }}
+            startIcon={<AutoAwesome />}
+            sx={{ mb: 3 }}
           >
             Continue with Google
           </Button>
 
-          <Button
-            fullWidth
-            variant="outlined"
-            startIcon={<GitHub />}
-            onClick={handleGitHubAuth}
-            disabled={loading}
-            sx={{ mb: 2 }}
-          >
-            Continue with GitHub
-          </Button>
-
-          <Box textAlign="center">
-            <Button
-              onClick={() => setIsLogin(!isLogin)}
-              variant="text"
-              color="primary"
-            >
-              {isLogin ? "Don't have an account? Sign up" : "Already have an account? Sign in"}
-            </Button>
+          <Box sx={{ textAlign: 'center' }}>
+            <Typography variant="body2" color="text.secondary">
+              {isLogin ? "Don't have an account? " : "Already have an account? "}
+              <Link
+                component="button"
+                variant="body2"
+                onClick={toggleMode}
+                sx={{ textDecoration: 'none' }}
+              >
+                {isLogin ? 'Sign up' : 'Sign in'}
+              </Link>
+            </Typography>
           </Box>
         </CardContent>
       </Card>
+
+      <Box sx={{ textAlign: 'center', mt: 4 }}>
+        <Typography variant="body2" color="text.secondary">
+          By joining AIOS, you agree to our Terms of Service and Privacy Policy
+        </Typography>
     </Box>
+    </Container>
   );
 };
 

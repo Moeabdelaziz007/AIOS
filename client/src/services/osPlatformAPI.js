@@ -11,8 +11,10 @@ import {
   orderBy, 
   limit, 
   startAfter,
-  serverTimestamp 
+  serverTimestamp,
+  writeBatch
 } from 'firebase/firestore';
+import { db } from './FirebaseService';
 
 /**
  * Operating Systems API Service

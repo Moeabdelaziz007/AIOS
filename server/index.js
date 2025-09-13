@@ -42,24 +42,45 @@ const auth = getAuth(firebaseApp);
 // Socket.io connection handling
 const connectedUsers = new Map();
 const systemRooms = new Set();
+const chatRooms = new Map();
+const userProfiles = new Map();
 
 io.on('connection', (socket) => {
   console.log('User connected:', socket.id);
 
   // Handle user authentication and room joining
-  socket.on('join_user_room', (userId) => {
+  socket.on('join_user_room', (userData) => {
+    const { userId, userProfile } = userData;
     socket.join(`user_${userId}`);
-    connectedUsers.set(socket.id, { userId, socketId: socket.id, connectedAt: new Date() });
+    
+    // Store user data
+    connectedUsers.set(socket.id, { 
+      userId, 
+      socketId: socket.id, 
+      connectedAt: new Date(),
+      userProfile,
+      status: 'online',
+      lastSeen: new Date()
+    });
+    
+    userProfiles.set(userId, userProfile);
     
     // Broadcast updated online users list
     const onlineUsers = Array.from(connectedUsers.values()).map(user => ({
       id: user.userId,
       socketId: user.socketId,
-      connectedAt: user.connectedAt
+      connectedAt: user.connectedAt,
+      userProfile: user.userProfile,
+      status: user.status,
+      lastSeen: user.lastSeen
     }));
     
     io.emit('online_users', onlineUsers);
     socket.emit('user_joined', { id: userId, socketId: socket.id });
+    
+    // Join general chat room
+    socket.join('general_chat');
+    socket.emit('joined_chat', { room: 'general_chat', message: 'Welcome to AIOS Live Chat!' });
   });
 
   socket.on('join_system_room', (roomName) => {
@@ -76,6 +97,107 @@ io.on('connection', (socket) => {
   socket.on('leave_room', (roomName) => {
     socket.leave(roomName);
     console.log(`User ${socket.id} left room: ${roomName}`);
+  });
+
+  // Chat system handlers
+  socket.on('join_chat_room', (roomData) => {
+    const { roomName, userProfile } = roomData;
+    socket.join(roomName);
+    
+    // Initialize chat room if it doesn't exist
+    if (!chatRooms.has(roomName)) {
+      chatRooms.set(roomName, {
+        name: roomName,
+        users: new Set(),
+        messages: [],
+        createdAt: new Date()
+      });
+    }
+    
+    const room = chatRooms.get(roomName);
+    room.users.add(socket.id);
+    
+    // Notify room about new user
+    socket.to(roomName).emit('user_joined_chat', {
+      user: userProfile,
+      message: `${userProfile.displayName || userProfile.email} joined the chat`
+    });
+    
+    // Send chat history to new user
+    socket.emit('chat_history', room.messages.slice(-50)); // Last 50 messages
+    socket.emit('joined_chat', { room: roomName, message: `Welcome to ${roomName}!` });
+  });
+
+  socket.on('send_message', async (messageData) => {
+    const { roomName, message, userProfile, messageType = 'text' } = messageData;
+    
+    const messageObj = {
+      id: Date.now().toString(),
+      roomName,
+      userId: userProfile.uid,
+      userName: userProfile.displayName || userProfile.email,
+      userAvatar: userProfile.photoURL || null,
+      message,
+      messageType,
+      timestamp: new Date(),
+      isAI: false
+    };
+    
+    // Store message in room
+    if (chatRooms.has(roomName)) {
+      const room = chatRooms.get(roomName);
+      room.messages.push(messageObj);
+      
+      // Keep only last 100 messages
+      if (room.messages.length > 100) {
+        room.messages = room.messages.slice(-100);
+      }
+    }
+    
+    // Broadcast message to room
+    io.to(roomName).emit('new_message', messageObj);
+    
+    // AI Response for general chat
+    if (roomName === 'general_chat' && messageType === 'text') {
+      setTimeout(() => {
+        const aiResponse = generateAIResponse(message, userProfile);
+        const aiMessage = {
+          id: Date.now().toString() + '_ai',
+          roomName,
+          userId: 'ai_assistant',
+          userName: 'AI Assistant',
+          userAvatar: '🤖',
+          message: aiResponse,
+          messageType: 'ai_response',
+          timestamp: new Date(),
+          isAI: true
+        };
+        
+        if (chatRooms.has(roomName)) {
+          chatRooms.get(roomName).messages.push(aiMessage);
+        }
+        
+        io.to(roomName).emit('new_message', aiMessage);
+      }, 1000 + Math.random() * 2000); // Random delay 1-3 seconds
+    }
+  });
+
+  socket.on('typing_start', (data) => {
+    const { roomName, userProfile } = data;
+    socket.to(roomName).emit('user_typing', {
+      userId: userProfile.uid,
+      userName: userProfile.displayName || userProfile.email,
+      isTyping: true
+    });
+  });
+
+  socket.on('typing_stop', (data) => {
+    const { roomName, userProfile } = data;
+    socket.to(roomName).emit('user_typing', {
+      userId: userProfile.uid,
+      userName: userProfile.displayName || userProfile.email,
+      isTyping: false
+    });
   });
 
   // Handle notifications
@@ -150,11 +272,25 @@ io.on('connection', (socket) => {
     if (user) {
       connectedUsers.delete(socket.id);
       
+      // Remove user from all chat rooms
+      chatRooms.forEach((room, roomName) => {
+        if (room.users.has(socket.id)) {
+          room.users.delete(socket.id);
+          socket.to(roomName).emit('user_left_chat', {
+            user: user.userProfile,
+            message: `${user.userProfile.displayName || user.userProfile.email} left the chat`
+          });
+        }
+      });
+      
       // Broadcast updated online users list
       const onlineUsers = Array.from(connectedUsers.values()).map(user => ({
         id: user.userId,
         socketId: user.socketId,
-        connectedAt: user.connectedAt
+        connectedAt: user.connectedAt,
+        userProfile: user.userProfile,
+        status: user.status,
+        lastSeen: user.lastSeen
       }));
       
       io.emit('online_users', onlineUsers);
@@ -183,6 +319,40 @@ setInterval(async () => {
     console.error('Error in periodic system status update:', error);
   }
 }, 30000); // Update every 30 seconds
+
+// AI Response Generation Function
+function generateAIResponse(message, userProfile) {
+  const responses = [
+    `Hello ${userProfile.displayName || 'there'}! I'm the AIOS AI Assistant. How can I help you today?`,
+    `That's interesting! As an AI, I'm here to assist with your AIOS tasks. What would you like to explore?`,
+    `Great question! I can help you with app management, system monitoring, or general AIOS features. What's on your mind?`,
+    `I'm processing your message... As part of the AIOS live system, I'm here to make your experience better!`,
+    `Fascinating! I love interacting with users like you. What AIOS feature would you like to learn about?`,
+    `I'm always learning from conversations like this. How can I help improve your AIOS experience today?`,
+    `That's a great point! As the AIOS AI, I'm designed to be helpful and engaging. What can I assist you with?`,
+    `I appreciate your message! I'm here to help make AIOS more powerful and user-friendly. What's your next move?`
+  ];
+  
+  // Simple keyword-based responses
+  if (message.toLowerCase().includes('hello') || message.toLowerCase().includes('hi')) {
+    return `Hello ${userProfile.displayName || 'there'}! Welcome to AIOS Live Chat! 🤖`;
+  }
+  
+  if (message.toLowerCase().includes('help')) {
+    return `I'm here to help! I can assist with AIOS features, app management, or just chat. What do you need?`;
+  }
+  
+  if (message.toLowerCase().includes('aios')) {
+    return `AIOS is your AI Operating System! I'm part of the live system that makes everything work together seamlessly.`;
+  }
+  
+  if (message.toLowerCase().includes('apps')) {
+    return `Apps are the heart of AIOS! You can create, manage, and collaborate on AI-powered applications here.`;
+  }
+  
+  // Random response for other messages
+  return responses[Math.floor(Math.random() * responses.length)];
+}
 
 // Routes
 app.get('/api/health', (req, res) => {
@@ -355,6 +525,146 @@ app.post('/api/system/logs', async (req, res) => {
     res.status(201).json({ id: docRef.id, ...logData });
   } catch (error) {
     console.error('Error creating log:', error);
+    res.status(500).json({ error: error.message });
+  }
+});
+
+// Chat API Routes
+
+// Get chat rooms
+app.get('/api/chat/rooms', (req, res) => {
+  try {
+    const rooms = Array.from(chatRooms.entries()).map(([name, room]) => ({
+      name,
+      userCount: room.users.size,
+      messageCount: room.messages.length,
+      createdAt: room.createdAt,
+      lastActivity: room.messages.length > 0 ? room.messages[room.messages.length - 1].timestamp : room.createdAt
+    }));
+    
+    res.json({ rooms });
+  } catch (error) {
+    console.error('Error fetching chat rooms:', error);
+    res.status(500).json({ error: error.message });
+  }
+});
+
+// Get chat history for a room
+app.get('/api/chat/rooms/:roomName/history', (req, res) => {
+  try {
+    const { roomName } = req.params;
+    
+    if (!chatRooms.has(roomName)) {
+      return res.status(404).json({ error: 'Chat room not found' });
+    }
+    
+    const room = chatRooms.get(roomName);
+    res.json({ messages: room.messages });
+  } catch (error) {
+    console.error('Error fetching chat history:', error);
+    res.status(500).json({ error: error.message });
+  }
+});
+
+// Create new chat room
+app.post('/api/chat/rooms', (req, res) => {
+  try {
+    const { roomName, description } = req.body;
+    
+    if (!roomName) {
+      return res.status(400).json({ error: 'Room name is required' });
+    }
+    
+    if (chatRooms.has(roomName)) {
+      return res.status(409).json({ error: 'Chat room already exists' });
+    }
+    
+    const newRoom = {
+      name: roomName,
+      description: description || '',
+      users: new Set(),
+      messages: [],
+      createdAt: new Date()
+    };
+    
+    chatRooms.set(roomName, newRoom);
+    
+    res.status(201).json({
+      name: roomName,
+      description: newRoom.description,
+      userCount: 0,
+      messageCount: 0,
+      createdAt: newRoom.createdAt
+    });
+  } catch (error) {
+    console.error('Error creating chat room:', error);
+    res.status(500).json({ error: error.message });
+  }
+});
+
+// User Management API Routes
+
+// Get online users
+app.get('/api/users/online', (req, res) => {
+  try {
+    const onlineUsers = Array.from(connectedUsers.values()).map(user => ({
+      id: user.userId,
+      socketId: user.socketId,
+      connectedAt: user.connectedAt,
+      userProfile: user.userProfile,
+      status: user.status,
+      lastSeen: user.lastSeen
+    }));
+    
+    res.json({ users: onlineUsers });
+  } catch (error) {
+    console.error('Error fetching online users:', error);
+    res.status(500).json({ error: error.message });
+  }
+});
+
+// Get user profile
+app.get('/api/users/:userId/profile', (req, res) => {
+  try {
+    const { userId } = req.params;
+    
+    if (!userProfiles.has(userId)) {
+      return res.status(404).json({ error: 'User profile not found' });
+    }
+    
+    res.json({ profile: userProfiles.get(userId) });
+  } catch (error) {
+    console.error('Error fetching user profile:', error);
+    res.status(500).json({ error: error.message });
+  }
+});
+
+// Update user profile
+app.put('/api/users/:userId/profile', (req, res) => {
+  try {
+    const { userId } = req.params;
+    const updates = req.body;
+    
+    if (!userProfiles.has(userId)) {
+      return res.status(404).json({ error: 'User profile not found' });
+    }
+    
+    const currentProfile = userProfiles.get(userId);
+    const updatedProfile = { ...currentProfile, ...updates, updatedAt: new Date() };
+    
+    userProfiles.set(userId, updatedProfile);
+    
+    // Update in connected users if user is online
+    connectedUsers.forEach((user, socketId) => {
+      if (user.userId === userId) {
+        user.userProfile = updatedProfile;
+        connectedUsers.set(socketId, user);
+      }
+    });
+    
+    res.json({ profile: updatedProfile });
+  } catch (error) {
+    console.error('Error updating user profile:', error);
     res.status(500).json({ error: error.message });
   }
 });
