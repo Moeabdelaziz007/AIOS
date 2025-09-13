@@ -1,0 +1,161 @@
+{
+  "folders": [
+    {
+      "name": "AIOS Root",
+      "path": "."
+    },
+    {
+      "name": "Frontend (React)",
+      "path": "./client"
+    },
+    {
+      "name": "Backend (Node.js)",
+      "path": "./server"
+    },
+    {
+      "name": "Documentation",
+      "path": "./docs"
+    },
+    {
+      "name": "Configuration",
+      "path": "./config"
+    },
+    {
+      "name": "Tests",
+      "path": "./tests"
+    }
+  ],
+  "settings": {
+    "typescript.preferences.includePackageJsonAutoImports": "auto",
+    "javascript.preferences.includePackageJsonAutoImports": "auto",
+    "editor.formatOnSave": true,
+    "editor.codeActionsOnSave": {
+      "source.fixAll.eslint": true
+    },
+    "files.exclude": {
+      "**/node_modules": true,
+      "**/build": true,
+      "**/dist": true,
+      "**/.git": true
+    },
+    "search.exclude": {
+      "**/node_modules": true,
+      "**/build": true,
+      "**/dist": true
+    },
+    "terminal.integrated.cwd": "${workspaceFolder}",
+    "npm.enableScriptExplorer": true,
+    "npm.scriptExplorerAction": "run"
+  },
+  "extensions": {
+    "recommendations": [
+      "ms-vscode.vscode-typescript-next",
+      "bradlc.vscode-tailwindcss",
+      "esbenp.prettier-vscode",
+      "ms-vscode.vscode-eslint",
+      "firebase.vscode-firebase-explorer",
+      "ms-vscode.vscode-json"
+    ]
+  },
+  "tasks": {
+    "version": "2.0.0",
+    "tasks": [
+      {
+        "label": "Install All Dependencies",
+        "type": "shell",
+        "command": "npm run install:all",
+        "group": "build",
+        "presentation": {
+          "echo": true,
+          "reveal": "always",
+          "focus": false,
+          "panel": "shared"
+        }
+      },
+      {
+        "label": "Start Development Server",
+        "type": "shell",
+        "command": "npm run dev",
+        "group": "build",
+        "presentation": {
+          "echo": true,
+          "reveal": "always",
+          "focus": false,
+          "panel": "shared"
+        }
+      },
+      {
+        "label": "Run All Tests",
+        "type": "shell",
+        "command": "npm test",
+        "group": "test",
+        "presentation": {
+          "echo": true,
+          "reveal": "always",
+          "focus": false,
+          "panel": "shared"
+        }
+      },
+      {
+        "label": "Build Frontend",
+        "type": "shell",
+        "command": "npm run build:client",
+        "group": "build",
+        "presentation": {
+          "echo": true,
+          "reveal": "always",
+          "focus": false,
+          "panel": "shared"
+        }
+      },
+      {
+        "label": "Deploy to Firebase",
+        "type": "shell",
+        "command": "firebase deploy",
+        "group": "build",
+        "presentation": {
+          "echo": true,
+          "reveal": "always",
+          "focus": false,
+          "panel": "shared"
+        }
+      },
+      {
+        "label": "Lint Code",
+        "type": "shell",
+        "command": "npm run lint",
+        "group": "build",
+        "presentation": {
+          "echo": true,
+          "reveal": "always",
+          "focus": false,
+          "panel": "shared"
+        }
+      }
+    ]
+  },
+  "launch": {
+    "version": "0.2.0",
+    "configurations": [
+      {
+        "name": "Debug Backend",
+        "type": "node",
+        "request": "launch",
+        "program": "${workspaceFolder}/server/index.js",
+        "env": {
+          "NODE_ENV": "development"
+        },
+        "console": "integratedTerminal",
+        "restart": true,
+        "runtimeExecutable": "node"
+      },
+      {
+        "name": "Debug Frontend",
+        "type": "chrome",
+        "request": "launch",
+        "url": "http://localhost:3000",
+        "webRoot": "${workspaceFolder}/client/src"
+      }
+    ]
+  }
+}

@@ -1,0 +1,73 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    
+    // Users can read/write their own profile
+    match /users/{userId} {
+      allow read, write: if request.auth != null && request.auth.uid == userId;
+      allow read: if request.auth != null; // Allow reading other profiles
+    }
+    
+    // Operating systems - public read, admin write
+    match /operating_systems/{osId} {
+      allow read: if request.auth != null;
+      allow write: if request.auth != null && 
+        (get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role in ['admin', 'superadmin']);
+    }
+    
+    // Features - public read, admin write
+    match /features/{featureId} {
+      allow read: if request.auth != null;
+      allow write: if request.auth != null && 
+        (get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role in ['admin', 'superadmin']);
+    }
+    
+    // OS Features - public read, admin write
+    match /os_features/{osFeatureId} {
+      allow read: if request.auth != null;
+      allow write: if request.auth != null && 
+        (get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role in ['admin', 'superadmin']);
+    }
+    
+    // Reviews - users can read all, write their own
+    match /reviews/{reviewId} {
+      allow read: if request.auth != null;
+      allow create: if request.auth != null && 
+        request.auth.uid == resource.data.userId;
+      allow update, delete: if request.auth != null && 
+        (request.auth.uid == resource.data.userId || 
+         get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role in ['admin', 'superadmin']);
+    }
+    
+    // Favorites - users can read/write their own
+    match /favorites/{favoriteId} {
+      allow read, write: if request.auth != null && 
+        request.auth.uid == resource.data.userId;
+    }
+    
+    // Comparisons - public read, users can write their own
+    match /comparisons/{comparisonId} {
+      allow read: if request.auth != null;
+      allow create: if request.auth != null && 
+        request.auth.uid == resource.data.userId;
+      allow update, delete: if request.auth != null && 
+        (request.auth.uid == resource.data.userId || 
+         get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role in ['admin', 'superadmin']);
+    }
+    
+    // System logs - admin only
+    match /system_logs/{logId} {
+      allow read, write: if request.auth != null && 
+        (get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role in ['admin', 'superadmin']);
+    }
+    
+    // Legacy collections for backward compatibility
+    match /apps/{appId} {
+      allow read, write: if request.auth != null;
+    }
+    
+    match /system_logs/{logId} {
+      allow read, write: if request.auth != null;
+    }
+  }
+}

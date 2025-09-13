@@ -1,0 +1,271 @@
+name: 🚀 AIOS CI/CD Pipeline
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main, develop ]
+
+env:
+  NODE_VERSION: '18'
+  FIREBASE_PROJECT_ID: aios-97581
+
+jobs:
+  # ===========================================
+  # Lint & Code Quality
+  # ===========================================
+  lint:
+    name: 🔍 Lint & Code Quality
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: 📥 Checkout code
+        uses: actions/checkout@v4
+
+      - name: 📦 Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+
+      - name: 📥 Install dependencies
+        run: |
+          npm ci
+          cd client && npm ci
+
+      - name: 🔍 Lint backend code
+        run: npm run lint
+
+      - name: 🔍 Lint frontend code
+        run: cd client && npm run lint
+
+      - name: 📊 Check code formatting
+        run: |
+          npm run lint:check
+          cd client && npm run lint:check
+
+  # ===========================================
+  # Testing
+  # ===========================================
+  test:
+    name: 🧪 Run Tests
+    runs-on: ubuntu-latest
+    needs: lint
+    
+    strategy:
+      matrix:
+        test-type: [backend, frontend, integration]
+    
+    steps:
+      - name: 📥 Checkout code
+        uses: actions/checkout@v4
+
+      - name: 📦 Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+
+      - name: 📥 Install dependencies
+        run: |
+          npm ci
+          cd client && npm ci
+
+      - name: 🧪 Run backend tests
+        if: matrix.test-type == 'backend'
+        run: npm run test:server
+        env:
+          NODE_ENV: test
+
+      - name: 🧪 Run frontend tests
+        if: matrix.test-type == 'frontend'
+        run: cd client && npm test -- --coverage --watchAll=false
+        env:
+          CI: true
+
+      - name: 🧪 Run integration tests
+        if: matrix.test-type == 'integration'
+        run: npm run test:e2e
+        env:
+          NODE_ENV: test
+
+      - name: 📊 Upload coverage reports
+        if: matrix.test-type == 'frontend'
+        uses: codecov/codecov-action@v3
+        with:
+          file: ./client/coverage/lcov.info
+          flags: frontend
+          name: frontend-coverage
+
+  # ===========================================
+  # Build
+  # ===========================================
+  build:
+    name: 🏗️ Build Application
+    runs-on: ubuntu-latest
+    needs: [lint, test]
+    
+    steps:
+      - name: 📥 Checkout code
+        uses: actions/checkout@v4
+
+      - name: 📦 Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+
+      - name: 📥 Install dependencies
+        run: |
+          npm ci
+          cd client && npm ci
+
+      - name: 🏗️ Build frontend
+        run: npm run build:client
+        env:
+          VITE_FIREBASE_API_KEY: ${{ secrets.FIREBASE_API_KEY }}
+          VITE_FIREBASE_AUTH_DOMAIN: ${{ secrets.FIREBASE_AUTH_DOMAIN }}
+          VITE_FIREBASE_PROJECT_ID: ${{ secrets.FIREBASE_PROJECT_ID }}
+          VITE_FIREBASE_STORAGE_BUCKET: ${{ secrets.FIREBASE_STORAGE_BUCKET }}
+          VITE_FIREBASE_MESSAGING_SENDER_ID: ${{ secrets.FIREBASE_MESSAGING_SENDER_ID }}
+          VITE_FIREBASE_APP_ID: ${{ secrets.FIREBASE_APP_ID }}
+
+      - name: 📦 Build backend
+        run: npm run build:server
+        env:
+          NODE_ENV: production
+
+      - name: 📤 Upload build artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: build-artifacts
+          path: |
+            client/build/
+            server/dist/
+
+  # ===========================================
+  # Security Scan
+  # ===========================================
+  security:
+    name: 🔒 Security Scan
+    runs-on: ubuntu-latest
+    needs: lint
+    
+    steps:
+      - name: 📥 Checkout code
+        uses: actions/checkout@v4
+
+      - name: 📦 Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+
+      - name: 📥 Install dependencies
+        run: |
+          npm ci
+          cd client && npm ci
+
+      - name: 🔒 Run security audit
+        run: |
+          npm audit --audit-level=moderate
+          cd client && npm audit --audit-level=moderate
+
+      - name: 🔍 Run Snyk security scan
+        uses: snyk/actions/node@master
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+        with:
+          args: --severity-threshold=high
+
+  # ===========================================
+  # Deploy to Firebase
+  # ===========================================
+  deploy:
+    name: 🚀 Deploy to Firebase
+    runs-on: ubuntu-latest
+    needs: [build, security]
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    
+    steps:
+      - name: 📥 Checkout code
+        uses: actions/checkout@v4
+
+      - name: 📦 Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+
+      - name: 📥 Download build artifacts
+        uses: actions/download-artifact@v3
+        with:
+          name: build-artifacts
+
+      - name: 🔥 Setup Firebase CLI
+        uses: w9jds/firebase-action@master
+        with:
+          args: --version
+
+      - name: 🔥 Deploy to Firebase
+        uses: w9jds/firebase-action@master
+        with:
+          args: deploy --only hosting,firestore
+        env:
+          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
+
+      - name: 📊 Deploy status
+        run: |
+          echo "✅ Deployment completed successfully!"
+          echo "🌐 App URL: https://aios-97581.web.app"
+          echo "📊 Firebase Console: https://console.firebase.google.com/project/aios-97581"
+
+  # ===========================================
+  # Performance Testing
+  # ===========================================
+  performance:
+    name: ⚡ Performance Testing
+    runs-on: ubuntu-latest
+    needs: deploy
+    if: github.ref == 'refs/heads/main'
+    
+    steps:
+      - name: 📥 Checkout code
+        uses: actions/checkout@v4
+
+      - name: 📦 Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+
+      - name: ⚡ Run Lighthouse CI
+        uses: treosh/lighthouse-ci-action@v10
+        with:
+          urls: |
+            https://aios-97581.web.app
+          configPath: './lighthouse.config.js'
+          uploadArtifacts: true
+          temporaryPublicStorage: true
+
+  # ===========================================
+  # Notification
+  # ===========================================
+  notify:
+    name: 📢 Notify Deployment
+    runs-on: ubuntu-latest
+    needs: [deploy, performance]
+    if: always()
+    
+    steps:
+      - name: 📢 Success notification
+        if: needs.deploy.result == 'success'
+        run: |
+          echo "🎉 AIOS deployment successful!"
+          echo "🌐 App URL: https://aios-97581.web.app"
+          echo "📊 Firebase Console: https://console.firebase.google.com/project/aios-97581"
+
+      - name: 📢 Failure notification
+        if: needs.deploy.result == 'failure'
+        run: |
+          echo "❌ AIOS deployment failed!"
+          echo "Please check the logs for details."
