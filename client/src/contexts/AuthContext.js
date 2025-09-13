@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, useEffect } from 'react';
+import React, { createContext, useContext, useState, useEffect, useCallback } from 'react';
 import { onAuthStateChanged, signOut } from 'firebase/auth';
 import { auth } from '../services/FirebaseService';
 
@@ -17,6 +17,23 @@ export const AuthProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
   const [userProfile, setUserProfile] = useState(null);
 
+  const getUserProfile = useCallback(async (uid) => {
+    // This would typically fetch from Firestore
+    // For now, return a mock profile
+    return {
+      uid,
+      email: user?.email,
+      displayName: user?.displayName || user?.email?.split('@')[0] || 'Guest User',
+      role: user?.isAnonymous ? 'guest' : 'user',
+      createdAt: new Date(),
+      preferences: {
+        theme: 'light',
+        notifications: true,
+        language: 'en'
+      }
+    };
+  }, [user]);
+
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
       setUser(user);
@@ -32,7 +49,7 @@ export const AuthProvider = ({ children }) => {
             uid: user.uid,
             email: user.email,
             displayName: user.displayName || user.email?.split('@')[0] || 'User',
-            role: 'user',
+            role: user?.isAnonymous ? 'guest' : 'user',
             createdAt: new Date(),
             preferences: {
               theme: 'light',
@@ -49,24 +66,7 @@ export const AuthProvider = ({ children }) => {
     });
 
     return () => unsubscribe();
-  }, []);
-
-  const getUserProfile = async (uid) => {
-    // This would typically fetch from Firestore
-    // For now, return a mock profile
-    return {
-      uid,
-      email: user?.email,
-      displayName: user?.displayName || user?.email?.split('@')[0] || 'User',
-      role: 'user',
-      createdAt: new Date(),
-      preferences: {
-        theme: 'light',
-        notifications: true,
-        language: 'en'
-      }
-    };
-  };
+  }, [getUserProfile]);
 
   const logout = async () => {
     try {

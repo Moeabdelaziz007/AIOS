@@ -1,7 +1,7 @@
 {
   "name": "aios",
   "version": "1.0.0",
-  "description": "AI Operating System - AI-powered application platform",
+  "description": "AI Operating System - AI-powered application platform with intelligent authentication, real-time collaboration, and machine learning capabilities",
   "main": "server/index.js",
   "private": true,
   "workspaces": [
@@ -45,13 +45,40 @@
   },
   "keywords": [
     "ai",
+    "artificial-intelligence",
     "operating-system",
     "firebase",
     "aios",
-    "monorepo"
+    "monorepo",
+    "react",
+    "nodejs",
+    "machine-learning",
+    "real-time",
+    "collaboration",
+    "authentication",
+    "guest-login",
+    "ai-powered"
   ],
-  "author": "Your Name",
+  "author": {
+    "name": "CryptoJoker710",
+    "email": "cryptojoker710@gmail.com",
+    "telegram": "@cryptojoker710",
+    "url": "https://github.com/cryptojoker710"
+  },
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/cryptojoker710/AIOS.git"
+  },
+  "bugs": {
+    "url": "https://github.com/cryptojoker710/AIOS/issues",
+    "email": "cryptojoker710@gmail.com"
+  },
+  "homepage": "https://github.com/cryptojoker710/AIOS#readme",
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=8.0.0"
+  },
   "dependencies": {
     "express": "^4.18.2",
     "firebase-admin": "^12.0.0",

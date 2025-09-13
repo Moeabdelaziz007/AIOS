@@ -1,0 +1,58 @@
+{
+  "name": "AIOS - AI Operating System",
+  "version": "1.0.0",
+  "description": "AI-powered application platform with intelligent authentication, real-time collaboration, and machine learning capabilities",
+  "author": {
+    "name": "CryptoJoker710",
+    "email": "cryptojoker710@gmail.com",
+    "telegram": "@cryptojoker710",
+    "github": "https://github.com/cryptojoker710"
+  },
+  "project": {
+    "type": "fullstack",
+    "framework": "react",
+    "backend": "nodejs",
+    "database": "firebase",
+    "deployment": "firebase-hosting"
+  },
+  "features": [
+    "AI-powered authentication",
+    "Guest login functionality",
+    "Real-time collaboration",
+    "Machine learning integration",
+    "Firebase integration",
+    "Responsive design",
+    "Modern UI/UX",
+    "Socket.io real-time communication"
+  ],
+  "techStack": {
+    "frontend": ["React", "Material-UI", "Firebase Auth", "Socket.io Client"],
+    "backend": ["Node.js", "Express", "Firebase Admin", "Socket.io"],
+    "database": ["Firebase Firestore"],
+    "deployment": ["Firebase Hosting", "Firebase Functions"],
+    "tools": ["ESLint", "Jest", "Nodemon", "Concurrently"]
+  },
+  "configuration": {
+    "appPort": 3000,
+    "serverPort": 5000,
+    "uicaliberPort": 3100,
+    "firebaseProject": "aios-97581",
+    "environment": "development"
+  },
+  "scripts": {
+    "start": "npm start",
+    "dev": "npm run dev",
+    "build": "npm run build",
+    "test": "npm test",
+    "deploy": "npm run firebase:deploy"
+  },
+  "contact": {
+    "email": "cryptojoker710@gmail.com",
+    "telegram": "@cryptojoker710",
+    "github": "https://github.com/cryptojoker710",
+    "issues": "https://github.com/cryptojoker710/AIOS/issues"
+  },
+  "license": "MIT",
+  "created": "2024",
+  "lastUpdated": "2024"
+}
