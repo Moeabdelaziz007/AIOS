@@ -1,277 +1,183 @@
+// Firebase Indexes Configuration for AIOS Project
+// These indexes optimize query performance for AIOS collections
+
 {
   "indexes": [
     {
-      "collectionGroup": "operating_systems",
+      "collectionGroup": "users",
       "queryScope": "COLLECTION",
       "fields": [
-        { "fieldPath": "developer", "order": "ASCENDING" },
-        { "fieldPath": "releaseDate", "order": "DESCENDING" }
+        {
+          "fieldPath": "email",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "createdAt",
+          "order": "DESCENDING"
+        }
       ]
     },
     {
-      "collectionGroup": "operating_systems",
+      "collectionGroup": "agents",
       "queryScope": "COLLECTION",
       "fields": [
-        { "fieldPath": "categories", "arrayConfig": "CONTAINS" },
-        { "fieldPath": "stats.averageRating", "order": "DESCENDING" }
+        {
+          "fieldPath": "status",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "lastActive",
+          "order": "DESCENDING"
+        }
       ]
     },
     {
-      "collectionGroup": "operating_systems",
+      "collectionGroup": "workflows",
       "queryScope": "COLLECTION",
       "fields": [
-        { "fieldPath": "status", "order": "ASCENDING" },
-        { "fieldPath": "createdAt", "order": "DESCENDING" }
+        {
+          "fieldPath": "userId",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "createdAt",
+          "order": "DESCENDING"
+        }
       ]
     },
     {
-      "collectionGroup": "operating_systems",
+      "collectionGroup": "conversations",
       "queryScope": "COLLECTION",
       "fields": [
-        { "fieldPath": "tags", "arrayConfig": "CONTAINS" },
-        { "fieldPath": "stats.viewCount", "order": "DESCENDING" }
+        {
+          "fieldPath": "userId",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "timestamp",
+          "order": "DESCENDING"
+        }
       ]
     },
     {
-      "collectionGroup": "reviews",
+      "collectionGroup": "learningData",
       "queryScope": "COLLECTION",
       "fields": [
-        { "fieldPath": "operatingSystemId", "order": "ASCENDING" },
-        { "fieldPath": "createdAt", "order": "DESCENDING" }
+        {
+          "fieldPath": "agentId",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "timestamp",
+          "order": "DESCENDING"
+        }
       ]
     },
     {
-      "collectionGroup": "reviews",
+      "collectionGroup": "systemLogs",
       "queryScope": "COLLECTION",
       "fields": [
-        { "fieldPath": "userId", "order": "ASCENDING" },
-        { "fieldPath": "createdAt", "order": "DESCENDING" }
+        {
+          "fieldPath": "level",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "timestamp",
+          "order": "DESCENDING"
+        }
       ]
     },
     {
-      "collectionGroup": "reviews",
+      "collectionGroup": "automationData",
       "queryScope": "COLLECTION",
       "fields": [
-        { "fieldPath": "operatingSystemId", "order": "ASCENDING" },
-        { "fieldPath": "rating", "order": "DESCENDING" }
+        {
+          "fieldPath": "type",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "timestamp",
+          "order": "DESCENDING"
+        }
       ]
     },
     {
-      "collectionGroup": "reviews",
+      "collectionGroup": "growthMetrics",
       "queryScope": "COLLECTION",
       "fields": [
-        { "fieldPath": "status", "order": "ASCENDING" },
-        { "fieldPath": "createdAt", "order": "DESCENDING" }
+        {
+          "fieldPath": "metricType",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "timestamp",
+          "order": "DESCENDING"
+        }
       ]
     },
     {
-      "collectionGroup": "favorites",
+      "collectionGroup": "predictiveData",
       "queryScope": "COLLECTION",
       "fields": [
-        { "fieldPath": "userId", "order": "ASCENDING" },
-        { "fieldPath": "createdAt", "order": "DESCENDING" }
+        {
+          "fieldPath": "predictionType",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "timestamp",
+          "order": "DESCENDING"
+        }
       ]
     },
     {
-      "collectionGroup": "favorites",
+      "collectionGroup": "resourceMetrics",
       "queryScope": "COLLECTION",
       "fields": [
-        { "fieldPath": "operatingSystemId", "order": "ASCENDING" },
-        { "fieldPath": "createdAt", "order": "DESCENDING" }
-      ]
-    },
-    {
-      "collectionGroup": "os_features",
-      "queryScope": "COLLECTION",
-      "fields": [
-        { "fieldPath": "operatingSystemId", "order": "ASCENDING" },
-        { "fieldPath": "featureId", "order": "ASCENDING" }
-      ]
-    },
-    {
-      "collectionGroup": "os_features",
-      "queryScope": "COLLECTION",
-      "fields": [
-        { "fieldPath": "featureId", "order": "ASCENDING" },
-        { "fieldPath": "operatingSystemId", "order": "ASCENDING" }
-      ]
-    },
-    {
-      "collectionGroup": "comparisons",
-      "queryScope": "COLLECTION",
-      "fields": [
-        { "fieldPath": "userId", "order": "ASCENDING" },
-        { "fieldPath": "createdAt", "order": "DESCENDING" }
-      ]
-    },
-    {
-      "collectionGroup": "comparisons",
-      "queryScope": "COLLECTION",
-      "fields": [
-        { "fieldPath": "isPublic", "order": "ASCENDING" },
-        { "fieldPath": "views", "order": "DESCENDING" }
-      ]
-    },
-    {
-      "collectionGroup": "system_logs",
-      "queryScope": "COLLECTION",
-      "fields": [
-        { "fieldPath": "level", "order": "ASCENDING" },
-        { "fieldPath": "timestamp", "order": "DESCENDING" }
-      ]
-    },
-    {
-      "collectionGroup": "system_logs",
-      "queryScope": "COLLECTION",
-      "fields": [
-        { "fieldPath": "userId", "order": "ASCENDING" },
-        { "fieldPath": "timestamp", "order": "DESCENDING" }
-      ]
-    },
-    {
-      "collectionGroup": "system_logs",
-      "queryScope": "COLLECTION",
-      "fields": [
-        { "fieldPath": "action", "order": "ASCENDING" },
-        { "fieldPath": "timestamp", "order": "DESCENDING" }
-      ]
-    },
-    {
-      "collectionGroup": "features",
-      "queryScope": "COLLECTION",
-      "fields": [
-        { "fieldPath": "category", "order": "ASCENDING" },
-        { "fieldPath": "usage.popularity", "order": "DESCENDING" }
-      ]
-    },
-    {
-      "collectionGroup": "features",
-      "queryScope": "COLLECTION",
-      "fields": [
-        { "fieldPath": "isActive", "order": "ASCENDING" },
-        { "fieldPath": "createdAt", "order": "DESCENDING" }
-      ]
-    },
-    {
-      "collectionGroup": "quantum_autopilot",
-      "queryScope": "COLLECTION",
-      "fields": [
-        { "fieldPath": "sessionId", "order": "ASCENDING" },
-        { "fieldPath": "timestamp", "order": "DESCENDING" }
-      ]
-    },
-    {
-      "collectionGroup": "error_logs",
-      "queryScope": "COLLECTION",
-      "fields": [
-        { "fieldPath": "level", "order": "ASCENDING" },
-        { "fieldPath": "timestamp", "order": "DESCENDING" }
-      ]
-    },
-    {
-      "collectionGroup": "error_logs",
-      "queryScope": "COLLECTION",
-      "fields": [
-        { "fieldPath": "component", "order": "ASCENDING" },
-        { "fieldPath": "timestamp", "order": "DESCENDING" }
-      ]
-    },
-    {
-      "collectionGroup": "fix_patterns",
-      "queryScope": "COLLECTION",
-      "fields": [
-        { "fieldPath": "patternType", "order": "ASCENDING" },
-        { "fieldPath": "successRate", "order": "DESCENDING" }
-      ]
-    },
-    {
-      "collectionGroup": "system_monitoring",
-      "queryScope": "COLLECTION",
-      "fields": [
-        { "fieldPath": "metricType", "order": "ASCENDING" },
-        { "fieldPath": "timestamp", "order": "DESCENDING" }
-      ]
-    },
-    {
-      "collectionGroup": "learning_data",
-      "queryScope": "COLLECTION",
-      "fields": [
-        { "fieldPath": "dataType", "order": "ASCENDING" },
-        { "fieldPath": "timestamp", "order": "DESCENDING" }
-      ]
-    },
-    {
-      "collectionGroup": "user_interactions",
-      "queryScope": "COLLECTION",
-      "fields": [
-        { "fieldPath": "userId", "order": "ASCENDING" },
-        { "fieldPath": "timestamp", "order": "DESCENDING" }
-      ]
-    },
-    {
-      "collectionGroup": "user_interactions",
-      "queryScope": "COLLECTION",
-      "fields": [
-        { "fieldPath": "type", "order": "ASCENDING" },
-        { "fieldPath": "timestamp", "order": "DESCENDING" }
-      ]
-    },
-    {
-      "collectionGroup": "sessions",
-      "queryScope": "COLLECTION",
-      "fields": [
-        { "fieldPath": "userId", "order": "ASCENDING" },
-        { "fieldPath": "startTime", "order": "DESCENDING" }
-      ]
-    },
-    {
-      "collectionGroup": "sessions",
-      "queryScope": "COLLECTION",
-      "fields": [
-        { "fieldPath": "status", "order": "ASCENDING" },
-        { "fieldPath": "startTime", "order": "DESCENDING" }
-      ]
-    },
-    {
-      "collectionGroup": "performance_metrics",
-      "queryScope": "COLLECTION",
-      "fields": [
-        { "fieldPath": "metricName", "order": "ASCENDING" },
-        { "fieldPath": "timestamp", "order": "DESCENDING" }
-      ]
-    },
-    {
-      "collectionGroup": "agent_data",
-      "queryScope": "COLLECTION",
-      "fields": [
-        { "fieldPath": "agentType", "order": "ASCENDING" },
-        { "fieldPath": "timestamp", "order": "DESCENDING" }
-      ]
-    },
-    {
-      "collectionGroup": "mcp_sessions",
-      "queryScope": "COLLECTION",
-      "fields": [
-        { "fieldPath": "userId", "order": "ASCENDING" },
-        { "fieldPath": "startTime", "order": "DESCENDING" }
-      ]
-    },
-    {
-      "collectionGroup": "cursor_data",
-      "queryScope": "COLLECTION",
-      "fields": [
-        { "fieldPath": "operationType", "order": "ASCENDING" },
-        { "fieldPath": "timestamp", "order": "DESCENDING" }
-      ]
-    },
-    {
-      "collectionGroup": "gemini_data",
-      "queryScope": "COLLECTION",
-      "fields": [
-        { "fieldPath": "requestType", "order": "ASCENDING" },
-        { "fieldPath": "timestamp", "order": "DESCENDING" }
+        {
+          "fieldPath": "resourceType",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "timestamp",
+          "order": "DESCENDING"
+        }
       ]
     }
   ],
-  "fieldOverrides": []
+  "fieldOverrides": [
+    {
+      "collectionGroup": "users",
+      "fieldPath": "email",
+      "indexes": [
+        {
+          "order": "ASCENDING",
+          "queryScope": "COLLECTION"
+        },
+        {
+          "arrayConfig": "CONTAINS",
+          "queryScope": "COLLECTION"
+        }
+      ]
+    },
+    {
+      "collectionGroup": "agents",
+      "fieldPath": "capabilities",
+      "indexes": [
+        {
+          "arrayConfig": "CONTAINS",
+          "queryScope": "COLLECTION"
+        }
+      ]
+    },
+    {
+      "collectionGroup": "workflows",
+      "fieldPath": "tags",
+      "indexes": [
+        {
+          "arrayConfig": "CONTAINS",
+          "queryScope": "COLLECTION"
+        }
+      ]
+    }
+  ]
 }
