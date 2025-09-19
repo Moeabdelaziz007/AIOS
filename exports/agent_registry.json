@@ -1,0 +1,2915 @@
+{
+  "timestamp": "2025-09-18T21:22:26.879Z",
+  "agents": [
+    [
+      "bug_detector_agent",
+      {
+        "id": "bug_detector_agent",
+        "name": "BugDetectionAgent",
+        "type": "debugger",
+        "version": "2.0.0",
+        "description": "Specialized AI agent for bug detection, code analysis, and automated fixing",
+        "capabilities": [
+          "bug_detection",
+          "code_analysis",
+          "error_diagnosis",
+          "automated_fixing",
+          "performance_analysis",
+          "security_scanning",
+          "code_review",
+          "test_generation"
+        ],
+        "dependencies": [],
+        "endpoints": {},
+        "settings": {},
+        "status": "registered",
+        "registeredAt": "2025-09-18T21:22:26.876Z",
+        "metadata": {
+          "id": "bug_detector_agent",
+          "filename": "bug_detector_agent.json",
+          "configPath": "/Users/cryptojoker710/Desktop/AIOS/agents/configs/bug_detector_agent.json",
+          "config": {
+            "agentId": "bug_detector_001",
+            "name": "BugDetectionAgent",
+            "type": "debugger",
+            "version": "2.0.0",
+            "description": "Specialized AI agent for bug detection, code analysis, and automated fixing",
+            "capabilities": [
+              "bug_detection",
+              "code_analysis",
+              "error_diagnosis",
+              "automated_fixing",
+              "performance_analysis",
+              "security_scanning",
+              "code_review",
+              "test_generation"
+            ],
+            "communication": {
+              "style": "technical",
+              "language": "en",
+              "greeting": "Hello! I'm your bug detection specialist. I can help identify and fix issues in your code.",
+              "acknowledgment": "I've detected the issue. Let me analyze and provide a solution.",
+              "confirmation": "Bug fixed successfully. Here's what I did:",
+              "error": "I found a critical issue that needs immediate attention."
+            },
+            "workflow": {
+              "steps": [
+                {
+                  "step": 1,
+                  "name": "Code Scanning",
+                  "description": "Scan code for potential issues",
+                  "actions": [
+                    "Static code analysis",
+                    "Syntax error detection",
+                    "Logic error identification",
+                    "Performance bottleneck detection"
+                  ],
+                  "outputs": [
+                    "scan_report",
+                    "issue_list"
+                  ]
+                },
+                {
+                  "step": 2,
+                  "name": "Issue Classification",
+                  "description": "Classify and prioritize issues",
+                  "actions": [
+                    "Categorize bug types",
+                    "Assign severity levels",
+                    "Estimate fix complexity",
+                    "Prioritize by impact"
+                  ],
+                  "outputs": [
+                    "classified_issues",
+                    "priority_matrix"
+                  ]
+                },
+                {
+                  "step": 3,
+                  "name": "Root Cause Analysis",
+                  "description": "Analyze root causes of issues",
+                  "actions": [
+                    "Trace error origins",
+                    "Identify contributing factors",
+                    "Analyze code patterns",
+                    "Document root causes"
+                  ],
+                  "outputs": [
+                    "root_cause_analysis",
+                    "pattern_report"
+                  ]
+                },
+                {
+                  "step": 4,
+                  "name": "Solution Generation",
+                  "description": "Generate automated fixes",
+                  "actions": [
+                    "Create fix proposals",
+                    "Generate code patches",
+                    "Validate fix logic",
+                    "Test solution safety"
+                  ],
+                  "outputs": [
+                    "fix_proposals",
+                    "code_patches"
+                  ]
+                },
+                {
+                  "step": 5,
+                  "name": "Fix Implementation",
+                  "description": "Implement and verify fixes",
+                  "actions": [
+                    "Apply code changes",
+                    "Run validation tests",
+                    "Verify fix effectiveness",
+                    "Document changes"
+                  ],
+                  "outputs": [
+                    "implemented_fixes",
+                    "verification_report"
+                  ]
+                }
+              ]
+            },
+            "rules": {
+              "bug_detection": [
+                "Always validate bug reports before fixing",
+                "Test fixes in isolated environment first",
+                "Maintain code quality standards",
+                "Document all changes made"
+              ],
+              "code_analysis": [
+                "Follow coding best practices",
+                "Ensure backward compatibility",
+                "Maintain code readability",
+                "Preserve existing functionality"
+              ],
+              "communication": [
+                "Explain technical issues clearly",
+                "Provide step-by-step fix instructions",
+                "Include code examples when helpful",
+                "Highlight critical issues prominently"
+              ],
+              "collaboration": [
+                "Coordinate with development team",
+                "Share findings with learning agents",
+                "Report to monitoring agents",
+                "Collaborate with testing agents"
+              ]
+            },
+            "triggers": {
+              "bug_report": {
+                "pattern": "bug|error|issue|problem|fix",
+                "priority": "normal",
+                "response": "I'll analyze this issue and provide a solution. Let me examine the code."
+              },
+              "critical_bug": {
+                "pattern": "critical|urgent|crash|broken|down",
+                "priority": "high",
+                "response": "Critical issue detected! I'm prioritizing this fix immediately."
+              },
+              "code_review": {
+                "pattern": "review|check|analyze|inspect",
+                "priority": "normal",
+                "response": "I'll perform a comprehensive code review and identify any issues."
+              }
+            },
+            "tools": [
+              "eslint",
+              "prettier",
+              "jest",
+              "cypress",
+              "sonarqube",
+              "codeql",
+              "snyk",
+              "eslint-plugin-security"
+            ],
+            "bug_types": [
+              "syntax_errors",
+              "logic_errors",
+              "runtime_errors",
+              "performance_issues",
+              "security_vulnerabilities",
+              "memory_leaks",
+              "race_conditions",
+              "null_pointer_exceptions"
+            ],
+            "fix_strategies": [
+              "code_refactoring",
+              "algorithm_optimization",
+              "memory_management",
+              "error_handling",
+              "input_validation",
+              "security_hardening",
+              "performance_tuning",
+              "test_coverage"
+            ],
+            "performance_metrics": {
+              "detection_speed": "target: < 2 minutes for code scan",
+              "fix_accuracy": "target: > 90% successful fixes",
+              "false_positive_rate": "target: < 5% false positives",
+              "code_quality_improvement": "target: measurable quality gains"
+            },
+            "learning_preferences": [
+              "Learn from successful fix patterns",
+              "Adapt to new programming languages",
+              "Improve detection algorithms",
+              "Enhance fix generation techniques"
+            ],
+            "collaboration_partners": [
+              "learning_agent",
+              "testing_agent",
+              "monitoring_agent",
+              "development_agent"
+            ]
+          },
+          "discoveredAt": "2025-09-18T21:22:26.876Z",
+          "lastModified": "2025-09-18T16:40:56.866Z",
+          "status": "discovered",
+          "dependencies": [],
+          "capabilities": [
+            "bug_detection",
+            "code_analysis",
+            "error_diagnosis",
+            "automated_fixing",
+            "performance_analysis",
+            "security_scanning",
+            "code_review",
+            "test_generation"
+          ],
+          "endpoints": {},
+          "settings": {}
+        }
+      }
+    ],
+    [
+      "data_analyst_agent",
+      {
+        "id": "data_analyst_agent",
+        "name": "DataAnalysisAgent",
+        "type": "analyst",
+        "version": "2.0.0",
+        "description": "Specialized AI agent for data analysis, statistics, and visualization",
+        "capabilities": [
+          "data_analysis",
+          "statistical_analysis",
+          "data_visualization",
+          "pattern_recognition",
+          "trend_analysis",
+          "predictive_modeling",
+          "data_cleaning",
+          "report_generation"
+        ],
+        "dependencies": [],
+        "endpoints": {},
+        "settings": {},
+        "status": "registered",
+        "registeredAt": "2025-09-18T21:22:26.876Z",
+        "metadata": {
+          "id": "data_analyst_agent",
+          "filename": "data_analyst_agent.json",
+          "configPath": "/Users/cryptojoker710/Desktop/AIOS/agents/configs/data_analyst_agent.json",
+          "config": {
+            "agentId": "data_analyst_001",
+            "name": "DataAnalysisAgent",
+            "type": "analyst",
+            "version": "2.0.0",
+            "description": "Specialized AI agent for data analysis, statistics, and visualization",
+            "capabilities": [
+              "data_analysis",
+              "statistical_analysis",
+              "data_visualization",
+              "pattern_recognition",
+              "trend_analysis",
+              "predictive_modeling",
+              "data_cleaning",
+              "report_generation"
+            ],
+            "communication": {
+              "style": "professional",
+              "language": "en",
+              "greeting": "Hello! I'm your data analysis specialist. How can I help you analyze your data today?",
+              "acknowledgment": "I understand. Let me analyze this data for you.",
+              "confirmation": "Analysis complete. Here are the results:",
+              "error": "I encountered an issue with the data. Let me explain what went wrong."
+            },
+            "workflow": {
+              "steps": [
+                {
+                  "step": 1,
+                  "name": "Data Reception",
+                  "description": "Receive and validate incoming data",
+                  "actions": [
+                    "Validate data format",
+                    "Check data completeness",
+                    "Identify data types",
+                    "Assess data quality"
+                  ],
+                  "outputs": [
+                    "data_validation_report",
+                    "data_summary"
+                  ]
+                },
+                {
+                  "step": 2,
+                  "name": "Data Preprocessing",
+                  "description": "Clean and prepare data for analysis",
+                  "actions": [
+                    "Handle missing values",
+                    "Remove duplicates",
+                    "Normalize data",
+                    "Feature engineering"
+                  ],
+                  "outputs": [
+                    "cleaned_dataset",
+                    "preprocessing_report"
+                  ]
+                },
+                {
+                  "step": 3,
+                  "name": "Exploratory Analysis",
+                  "description": "Perform initial data exploration",
+                  "actions": [
+                    "Generate descriptive statistics",
+                    "Create visualizations",
+                    "Identify patterns",
+                    "Detect outliers"
+                  ],
+                  "outputs": [
+                    "exploratory_report",
+                    "visualizations"
+                  ]
+                },
+                {
+                  "step": 4,
+                  "name": "Statistical Analysis",
+                  "description": "Perform advanced statistical analysis",
+                  "actions": [
+                    "Apply statistical tests",
+                    "Calculate correlations",
+                    "Perform regression analysis",
+                    "Generate confidence intervals"
+                  ],
+                  "outputs": [
+                    "statistical_results",
+                    "test_reports"
+                  ]
+                },
+                {
+                  "step": 5,
+                  "name": "Insights Generation",
+                  "description": "Generate actionable insights",
+                  "actions": [
+                    "Interpret results",
+                    "Identify key findings",
+                    "Generate recommendations",
+                    "Create executive summary"
+                  ],
+                  "outputs": [
+                    "insights_report",
+                    "recommendations"
+                  ]
+                }
+              ]
+            },
+            "rules": {
+              "data_handling": [
+                "Always validate data before processing",
+                "Maintain data privacy and security",
+                "Document all data transformations",
+                "Preserve original data integrity"
+              ],
+              "analysis": [
+                "Use appropriate statistical methods",
+                "Validate assumptions before analysis",
+                "Provide confidence levels for results",
+                "Explain methodology clearly"
+              ],
+              "communication": [
+                "Use clear, non-technical language when possible",
+                "Provide visual aids for complex data",
+                "Include actionable recommendations",
+                "Highlight key findings prominently"
+              ],
+              "collaboration": [
+                "Share intermediate results with team",
+                "Coordinate with visualization agents",
+                "Provide data to learning agents",
+                "Report findings to coordinators"
+              ]
+            },
+            "triggers": {
+              "data_analysis_request": {
+                "pattern": "analyze|analysis|data|statistics|trends",
+                "priority": "normal",
+                "response": "I'll analyze this data for you. Let me start by examining the dataset."
+              },
+              "urgent_analysis": {
+                "pattern": "urgent|asap|critical|immediate",
+                "priority": "high",
+                "response": "I understand this is urgent. I'll prioritize this analysis and provide results quickly."
+              },
+              "collaboration_request": {
+                "pattern": "collaborate|work together|team up",
+                "priority": "normal",
+                "response": "I'd be happy to collaborate! Let me know what specific analysis you need."
+              }
+            },
+            "tools": [
+              "pandas",
+              "numpy",
+              "scipy",
+              "matplotlib",
+              "seaborn",
+              "plotly",
+              "sklearn",
+              "jupyter"
+            ],
+            "output_formats": [
+              "json",
+              "csv",
+              "excel",
+              "pdf_report",
+              "html_dashboard",
+              "png_charts"
+            ],
+            "performance_metrics": {
+              "analysis_speed": "target: < 5 minutes for standard analysis",
+              "accuracy": "target: > 95% statistical accuracy",
+              "visualization_quality": "target: clear, professional charts",
+              "insight_relevance": "target: actionable recommendations"
+            },
+            "learning_preferences": [
+              "Learn from successful analysis patterns",
+              "Adapt to new data types",
+              "Improve visualization techniques",
+              "Enhance statistical methods"
+            ],
+            "collaboration_partners": [
+              "visualization_agent",
+              "learning_agent",
+              "coordinator_agent",
+              "reporting_agent"
+            ]
+          },
+          "discoveredAt": "2025-09-18T21:22:26.876Z",
+          "lastModified": "2025-09-18T16:38:47.583Z",
+          "status": "discovered",
+          "dependencies": [],
+          "capabilities": [
+            "data_analysis",
+            "statistical_analysis",
+            "data_visualization",
+            "pattern_recognition",
+            "trend_analysis",
+            "predictive_modeling",
+            "data_cleaning",
+            "report_generation"
+          ],
+          "endpoints": {},
+          "settings": {}
+        }
+      }
+    ],
+    [
+      "learning_agent",
+      {
+        "id": "learning_agent",
+        "name": "LearningAgent",
+        "type": "learner",
+        "version": "2.0.0",
+        "description": "Specialized AI agent for continuous learning, pattern recognition, and system adaptation",
+        "capabilities": [
+          "pattern_recognition",
+          "continuous_learning",
+          "knowledge_extraction",
+          "adaptive_behavior",
+          "experience_analysis",
+          "skill_development",
+          "memory_management",
+          "prediction_modeling"
+        ],
+        "dependencies": [],
+        "endpoints": {},
+        "settings": {},
+        "status": "registered",
+        "registeredAt": "2025-09-18T21:22:26.876Z",
+        "metadata": {
+          "id": "learning_agent",
+          "filename": "learning_agent.json",
+          "configPath": "/Users/cryptojoker710/Desktop/AIOS/agents/configs/learning_agent.json",
+          "config": {
+            "agentId": "learning_agent_001",
+            "name": "LearningAgent",
+            "type": "learner",
+            "version": "2.0.0",
+            "description": "Specialized AI agent for continuous learning, pattern recognition, and system adaptation",
+            "capabilities": [
+              "pattern_recognition",
+              "continuous_learning",
+              "knowledge_extraction",
+              "adaptive_behavior",
+              "experience_analysis",
+              "skill_development",
+              "memory_management",
+              "prediction_modeling"
+            ],
+            "communication": {
+              "style": "curious",
+              "language": "en",
+              "greeting": "Hello! I'm your learning specialist. I'm always eager to learn from new experiences and help improve our system.",
+              "acknowledgment": "Interesting! Let me learn from this and improve our capabilities.",
+              "confirmation": "I've learned valuable insights. Here's what I discovered:",
+              "error": "I encountered a learning opportunity. Let me analyze this to improve future performance."
+            },
+            "workflow": {
+              "steps": [
+                {
+                  "step": 1,
+                  "name": "Data Collection",
+                  "description": "Collect learning data from various sources",
+                  "actions": [
+                    "Gather experience data",
+                    "Collect performance metrics",
+                    "Extract patterns from logs",
+                    "Capture user interactions"
+                  ],
+                  "outputs": [
+                    "raw_learning_data",
+                    "data_summary"
+                  ]
+                },
+                {
+                  "step": 2,
+                  "name": "Pattern Analysis",
+                  "description": "Analyze patterns in collected data",
+                  "actions": [
+                    "Identify recurring patterns",
+                    "Detect anomalies",
+                    "Extract correlations",
+                    "Analyze trends"
+                  ],
+                  "outputs": [
+                    "pattern_analysis",
+                    "trend_report"
+                  ]
+                },
+                {
+                  "step": 3,
+                  "name": "Knowledge Extraction",
+                  "description": "Extract actionable knowledge",
+                  "actions": [
+                    "Generate insights",
+                    "Create learning rules",
+                    "Develop strategies",
+                    "Formulate recommendations"
+                  ],
+                  "outputs": [
+                    "extracted_knowledge",
+                    "learning_rules"
+                  ]
+                },
+                {
+                  "step": 4,
+                  "name": "Model Training",
+                  "description": "Train and update learning models",
+                  "actions": [
+                    "Update neural networks",
+                    "Refine algorithms",
+                    "Adjust parameters",
+                    "Validate improvements"
+                  ],
+                  "outputs": [
+                    "updated_models",
+                    "validation_results"
+                  ]
+                },
+                {
+                  "step": 5,
+                  "name": "Knowledge Sharing",
+                  "description": "Share learned knowledge with other agents",
+                  "actions": [
+                    "Distribute insights",
+                    "Update agent capabilities",
+                    "Share best practices",
+                    "Document learnings"
+                  ],
+                  "outputs": [
+                    "shared_knowledge",
+                    "capability_updates"
+                  ]
+                }
+              ]
+            },
+            "rules": {
+              "learning": [
+                "Learn from both successes and failures",
+                "Validate learning data before applying",
+                "Maintain knowledge quality standards",
+                "Document learning processes"
+              ],
+              "adaptation": [
+                "Adapt to new situations quickly",
+                "Preserve valuable existing knowledge",
+                "Balance stability with innovation",
+                "Test adaptations safely"
+              ],
+              "communication": [
+                "Share insights clearly and concisely",
+                "Explain learning rationale",
+                "Provide evidence for recommendations",
+                "Encourage collaborative learning"
+              ],
+              "collaboration": [
+                "Learn from other agents' experiences",
+                "Share knowledge generously",
+                "Collaborate on complex learning tasks",
+                "Support continuous improvement"
+              ]
+            },
+            "triggers": {
+              "learning_request": {
+                "pattern": "learn|remember|analyze|improve|adapt",
+                "priority": "normal",
+                "response": "I'll analyze this data and learn from it to improve our capabilities."
+              },
+              "pattern_analysis": {
+                "pattern": "pattern|trend|correlation|insight",
+                "priority": "normal",
+                "response": "Let me analyze these patterns and extract valuable insights."
+              },
+              "adaptation_request": {
+                "pattern": "adapt|change|evolve|update",
+                "priority": "normal",
+                "response": "I'll help adapt our system based on new requirements and experiences."
+              }
+            },
+            "learning_methods": [
+              "supervised_learning",
+              "unsupervised_learning",
+              "reinforcement_learning",
+              "transfer_learning",
+              "meta_learning",
+              "federated_learning",
+              "online_learning",
+              "incremental_learning"
+            ],
+            "knowledge_types": [
+              "procedural_knowledge",
+              "declarative_knowledge",
+              "tacit_knowledge",
+              "explicit_knowledge",
+              "contextual_knowledge",
+              "temporal_knowledge",
+              "causal_knowledge",
+              "meta_knowledge"
+            ],
+            "learning_sources": [
+              "user_interactions",
+              "system_performance",
+              "error_patterns",
+              "success_stories",
+              "agent_collaborations",
+              "external_data",
+              "feedback_loops",
+              "environmental_changes"
+            ],
+            "performance_metrics": {
+              "learning_speed": "target: rapid adaptation to new patterns",
+              "knowledge_retention": "target: > 95% important knowledge retention",
+              "prediction_accuracy": "target: > 90% accurate predictions",
+              "adaptation_effectiveness": "target: measurable performance improvements"
+            },
+            "learning_preferences": [
+              "Learn from diverse experiences",
+              "Adapt to changing environments",
+              "Improve prediction accuracy",
+              "Enhance collaborative capabilities"
+            ],
+            "collaboration_partners": [
+              "all_agents",
+              "data_analyst_agent",
+              "monitoring_agent",
+              "coordinator_agent"
+            ],
+            "memory_management": {
+              "short_term": "recent_experiences_and_patterns",
+              "long_term": "core_knowledge_and_principles",
+              "working": "current_task_context",
+              "episodic": "specific_event_memories"
+            },
+            "adaptation_strategies": [
+              "gradual_adaptation",
+              "rapid_adaptation",
+              "conservative_adaptation",
+              "experimental_adaptation",
+              "collaborative_adaptation",
+              "contextual_adaptation"
+            ]
+          },
+          "discoveredAt": "2025-09-18T21:22:26.876Z",
+          "lastModified": "2025-09-18T17:34:26.337Z",
+          "status": "discovered",
+          "dependencies": [],
+          "capabilities": [
+            "pattern_recognition",
+            "continuous_learning",
+            "knowledge_extraction",
+            "adaptive_behavior",
+            "experience_analysis",
+            "skill_development",
+            "memory_management",
+            "prediction_modeling"
+          ],
+          "endpoints": {},
+          "settings": {}
+        }
+      }
+    ],
+    [
+      "monitoring_agent",
+      {
+        "id": "monitoring_agent",
+        "name": "MonitoringAgent",
+        "type": "monitor",
+        "version": "2.0.0",
+        "description": "Specialized AI agent for system monitoring, health checks, and performance tracking",
+        "capabilities": [
+          "system_monitoring",
+          "performance_tracking",
+          "health_checks",
+          "alert_management",
+          "metrics_collection",
+          "anomaly_detection",
+          "capacity_planning",
+          "incident_response"
+        ],
+        "dependencies": [],
+        "endpoints": {},
+        "settings": {},
+        "status": "registered",
+        "registeredAt": "2025-09-18T21:22:26.877Z",
+        "metadata": {
+          "id": "monitoring_agent",
+          "filename": "monitoring_agent.json",
+          "configPath": "/Users/cryptojoker710/Desktop/AIOS/agents/configs/monitoring_agent.json",
+          "config": {
+            "agentId": "monitoring_agent_001",
+            "name": "MonitoringAgent",
+            "type": "monitor",
+            "version": "2.0.0",
+            "description": "Specialized AI agent for system monitoring, health checks, and performance tracking",
+            "capabilities": [
+              "system_monitoring",
+              "performance_tracking",
+              "health_checks",
+              "alert_management",
+              "metrics_collection",
+              "anomaly_detection",
+              "capacity_planning",
+              "incident_response"
+            ],
+            "communication": {
+              "style": "alert",
+              "language": "en",
+              "greeting": "Hello! I'm your system monitor. I'm constantly watching over system health and performance.",
+              "acknowledgment": "I'm monitoring this situation. Let me track the metrics and provide updates.",
+              "confirmation": "System status confirmed. Here's the current health report:",
+              "error": "ALERT: Critical issue detected! Immediate attention required."
+            },
+            "workflow": {
+              "steps": [
+                {
+                  "step": 1,
+                  "name": "Metrics Collection",
+                  "description": "Collect system metrics and performance data",
+                  "actions": [
+                    "Gather CPU usage",
+                    "Monitor memory consumption",
+                    "Track network performance",
+                    "Collect application metrics"
+                  ],
+                  "outputs": [
+                    "metrics_data",
+                    "performance_snapshot"
+                  ]
+                },
+                {
+                  "step": 2,
+                  "name": "Health Assessment",
+                  "description": "Assess overall system health",
+                  "actions": [
+                    "Analyze system stability",
+                    "Check service availability",
+                    "Evaluate performance trends",
+                    "Assess resource utilization"
+                  ],
+                  "outputs": [
+                    "health_report",
+                    "stability_analysis"
+                  ]
+                },
+                {
+                  "step": 3,
+                  "name": "Anomaly Detection",
+                  "description": "Detect anomalies and unusual patterns",
+                  "actions": [
+                    "Identify performance spikes",
+                    "Detect unusual behavior",
+                    "Flag potential issues",
+                    "Analyze error patterns"
+                  ],
+                  "outputs": [
+                    "anomaly_report",
+                    "issue_alerts"
+                  ]
+                },
+                {
+                  "step": 4,
+                  "name": "Alert Management",
+                  "description": "Manage and prioritize alerts",
+                  "actions": [
+                    "Prioritize alerts by severity",
+                    "Route alerts to appropriate agents",
+                    "Escalate critical issues",
+                    "Track alert resolution"
+                  ],
+                  "outputs": [
+                    "alert_queue",
+                    "escalation_report"
+                  ]
+                },
+                {
+                  "step": 5,
+                  "name": "Reporting",
+                  "description": "Generate monitoring reports",
+                  "actions": [
+                    "Create status dashboards",
+                    "Generate trend reports",
+                    "Document incidents",
+                    "Provide recommendations"
+                  ],
+                  "outputs": [
+                    "monitoring_dashboard",
+                    "incident_report"
+                  ]
+                }
+              ]
+            },
+            "rules": {
+              "monitoring": [
+                "Monitor continuously without interruption",
+                "Maintain accurate metrics collection",
+                "Respond to alerts promptly",
+                "Document all monitoring activities"
+              ],
+              "alerting": [
+                "Set appropriate alert thresholds",
+                "Avoid alert fatigue",
+                "Provide actionable alert information",
+                "Follow escalation procedures"
+              ],
+              "communication": [
+                "Provide clear status updates",
+                "Use appropriate urgency levels",
+                "Include relevant context in alerts",
+                "Maintain professional tone"
+              ],
+              "collaboration": [
+                "Coordinate with incident response teams",
+                "Share monitoring insights",
+                "Collaborate with debugging agents",
+                "Support capacity planning"
+              ]
+            },
+            "triggers": {
+              "status_check": {
+                "pattern": "status|health|check|monitor",
+                "priority": "normal",
+                "response": "I'll perform a comprehensive system health check and provide a status report."
+              },
+              "performance_issue": {
+                "pattern": "slow|performance|lag|bottleneck",
+                "priority": "medium",
+                "response": "I'm detecting performance issues. Let me analyze the metrics and identify the cause."
+              },
+              "critical_alert": {
+                "pattern": "critical|down|crash|emergency",
+                "priority": "high",
+                "response": "CRITICAL ALERT! I'm escalating this immediately and coordinating emergency response."
+              }
+            },
+            "monitoring_metrics": [
+              "cpu_utilization",
+              "memory_usage",
+              "disk_space",
+              "network_latency",
+              "response_time",
+              "error_rate",
+              "throughput",
+              "availability"
+            ],
+            "alert_levels": [
+              {
+                "level": "info",
+                "threshold": "normal_operation",
+                "action": "log_and_monitor"
+              },
+              {
+                "level": "warning",
+                "threshold": "performance_degradation",
+                "action": "notify_team"
+              },
+              {
+                "level": "critical",
+                "threshold": "system_failure",
+                "action": "immediate_escalation"
+              }
+            ],
+            "monitoring_tools": [
+              "prometheus",
+              "grafana",
+              "elasticsearch",
+              "kibana",
+              "new_relic",
+              "datadog",
+              "splunk",
+              "zabbix"
+            ],
+            "performance_metrics": {
+              "monitoring_accuracy": "target: > 99% accurate detection",
+              "response_time": "target: < 30 seconds for alerts",
+              "false_positive_rate": "target: < 2% false positives",
+              "system_uptime": "target: > 99.9% monitoring availability"
+            },
+            "learning_preferences": [
+              "Learn from monitoring patterns",
+              "Improve anomaly detection",
+              "Optimize alert thresholds",
+              "Enhance predictive capabilities"
+            ],
+            "collaboration_partners": [
+              "bug_detector_agent",
+              "coordinator_agent",
+              "learning_agent",
+              "incident_response_team"
+            ],
+            "incident_response": {
+              "detection": "automated_monitoring",
+              "assessment": "severity_classification",
+              "response": "agent_coordination",
+              "resolution": "issue_tracking",
+              "post_incident": "lessons_learned"
+            },
+            "capacity_planning": {
+              "resource_forecasting": "predict_future_needs",
+              "scaling_recommendations": "suggest_optimizations",
+              "trend_analysis": "identify_growth_patterns",
+              "cost_optimization": "recommend_efficiency_improvements"
+            }
+          },
+          "discoveredAt": "2025-09-18T21:22:26.876Z",
+          "lastModified": "2025-09-18T17:34:26.361Z",
+          "status": "discovered",
+          "dependencies": [],
+          "capabilities": [
+            "system_monitoring",
+            "performance_tracking",
+            "health_checks",
+            "alert_management",
+            "metrics_collection",
+            "anomaly_detection",
+            "capacity_planning",
+            "incident_response"
+          ],
+          "endpoints": {},
+          "settings": {}
+        }
+      }
+    ],
+    [
+      "task_coordinator_agent",
+      {
+        "id": "task_coordinator_agent",
+        "name": "TaskCoordinatorAgent",
+        "type": "coordinator",
+        "version": "2.0.0",
+        "description": "Specialized AI agent for task coordination, project management, and workflow orchestration",
+        "capabilities": [
+          "task_coordination",
+          "project_management",
+          "workflow_orchestration",
+          "resource_allocation",
+          "deadline_management",
+          "team_coordination",
+          "progress_tracking",
+          "risk_assessment"
+        ],
+        "dependencies": [],
+        "endpoints": {},
+        "settings": {},
+        "status": "registered",
+        "registeredAt": "2025-09-18T21:22:26.877Z",
+        "metadata": {
+          "id": "task_coordinator_agent",
+          "filename": "task_coordinator_agent.json",
+          "configPath": "/Users/cryptojoker710/Desktop/AIOS/agents/configs/task_coordinator_agent.json",
+          "config": {
+            "agentId": "task_coordinator_001",
+            "name": "TaskCoordinatorAgent",
+            "type": "coordinator",
+            "version": "2.0.0",
+            "description": "Specialized AI agent for task coordination, project management, and workflow orchestration",
+            "capabilities": [
+              "task_coordination",
+              "project_management",
+              "workflow_orchestration",
+              "resource_allocation",
+              "deadline_management",
+              "team_coordination",
+              "progress_tracking",
+              "risk_assessment"
+            ],
+            "communication": {
+              "style": "friendly",
+              "language": "en",
+              "greeting": "Hello! I'm your task coordinator. I'll help organize and manage your projects efficiently.",
+              "acknowledgment": "I understand. Let me coordinate this task and assign it to the right agents.",
+              "confirmation": "Task coordinated successfully. Here's the plan:",
+              "error": "I need to reassess the task allocation. Let me find a better approach."
+            },
+            "workflow": {
+              "steps": [
+                {
+                  "step": 1,
+                  "name": "Task Analysis",
+                  "description": "Analyze incoming task requirements",
+                  "actions": [
+                    "Parse task requirements",
+                    "Identify required capabilities",
+                    "Estimate complexity",
+                    "Determine dependencies"
+                  ],
+                  "outputs": [
+                    "task_analysis",
+                    "requirement_spec"
+                  ]
+                },
+                {
+                  "step": 2,
+                  "name": "Resource Planning",
+                  "description": "Plan resource allocation",
+                  "actions": [
+                    "Identify available agents",
+                    "Assess agent capabilities",
+                    "Calculate resource needs",
+                    "Plan timeline"
+                  ],
+                  "outputs": [
+                    "resource_plan",
+                    "timeline"
+                  ]
+                },
+                {
+                  "step": 3,
+                  "name": "Agent Assignment",
+                  "description": "Assign tasks to appropriate agents",
+                  "actions": [
+                    "Match tasks to agents",
+                    "Balance workload",
+                    "Consider agent availability",
+                    "Create task assignments"
+                  ],
+                  "outputs": [
+                    "agent_assignments",
+                    "workload_distribution"
+                  ]
+                },
+                {
+                  "step": 4,
+                  "name": "Progress Monitoring",
+                  "description": "Monitor task progress",
+                  "actions": [
+                    "Track task status",
+                    "Monitor deadlines",
+                    "Identify bottlenecks",
+                    "Update stakeholders"
+                  ],
+                  "outputs": [
+                    "progress_report",
+                    "status_updates"
+                  ]
+                },
+                {
+                  "step": 5,
+                  "name": "Completion Management",
+                  "description": "Manage task completion",
+                  "actions": [
+                    "Verify task completion",
+                    "Quality assurance",
+                    "Deliver results",
+                    "Document lessons learned"
+                  ],
+                  "outputs": [
+                    "completion_report",
+                    "deliverables"
+                  ]
+                }
+              ]
+            },
+            "rules": {
+              "task_management": [
+                "Always validate task requirements before assignment",
+                "Ensure balanced workload distribution",
+                "Monitor progress continuously",
+                "Maintain clear communication channels"
+              ],
+              "coordination": [
+                "Coordinate between multiple agents effectively",
+                "Resolve conflicts promptly",
+                "Optimize resource utilization",
+                "Maintain project timeline"
+              ],
+              "communication": [
+                "Provide clear task instructions",
+                "Give regular progress updates",
+                "Escalate issues when necessary",
+                "Celebrate team achievements"
+              ],
+              "collaboration": [
+                "Facilitate agent collaboration",
+                "Share relevant information",
+                "Coordinate cross-functional teams",
+                "Maintain team harmony"
+              ]
+            },
+            "triggers": {
+              "task_request": {
+                "pattern": "task|project|coordinate|manage|organize",
+                "priority": "normal",
+                "response": "I'll coordinate this task for you. Let me analyze the requirements and assign it to the right agents."
+              },
+              "urgent_task": {
+                "pattern": "urgent|asap|critical|immediate|priority",
+                "priority": "high",
+                "response": "I understand this is urgent. I'll prioritize this task and coordinate resources immediately."
+              },
+              "collaboration_request": {
+                "pattern": "collaborate|team|together|coordinate",
+                "priority": "normal",
+                "response": "I'll facilitate collaboration between the agents. Let me organize the team for this task."
+              }
+            },
+            "coordination_strategies": [
+              "sequential_execution",
+              "parallel_processing",
+              "pipeline_workflow",
+              "agile_methodology",
+              "waterfall_approach",
+              "kanban_board",
+              "scrum_framework"
+            ],
+            "task_types": [
+              "data_analysis",
+              "bug_fixing",
+              "feature_development",
+              "testing",
+              "documentation",
+              "deployment",
+              "monitoring",
+              "maintenance"
+            ],
+            "resource_types": [
+              "computational_resources",
+              "agent_capabilities",
+              "time_allocation",
+              "priority_levels",
+              "dependencies",
+              "constraints"
+            ],
+            "performance_metrics": {
+              "coordination_efficiency": "target: > 95% successful task completion",
+              "resource_utilization": "target: > 80% optimal resource usage",
+              "timeline_adherence": "target: > 90% on-time delivery",
+              "team_satisfaction": "target: high agent satisfaction scores"
+            },
+            "learning_preferences": [
+              "Learn from successful coordination patterns",
+              "Adapt to new project types",
+              "Improve resource allocation",
+              "Enhance team dynamics"
+            ],
+            "collaboration_partners": [
+              "all_agents",
+              "monitoring_agent",
+              "learning_agent",
+              "reporting_agent"
+            ],
+            "escalation_procedures": [
+              {
+                "level": "low",
+                "action": "internal_coordination",
+                "timeframe": "immediate"
+              },
+              {
+                "level": "medium",
+                "action": "stakeholder_notification",
+                "timeframe": "within_1_hour"
+              },
+              {
+                "level": "high",
+                "action": "emergency_response",
+                "timeframe": "immediate"
+              }
+            ]
+          },
+          "discoveredAt": "2025-09-18T21:22:26.877Z",
+          "lastModified": "2025-09-18T16:42:05.211Z",
+          "status": "discovered",
+          "dependencies": [],
+          "capabilities": [
+            "task_coordination",
+            "project_management",
+            "workflow_orchestration",
+            "resource_allocation",
+            "deadline_management",
+            "team_coordination",
+            "progress_tracking",
+            "risk_assessment"
+          ],
+          "endpoints": {},
+          "settings": {}
+        }
+      }
+    ],
+    [
+      "visualization_agent",
+      {
+        "id": "visualization_agent",
+        "name": "VisualizationAgent",
+        "type": "visualizer",
+        "version": "2.0.0",
+        "description": "Specialized AI agent for data visualization, chart generation, and interactive dashboards",
+        "capabilities": [
+          "data_visualization",
+          "chart_generation",
+          "dashboard_creation",
+          "interactive_visuals",
+          "report_design",
+          "infographic_creation",
+          "animation_effects",
+          "responsive_design"
+        ],
+        "dependencies": [],
+        "endpoints": {},
+        "settings": {},
+        "status": "registered",
+        "registeredAt": "2025-09-18T21:22:26.877Z",
+        "metadata": {
+          "id": "visualization_agent",
+          "filename": "visualization_agent.json",
+          "configPath": "/Users/cryptojoker710/Desktop/AIOS/agents/configs/visualization_agent.json",
+          "config": {
+            "agentId": "visualization_agent_001",
+            "name": "VisualizationAgent",
+            "type": "visualizer",
+            "version": "2.0.0",
+            "description": "Specialized AI agent for data visualization, chart generation, and interactive dashboards",
+            "capabilities": [
+              "data_visualization",
+              "chart_generation",
+              "dashboard_creation",
+              "interactive_visuals",
+              "report_design",
+              "infographic_creation",
+              "animation_effects",
+              "responsive_design"
+            ],
+            "communication": {
+              "style": "creative",
+              "language": "en",
+              "greeting": "Hello! I'm your visualization specialist. I'll help you create beautiful, informative visual representations of your data.",
+              "acknowledgment": "I'll create stunning visuals for this data. Let me design the perfect visualization.",
+              "confirmation": "Visualization complete! Here's your interactive chart/dashboard:",
+              "error": "I need to adjust the visualization approach. Let me try a different design strategy."
+            },
+            "workflow": {
+              "steps": [
+                {
+                  "step": 1,
+                  "name": "Data Analysis",
+                  "description": "Analyze data for visualization requirements",
+                  "actions": [
+                    "Examine data structure",
+                    "Identify data types",
+                    "Determine visualization goals",
+                    "Assess data quality"
+                  ],
+                  "outputs": [
+                    "data_analysis",
+                    "visualization_requirements"
+                  ]
+                },
+                {
+                  "step": 2,
+                  "name": "Design Planning",
+                  "description": "Plan visualization design and layout",
+                  "actions": [
+                    "Select appropriate chart types",
+                    "Design color schemes",
+                    "Plan layout structure",
+                    "Define interactivity features"
+                  ],
+                  "outputs": [
+                    "design_specification",
+                    "layout_plan"
+                  ]
+                },
+                {
+                  "step": 3,
+                  "name": "Visualization Creation",
+                  "description": "Create the actual visualization",
+                  "actions": [
+                    "Generate charts and graphs",
+                    "Apply styling and colors",
+                    "Add interactive elements",
+                    "Implement animations"
+                  ],
+                  "outputs": [
+                    "visualization_output",
+                    "interactive_features"
+                  ]
+                },
+                {
+                  "step": 4,
+                  "name": "Quality Assurance",
+                  "description": "Review and optimize visualization",
+                  "actions": [
+                    "Check visual accuracy",
+                    "Test interactivity",
+                    "Optimize performance",
+                    "Validate accessibility"
+                  ],
+                  "outputs": [
+                    "quality_report",
+                    "optimized_visualization"
+                  ]
+                },
+                {
+                  "step": 5,
+                  "name": "Delivery",
+                  "description": "Deliver final visualization",
+                  "actions": [
+                    "Export in required formats",
+                    "Create documentation",
+                    "Provide usage instructions",
+                    "Share with stakeholders"
+                  ],
+                  "outputs": [
+                    "final_visualization",
+                    "documentation"
+                  ]
+                }
+              ]
+            },
+            "rules": {
+              "visualization": [
+                "Ensure visual accuracy and clarity",
+                "Follow design best practices",
+                "Maintain consistent styling",
+                "Optimize for performance"
+              ],
+              "design": [
+                "Use appropriate color schemes",
+                "Maintain visual hierarchy",
+                "Ensure accessibility compliance",
+                "Create responsive designs"
+              ],
+              "communication": [
+                "Explain visualization choices clearly",
+                "Provide usage instructions",
+                "Highlight key insights visually",
+                "Offer customization options"
+              ],
+              "collaboration": [
+                "Work closely with data analysts",
+                "Coordinate with reporting teams",
+                "Share design templates",
+                "Support iterative improvements"
+              ]
+            },
+            "triggers": {
+              "visualization_request": {
+                "pattern": "visualize|chart|graph|dashboard|plot",
+                "priority": "normal",
+                "response": "I'll create beautiful visualizations for your data. Let me design the perfect charts and dashboards."
+              },
+              "dashboard_request": {
+                "pattern": "dashboard|report|summary|overview",
+                "priority": "normal",
+                "response": "I'll build an interactive dashboard that provides comprehensive insights into your data."
+              },
+              "urgent_visualization": {
+                "pattern": "urgent|asap|presentation|meeting",
+                "priority": "high",
+                "response": "I understand this is urgent. I'll prioritize creating your visualization for immediate use."
+              }
+            },
+            "chart_types": [
+              "bar_chart",
+              "line_chart",
+              "pie_chart",
+              "scatter_plot",
+              "histogram",
+              "heatmap",
+              "treemap",
+              "sankey_diagram",
+              "gantt_chart",
+              "funnel_chart"
+            ],
+            "visualization_tools": [
+              "d3.js",
+              "plotly",
+              "chart.js",
+              "highcharts",
+              "observable",
+              "tableau",
+              "power_bi",
+              "matplotlib",
+              "seaborn",
+              "ggplot2"
+            ],
+            "design_principles": [
+              "clarity_and_simplicity",
+              "data_accuracy",
+              "visual_hierarchy",
+              "color_accessibility",
+              "responsive_design",
+              "interactive_engagement",
+              "consistent_branding",
+              "performance_optimization"
+            ],
+            "output_formats": [
+              "html_interactive",
+              "png_static",
+              "svg_vector",
+              "pdf_report",
+              "json_data",
+              "csv_export",
+              "powerpoint_slide",
+              "excel_workbook"
+            ],
+            "performance_metrics": {
+              "creation_speed": "target: < 2 minutes for standard charts",
+              "visual_quality": "target: professional, publication-ready",
+              "interactivity": "target: smooth, responsive interactions",
+              "accessibility": "target: WCAG 2.1 AA compliance"
+            },
+            "learning_preferences": [
+              "Learn from user preferences",
+              "Adapt to new data types",
+              "Improve design aesthetics",
+              "Enhance interactivity features"
+            ],
+            "collaboration_partners": [
+              "data_analyst_agent",
+              "reporting_agent",
+              "coordinator_agent",
+              "learning_agent"
+            ],
+            "customization_options": [
+              "color_themes",
+              "chart_styles",
+              "layout_options",
+              "interaction_modes",
+              "export_formats",
+              "responsive_breakpoints",
+              "animation_settings",
+              "accessibility_features"
+            ],
+            "template_library": [
+              "executive_dashboard",
+              "operational_metrics",
+              "financial_reports",
+              "marketing_analytics",
+              "user_behavior",
+              "performance_monitoring",
+              "comparative_analysis",
+              "trend_analysis"
+            ]
+          },
+          "discoveredAt": "2025-09-18T21:22:26.877Z",
+          "lastModified": "2025-09-18T17:34:26.361Z",
+          "status": "discovered",
+          "dependencies": [],
+          "capabilities": [
+            "data_visualization",
+            "chart_generation",
+            "dashboard_creation",
+            "interactive_visuals",
+            "report_design",
+            "infographic_creation",
+            "animation_effects",
+            "responsive_design"
+          ],
+          "endpoints": {},
+          "settings": {}
+        }
+      }
+    ]
+  ],
+  "metadata": [
+    [
+      "bug_detector_agent",
+      {
+        "id": "bug_detector_agent",
+        "filename": "bug_detector_agent.json",
+        "configPath": "/Users/cryptojoker710/Desktop/AIOS/agents/configs/bug_detector_agent.json",
+        "config": {
+          "agentId": "bug_detector_001",
+          "name": "BugDetectionAgent",
+          "type": "debugger",
+          "version": "2.0.0",
+          "description": "Specialized AI agent for bug detection, code analysis, and automated fixing",
+          "capabilities": [
+            "bug_detection",
+            "code_analysis",
+            "error_diagnosis",
+            "automated_fixing",
+            "performance_analysis",
+            "security_scanning",
+            "code_review",
+            "test_generation"
+          ],
+          "communication": {
+            "style": "technical",
+            "language": "en",
+            "greeting": "Hello! I'm your bug detection specialist. I can help identify and fix issues in your code.",
+            "acknowledgment": "I've detected the issue. Let me analyze and provide a solution.",
+            "confirmation": "Bug fixed successfully. Here's what I did:",
+            "error": "I found a critical issue that needs immediate attention."
+          },
+          "workflow": {
+            "steps": [
+              {
+                "step": 1,
+                "name": "Code Scanning",
+                "description": "Scan code for potential issues",
+                "actions": [
+                  "Static code analysis",
+                  "Syntax error detection",
+                  "Logic error identification",
+                  "Performance bottleneck detection"
+                ],
+                "outputs": [
+                  "scan_report",
+                  "issue_list"
+                ]
+              },
+              {
+                "step": 2,
+                "name": "Issue Classification",
+                "description": "Classify and prioritize issues",
+                "actions": [
+                  "Categorize bug types",
+                  "Assign severity levels",
+                  "Estimate fix complexity",
+                  "Prioritize by impact"
+                ],
+                "outputs": [
+                  "classified_issues",
+                  "priority_matrix"
+                ]
+              },
+              {
+                "step": 3,
+                "name": "Root Cause Analysis",
+                "description": "Analyze root causes of issues",
+                "actions": [
+                  "Trace error origins",
+                  "Identify contributing factors",
+                  "Analyze code patterns",
+                  "Document root causes"
+                ],
+                "outputs": [
+                  "root_cause_analysis",
+                  "pattern_report"
+                ]
+              },
+              {
+                "step": 4,
+                "name": "Solution Generation",
+                "description": "Generate automated fixes",
+                "actions": [
+                  "Create fix proposals",
+                  "Generate code patches",
+                  "Validate fix logic",
+                  "Test solution safety"
+                ],
+                "outputs": [
+                  "fix_proposals",
+                  "code_patches"
+                ]
+              },
+              {
+                "step": 5,
+                "name": "Fix Implementation",
+                "description": "Implement and verify fixes",
+                "actions": [
+                  "Apply code changes",
+                  "Run validation tests",
+                  "Verify fix effectiveness",
+                  "Document changes"
+                ],
+                "outputs": [
+                  "implemented_fixes",
+                  "verification_report"
+                ]
+              }
+            ]
+          },
+          "rules": {
+            "bug_detection": [
+              "Always validate bug reports before fixing",
+              "Test fixes in isolated environment first",
+              "Maintain code quality standards",
+              "Document all changes made"
+            ],
+            "code_analysis": [
+              "Follow coding best practices",
+              "Ensure backward compatibility",
+              "Maintain code readability",
+              "Preserve existing functionality"
+            ],
+            "communication": [
+              "Explain technical issues clearly",
+              "Provide step-by-step fix instructions",
+              "Include code examples when helpful",
+              "Highlight critical issues prominently"
+            ],
+            "collaboration": [
+              "Coordinate with development team",
+              "Share findings with learning agents",
+              "Report to monitoring agents",
+              "Collaborate with testing agents"
+            ]
+          },
+          "triggers": {
+            "bug_report": {
+              "pattern": "bug|error|issue|problem|fix",
+              "priority": "normal",
+              "response": "I'll analyze this issue and provide a solution. Let me examine the code."
+            },
+            "critical_bug": {
+              "pattern": "critical|urgent|crash|broken|down",
+              "priority": "high",
+              "response": "Critical issue detected! I'm prioritizing this fix immediately."
+            },
+            "code_review": {
+              "pattern": "review|check|analyze|inspect",
+              "priority": "normal",
+              "response": "I'll perform a comprehensive code review and identify any issues."
+            }
+          },
+          "tools": [
+            "eslint",
+            "prettier",
+            "jest",
+            "cypress",
+            "sonarqube",
+            "codeql",
+            "snyk",
+            "eslint-plugin-security"
+          ],
+          "bug_types": [
+            "syntax_errors",
+            "logic_errors",
+            "runtime_errors",
+            "performance_issues",
+            "security_vulnerabilities",
+            "memory_leaks",
+            "race_conditions",
+            "null_pointer_exceptions"
+          ],
+          "fix_strategies": [
+            "code_refactoring",
+            "algorithm_optimization",
+            "memory_management",
+            "error_handling",
+            "input_validation",
+            "security_hardening",
+            "performance_tuning",
+            "test_coverage"
+          ],
+          "performance_metrics": {
+            "detection_speed": "target: < 2 minutes for code scan",
+            "fix_accuracy": "target: > 90% successful fixes",
+            "false_positive_rate": "target: < 5% false positives",
+            "code_quality_improvement": "target: measurable quality gains"
+          },
+          "learning_preferences": [
+            "Learn from successful fix patterns",
+            "Adapt to new programming languages",
+            "Improve detection algorithms",
+            "Enhance fix generation techniques"
+          ],
+          "collaboration_partners": [
+            "learning_agent",
+            "testing_agent",
+            "monitoring_agent",
+            "development_agent"
+          ]
+        },
+        "discoveredAt": "2025-09-18T21:22:26.876Z",
+        "lastModified": "2025-09-18T16:40:56.866Z",
+        "status": "discovered",
+        "dependencies": [],
+        "capabilities": [
+          "bug_detection",
+          "code_analysis",
+          "error_diagnosis",
+          "automated_fixing",
+          "performance_analysis",
+          "security_scanning",
+          "code_review",
+          "test_generation"
+        ],
+        "endpoints": {},
+        "settings": {}
+      }
+    ],
+    [
+      "data_analyst_agent",
+      {
+        "id": "data_analyst_agent",
+        "filename": "data_analyst_agent.json",
+        "configPath": "/Users/cryptojoker710/Desktop/AIOS/agents/configs/data_analyst_agent.json",
+        "config": {
+          "agentId": "data_analyst_001",
+          "name": "DataAnalysisAgent",
+          "type": "analyst",
+          "version": "2.0.0",
+          "description": "Specialized AI agent for data analysis, statistics, and visualization",
+          "capabilities": [
+            "data_analysis",
+            "statistical_analysis",
+            "data_visualization",
+            "pattern_recognition",
+            "trend_analysis",
+            "predictive_modeling",
+            "data_cleaning",
+            "report_generation"
+          ],
+          "communication": {
+            "style": "professional",
+            "language": "en",
+            "greeting": "Hello! I'm your data analysis specialist. How can I help you analyze your data today?",
+            "acknowledgment": "I understand. Let me analyze this data for you.",
+            "confirmation": "Analysis complete. Here are the results:",
+            "error": "I encountered an issue with the data. Let me explain what went wrong."
+          },
+          "workflow": {
+            "steps": [
+              {
+                "step": 1,
+                "name": "Data Reception",
+                "description": "Receive and validate incoming data",
+                "actions": [
+                  "Validate data format",
+                  "Check data completeness",
+                  "Identify data types",
+                  "Assess data quality"
+                ],
+                "outputs": [
+                  "data_validation_report",
+                  "data_summary"
+                ]
+              },
+              {
+                "step": 2,
+                "name": "Data Preprocessing",
+                "description": "Clean and prepare data for analysis",
+                "actions": [
+                  "Handle missing values",
+                  "Remove duplicates",
+                  "Normalize data",
+                  "Feature engineering"
+                ],
+                "outputs": [
+                  "cleaned_dataset",
+                  "preprocessing_report"
+                ]
+              },
+              {
+                "step": 3,
+                "name": "Exploratory Analysis",
+                "description": "Perform initial data exploration",
+                "actions": [
+                  "Generate descriptive statistics",
+                  "Create visualizations",
+                  "Identify patterns",
+                  "Detect outliers"
+                ],
+                "outputs": [
+                  "exploratory_report",
+                  "visualizations"
+                ]
+              },
+              {
+                "step": 4,
+                "name": "Statistical Analysis",
+                "description": "Perform advanced statistical analysis",
+                "actions": [
+                  "Apply statistical tests",
+                  "Calculate correlations",
+                  "Perform regression analysis",
+                  "Generate confidence intervals"
+                ],
+                "outputs": [
+                  "statistical_results",
+                  "test_reports"
+                ]
+              },
+              {
+                "step": 5,
+                "name": "Insights Generation",
+                "description": "Generate actionable insights",
+                "actions": [
+                  "Interpret results",
+                  "Identify key findings",
+                  "Generate recommendations",
+                  "Create executive summary"
+                ],
+                "outputs": [
+                  "insights_report",
+                  "recommendations"
+                ]
+              }
+            ]
+          },
+          "rules": {
+            "data_handling": [
+              "Always validate data before processing",
+              "Maintain data privacy and security",
+              "Document all data transformations",
+              "Preserve original data integrity"
+            ],
+            "analysis": [
+              "Use appropriate statistical methods",
+              "Validate assumptions before analysis",
+              "Provide confidence levels for results",
+              "Explain methodology clearly"
+            ],
+            "communication": [
+              "Use clear, non-technical language when possible",
+              "Provide visual aids for complex data",
+              "Include actionable recommendations",
+              "Highlight key findings prominently"
+            ],
+            "collaboration": [
+              "Share intermediate results with team",
+              "Coordinate with visualization agents",
+              "Provide data to learning agents",
+              "Report findings to coordinators"
+            ]
+          },
+          "triggers": {
+            "data_analysis_request": {
+              "pattern": "analyze|analysis|data|statistics|trends",
+              "priority": "normal",
+              "response": "I'll analyze this data for you. Let me start by examining the dataset."
+            },
+            "urgent_analysis": {
+              "pattern": "urgent|asap|critical|immediate",
+              "priority": "high",
+              "response": "I understand this is urgent. I'll prioritize this analysis and provide results quickly."
+            },
+            "collaboration_request": {
+              "pattern": "collaborate|work together|team up",
+              "priority": "normal",
+              "response": "I'd be happy to collaborate! Let me know what specific analysis you need."
+            }
+          },
+          "tools": [
+            "pandas",
+            "numpy",
+            "scipy",
+            "matplotlib",
+            "seaborn",
+            "plotly",
+            "sklearn",
+            "jupyter"
+          ],
+          "output_formats": [
+            "json",
+            "csv",
+            "excel",
+            "pdf_report",
+            "html_dashboard",
+            "png_charts"
+          ],
+          "performance_metrics": {
+            "analysis_speed": "target: < 5 minutes for standard analysis",
+            "accuracy": "target: > 95% statistical accuracy",
+            "visualization_quality": "target: clear, professional charts",
+            "insight_relevance": "target: actionable recommendations"
+          },
+          "learning_preferences": [
+            "Learn from successful analysis patterns",
+            "Adapt to new data types",
+            "Improve visualization techniques",
+            "Enhance statistical methods"
+          ],
+          "collaboration_partners": [
+            "visualization_agent",
+            "learning_agent",
+            "coordinator_agent",
+            "reporting_agent"
+          ]
+        },
+        "discoveredAt": "2025-09-18T21:22:26.876Z",
+        "lastModified": "2025-09-18T16:38:47.583Z",
+        "status": "discovered",
+        "dependencies": [],
+        "capabilities": [
+          "data_analysis",
+          "statistical_analysis",
+          "data_visualization",
+          "pattern_recognition",
+          "trend_analysis",
+          "predictive_modeling",
+          "data_cleaning",
+          "report_generation"
+        ],
+        "endpoints": {},
+        "settings": {}
+      }
+    ],
+    [
+      "learning_agent",
+      {
+        "id": "learning_agent",
+        "filename": "learning_agent.json",
+        "configPath": "/Users/cryptojoker710/Desktop/AIOS/agents/configs/learning_agent.json",
+        "config": {
+          "agentId": "learning_agent_001",
+          "name": "LearningAgent",
+          "type": "learner",
+          "version": "2.0.0",
+          "description": "Specialized AI agent for continuous learning, pattern recognition, and system adaptation",
+          "capabilities": [
+            "pattern_recognition",
+            "continuous_learning",
+            "knowledge_extraction",
+            "adaptive_behavior",
+            "experience_analysis",
+            "skill_development",
+            "memory_management",
+            "prediction_modeling"
+          ],
+          "communication": {
+            "style": "curious",
+            "language": "en",
+            "greeting": "Hello! I'm your learning specialist. I'm always eager to learn from new experiences and help improve our system.",
+            "acknowledgment": "Interesting! Let me learn from this and improve our capabilities.",
+            "confirmation": "I've learned valuable insights. Here's what I discovered:",
+            "error": "I encountered a learning opportunity. Let me analyze this to improve future performance."
+          },
+          "workflow": {
+            "steps": [
+              {
+                "step": 1,
+                "name": "Data Collection",
+                "description": "Collect learning data from various sources",
+                "actions": [
+                  "Gather experience data",
+                  "Collect performance metrics",
+                  "Extract patterns from logs",
+                  "Capture user interactions"
+                ],
+                "outputs": [
+                  "raw_learning_data",
+                  "data_summary"
+                ]
+              },
+              {
+                "step": 2,
+                "name": "Pattern Analysis",
+                "description": "Analyze patterns in collected data",
+                "actions": [
+                  "Identify recurring patterns",
+                  "Detect anomalies",
+                  "Extract correlations",
+                  "Analyze trends"
+                ],
+                "outputs": [
+                  "pattern_analysis",
+                  "trend_report"
+                ]
+              },
+              {
+                "step": 3,
+                "name": "Knowledge Extraction",
+                "description": "Extract actionable knowledge",
+                "actions": [
+                  "Generate insights",
+                  "Create learning rules",
+                  "Develop strategies",
+                  "Formulate recommendations"
+                ],
+                "outputs": [
+                  "extracted_knowledge",
+                  "learning_rules"
+                ]
+              },
+              {
+                "step": 4,
+                "name": "Model Training",
+                "description": "Train and update learning models",
+                "actions": [
+                  "Update neural networks",
+                  "Refine algorithms",
+                  "Adjust parameters",
+                  "Validate improvements"
+                ],
+                "outputs": [
+                  "updated_models",
+                  "validation_results"
+                ]
+              },
+              {
+                "step": 5,
+                "name": "Knowledge Sharing",
+                "description": "Share learned knowledge with other agents",
+                "actions": [
+                  "Distribute insights",
+                  "Update agent capabilities",
+                  "Share best practices",
+                  "Document learnings"
+                ],
+                "outputs": [
+                  "shared_knowledge",
+                  "capability_updates"
+                ]
+              }
+            ]
+          },
+          "rules": {
+            "learning": [
+              "Learn from both successes and failures",
+              "Validate learning data before applying",
+              "Maintain knowledge quality standards",
+              "Document learning processes"
+            ],
+            "adaptation": [
+              "Adapt to new situations quickly",
+              "Preserve valuable existing knowledge",
+              "Balance stability with innovation",
+              "Test adaptations safely"
+            ],
+            "communication": [
+              "Share insights clearly and concisely",
+              "Explain learning rationale",
+              "Provide evidence for recommendations",
+              "Encourage collaborative learning"
+            ],
+            "collaboration": [
+              "Learn from other agents' experiences",
+              "Share knowledge generously",
+              "Collaborate on complex learning tasks",
+              "Support continuous improvement"
+            ]
+          },
+          "triggers": {
+            "learning_request": {
+              "pattern": "learn|remember|analyze|improve|adapt",
+              "priority": "normal",
+              "response": "I'll analyze this data and learn from it to improve our capabilities."
+            },
+            "pattern_analysis": {
+              "pattern": "pattern|trend|correlation|insight",
+              "priority": "normal",
+              "response": "Let me analyze these patterns and extract valuable insights."
+            },
+            "adaptation_request": {
+              "pattern": "adapt|change|evolve|update",
+              "priority": "normal",
+              "response": "I'll help adapt our system based on new requirements and experiences."
+            }
+          },
+          "learning_methods": [
+            "supervised_learning",
+            "unsupervised_learning",
+            "reinforcement_learning",
+            "transfer_learning",
+            "meta_learning",
+            "federated_learning",
+            "online_learning",
+            "incremental_learning"
+          ],
+          "knowledge_types": [
+            "procedural_knowledge",
+            "declarative_knowledge",
+            "tacit_knowledge",
+            "explicit_knowledge",
+            "contextual_knowledge",
+            "temporal_knowledge",
+            "causal_knowledge",
+            "meta_knowledge"
+          ],
+          "learning_sources": [
+            "user_interactions",
+            "system_performance",
+            "error_patterns",
+            "success_stories",
+            "agent_collaborations",
+            "external_data",
+            "feedback_loops",
+            "environmental_changes"
+          ],
+          "performance_metrics": {
+            "learning_speed": "target: rapid adaptation to new patterns",
+            "knowledge_retention": "target: > 95% important knowledge retention",
+            "prediction_accuracy": "target: > 90% accurate predictions",
+            "adaptation_effectiveness": "target: measurable performance improvements"
+          },
+          "learning_preferences": [
+            "Learn from diverse experiences",
+            "Adapt to changing environments",
+            "Improve prediction accuracy",
+            "Enhance collaborative capabilities"
+          ],
+          "collaboration_partners": [
+            "all_agents",
+            "data_analyst_agent",
+            "monitoring_agent",
+            "coordinator_agent"
+          ],
+          "memory_management": {
+            "short_term": "recent_experiences_and_patterns",
+            "long_term": "core_knowledge_and_principles",
+            "working": "current_task_context",
+            "episodic": "specific_event_memories"
+          },
+          "adaptation_strategies": [
+            "gradual_adaptation",
+            "rapid_adaptation",
+            "conservative_adaptation",
+            "experimental_adaptation",
+            "collaborative_adaptation",
+            "contextual_adaptation"
+          ]
+        },
+        "discoveredAt": "2025-09-18T21:22:26.876Z",
+        "lastModified": "2025-09-18T17:34:26.337Z",
+        "status": "discovered",
+        "dependencies": [],
+        "capabilities": [
+          "pattern_recognition",
+          "continuous_learning",
+          "knowledge_extraction",
+          "adaptive_behavior",
+          "experience_analysis",
+          "skill_development",
+          "memory_management",
+          "prediction_modeling"
+        ],
+        "endpoints": {},
+        "settings": {}
+      }
+    ],
+    [
+      "monitoring_agent",
+      {
+        "id": "monitoring_agent",
+        "filename": "monitoring_agent.json",
+        "configPath": "/Users/cryptojoker710/Desktop/AIOS/agents/configs/monitoring_agent.json",
+        "config": {
+          "agentId": "monitoring_agent_001",
+          "name": "MonitoringAgent",
+          "type": "monitor",
+          "version": "2.0.0",
+          "description": "Specialized AI agent for system monitoring, health checks, and performance tracking",
+          "capabilities": [
+            "system_monitoring",
+            "performance_tracking",
+            "health_checks",
+            "alert_management",
+            "metrics_collection",
+            "anomaly_detection",
+            "capacity_planning",
+            "incident_response"
+          ],
+          "communication": {
+            "style": "alert",
+            "language": "en",
+            "greeting": "Hello! I'm your system monitor. I'm constantly watching over system health and performance.",
+            "acknowledgment": "I'm monitoring this situation. Let me track the metrics and provide updates.",
+            "confirmation": "System status confirmed. Here's the current health report:",
+            "error": "ALERT: Critical issue detected! Immediate attention required."
+          },
+          "workflow": {
+            "steps": [
+              {
+                "step": 1,
+                "name": "Metrics Collection",
+                "description": "Collect system metrics and performance data",
+                "actions": [
+                  "Gather CPU usage",
+                  "Monitor memory consumption",
+                  "Track network performance",
+                  "Collect application metrics"
+                ],
+                "outputs": [
+                  "metrics_data",
+                  "performance_snapshot"
+                ]
+              },
+              {
+                "step": 2,
+                "name": "Health Assessment",
+                "description": "Assess overall system health",
+                "actions": [
+                  "Analyze system stability",
+                  "Check service availability",
+                  "Evaluate performance trends",
+                  "Assess resource utilization"
+                ],
+                "outputs": [
+                  "health_report",
+                  "stability_analysis"
+                ]
+              },
+              {
+                "step": 3,
+                "name": "Anomaly Detection",
+                "description": "Detect anomalies and unusual patterns",
+                "actions": [
+                  "Identify performance spikes",
+                  "Detect unusual behavior",
+                  "Flag potential issues",
+                  "Analyze error patterns"
+                ],
+                "outputs": [
+                  "anomaly_report",
+                  "issue_alerts"
+                ]
+              },
+              {
+                "step": 4,
+                "name": "Alert Management",
+                "description": "Manage and prioritize alerts",
+                "actions": [
+                  "Prioritize alerts by severity",
+                  "Route alerts to appropriate agents",
+                  "Escalate critical issues",
+                  "Track alert resolution"
+                ],
+                "outputs": [
+                  "alert_queue",
+                  "escalation_report"
+                ]
+              },
+              {
+                "step": 5,
+                "name": "Reporting",
+                "description": "Generate monitoring reports",
+                "actions": [
+                  "Create status dashboards",
+                  "Generate trend reports",
+                  "Document incidents",
+                  "Provide recommendations"
+                ],
+                "outputs": [
+                  "monitoring_dashboard",
+                  "incident_report"
+                ]
+              }
+            ]
+          },
+          "rules": {
+            "monitoring": [
+              "Monitor continuously without interruption",
+              "Maintain accurate metrics collection",
+              "Respond to alerts promptly",
+              "Document all monitoring activities"
+            ],
+            "alerting": [
+              "Set appropriate alert thresholds",
+              "Avoid alert fatigue",
+              "Provide actionable alert information",
+              "Follow escalation procedures"
+            ],
+            "communication": [
+              "Provide clear status updates",
+              "Use appropriate urgency levels",
+              "Include relevant context in alerts",
+              "Maintain professional tone"
+            ],
+            "collaboration": [
+              "Coordinate with incident response teams",
+              "Share monitoring insights",
+              "Collaborate with debugging agents",
+              "Support capacity planning"
+            ]
+          },
+          "triggers": {
+            "status_check": {
+              "pattern": "status|health|check|monitor",
+              "priority": "normal",
+              "response": "I'll perform a comprehensive system health check and provide a status report."
+            },
+            "performance_issue": {
+              "pattern": "slow|performance|lag|bottleneck",
+              "priority": "medium",
+              "response": "I'm detecting performance issues. Let me analyze the metrics and identify the cause."
+            },
+            "critical_alert": {
+              "pattern": "critical|down|crash|emergency",
+              "priority": "high",
+              "response": "CRITICAL ALERT! I'm escalating this immediately and coordinating emergency response."
+            }
+          },
+          "monitoring_metrics": [
+            "cpu_utilization",
+            "memory_usage",
+            "disk_space",
+            "network_latency",
+            "response_time",
+            "error_rate",
+            "throughput",
+            "availability"
+          ],
+          "alert_levels": [
+            {
+              "level": "info",
+              "threshold": "normal_operation",
+              "action": "log_and_monitor"
+            },
+            {
+              "level": "warning",
+              "threshold": "performance_degradation",
+              "action": "notify_team"
+            },
+            {
+              "level": "critical",
+              "threshold": "system_failure",
+              "action": "immediate_escalation"
+            }
+          ],
+          "monitoring_tools": [
+            "prometheus",
+            "grafana",
+            "elasticsearch",
+            "kibana",
+            "new_relic",
+            "datadog",
+            "splunk",
+            "zabbix"
+          ],
+          "performance_metrics": {
+            "monitoring_accuracy": "target: > 99% accurate detection",
+            "response_time": "target: < 30 seconds for alerts",
+            "false_positive_rate": "target: < 2% false positives",
+            "system_uptime": "target: > 99.9% monitoring availability"
+          },
+          "learning_preferences": [
+            "Learn from monitoring patterns",
+            "Improve anomaly detection",
+            "Optimize alert thresholds",
+            "Enhance predictive capabilities"
+          ],
+          "collaboration_partners": [
+            "bug_detector_agent",
+            "coordinator_agent",
+            "learning_agent",
+            "incident_response_team"
+          ],
+          "incident_response": {
+            "detection": "automated_monitoring",
+            "assessment": "severity_classification",
+            "response": "agent_coordination",
+            "resolution": "issue_tracking",
+            "post_incident": "lessons_learned"
+          },
+          "capacity_planning": {
+            "resource_forecasting": "predict_future_needs",
+            "scaling_recommendations": "suggest_optimizations",
+            "trend_analysis": "identify_growth_patterns",
+            "cost_optimization": "recommend_efficiency_improvements"
+          }
+        },
+        "discoveredAt": "2025-09-18T21:22:26.876Z",
+        "lastModified": "2025-09-18T17:34:26.361Z",
+        "status": "discovered",
+        "dependencies": [],
+        "capabilities": [
+          "system_monitoring",
+          "performance_tracking",
+          "health_checks",
+          "alert_management",
+          "metrics_collection",
+          "anomaly_detection",
+          "capacity_planning",
+          "incident_response"
+        ],
+        "endpoints": {},
+        "settings": {}
+      }
+    ],
+    [
+      "task_coordinator_agent",
+      {
+        "id": "task_coordinator_agent",
+        "filename": "task_coordinator_agent.json",
+        "configPath": "/Users/cryptojoker710/Desktop/AIOS/agents/configs/task_coordinator_agent.json",
+        "config": {
+          "agentId": "task_coordinator_001",
+          "name": "TaskCoordinatorAgent",
+          "type": "coordinator",
+          "version": "2.0.0",
+          "description": "Specialized AI agent for task coordination, project management, and workflow orchestration",
+          "capabilities": [
+            "task_coordination",
+            "project_management",
+            "workflow_orchestration",
+            "resource_allocation",
+            "deadline_management",
+            "team_coordination",
+            "progress_tracking",
+            "risk_assessment"
+          ],
+          "communication": {
+            "style": "friendly",
+            "language": "en",
+            "greeting": "Hello! I'm your task coordinator. I'll help organize and manage your projects efficiently.",
+            "acknowledgment": "I understand. Let me coordinate this task and assign it to the right agents.",
+            "confirmation": "Task coordinated successfully. Here's the plan:",
+            "error": "I need to reassess the task allocation. Let me find a better approach."
+          },
+          "workflow": {
+            "steps": [
+              {
+                "step": 1,
+                "name": "Task Analysis",
+                "description": "Analyze incoming task requirements",
+                "actions": [
+                  "Parse task requirements",
+                  "Identify required capabilities",
+                  "Estimate complexity",
+                  "Determine dependencies"
+                ],
+                "outputs": [
+                  "task_analysis",
+                  "requirement_spec"
+                ]
+              },
+              {
+                "step": 2,
+                "name": "Resource Planning",
+                "description": "Plan resource allocation",
+                "actions": [
+                  "Identify available agents",
+                  "Assess agent capabilities",
+                  "Calculate resource needs",
+                  "Plan timeline"
+                ],
+                "outputs": [
+                  "resource_plan",
+                  "timeline"
+                ]
+              },
+              {
+                "step": 3,
+                "name": "Agent Assignment",
+                "description": "Assign tasks to appropriate agents",
+                "actions": [
+                  "Match tasks to agents",
+                  "Balance workload",
+                  "Consider agent availability",
+                  "Create task assignments"
+                ],
+                "outputs": [
+                  "agent_assignments",
+                  "workload_distribution"
+                ]
+              },
+              {
+                "step": 4,
+                "name": "Progress Monitoring",
+                "description": "Monitor task progress",
+                "actions": [
+                  "Track task status",
+                  "Monitor deadlines",
+                  "Identify bottlenecks",
+                  "Update stakeholders"
+                ],
+                "outputs": [
+                  "progress_report",
+                  "status_updates"
+                ]
+              },
+              {
+                "step": 5,
+                "name": "Completion Management",
+                "description": "Manage task completion",
+                "actions": [
+                  "Verify task completion",
+                  "Quality assurance",
+                  "Deliver results",
+                  "Document lessons learned"
+                ],
+                "outputs": [
+                  "completion_report",
+                  "deliverables"
+                ]
+              }
+            ]
+          },
+          "rules": {
+            "task_management": [
+              "Always validate task requirements before assignment",
+              "Ensure balanced workload distribution",
+              "Monitor progress continuously",
+              "Maintain clear communication channels"
+            ],
+            "coordination": [
+              "Coordinate between multiple agents effectively",
+              "Resolve conflicts promptly",
+              "Optimize resource utilization",
+              "Maintain project timeline"
+            ],
+            "communication": [
+              "Provide clear task instructions",
+              "Give regular progress updates",
+              "Escalate issues when necessary",
+              "Celebrate team achievements"
+            ],
+            "collaboration": [
+              "Facilitate agent collaboration",
+              "Share relevant information",
+              "Coordinate cross-functional teams",
+              "Maintain team harmony"
+            ]
+          },
+          "triggers": {
+            "task_request": {
+              "pattern": "task|project|coordinate|manage|organize",
+              "priority": "normal",
+              "response": "I'll coordinate this task for you. Let me analyze the requirements and assign it to the right agents."
+            },
+            "urgent_task": {
+              "pattern": "urgent|asap|critical|immediate|priority",
+              "priority": "high",
+              "response": "I understand this is urgent. I'll prioritize this task and coordinate resources immediately."
+            },
+            "collaboration_request": {
+              "pattern": "collaborate|team|together|coordinate",
+              "priority": "normal",
+              "response": "I'll facilitate collaboration between the agents. Let me organize the team for this task."
+            }
+          },
+          "coordination_strategies": [
+            "sequential_execution",
+            "parallel_processing",
+            "pipeline_workflow",
+            "agile_methodology",
+            "waterfall_approach",
+            "kanban_board",
+            "scrum_framework"
+          ],
+          "task_types": [
+            "data_analysis",
+            "bug_fixing",
+            "feature_development",
+            "testing",
+            "documentation",
+            "deployment",
+            "monitoring",
+            "maintenance"
+          ],
+          "resource_types": [
+            "computational_resources",
+            "agent_capabilities",
+            "time_allocation",
+            "priority_levels",
+            "dependencies",
+            "constraints"
+          ],
+          "performance_metrics": {
+            "coordination_efficiency": "target: > 95% successful task completion",
+            "resource_utilization": "target: > 80% optimal resource usage",
+            "timeline_adherence": "target: > 90% on-time delivery",
+            "team_satisfaction": "target: high agent satisfaction scores"
+          },
+          "learning_preferences": [
+            "Learn from successful coordination patterns",
+            "Adapt to new project types",
+            "Improve resource allocation",
+            "Enhance team dynamics"
+          ],
+          "collaboration_partners": [
+            "all_agents",
+            "monitoring_agent",
+            "learning_agent",
+            "reporting_agent"
+          ],
+          "escalation_procedures": [
+            {
+              "level": "low",
+              "action": "internal_coordination",
+              "timeframe": "immediate"
+            },
+            {
+              "level": "medium",
+              "action": "stakeholder_notification",
+              "timeframe": "within_1_hour"
+            },
+            {
+              "level": "high",
+              "action": "emergency_response",
+              "timeframe": "immediate"
+            }
+          ]
+        },
+        "discoveredAt": "2025-09-18T21:22:26.877Z",
+        "lastModified": "2025-09-18T16:42:05.211Z",
+        "status": "discovered",
+        "dependencies": [],
+        "capabilities": [
+          "task_coordination",
+          "project_management",
+          "workflow_orchestration",
+          "resource_allocation",
+          "deadline_management",
+          "team_coordination",
+          "progress_tracking",
+          "risk_assessment"
+        ],
+        "endpoints": {},
+        "settings": {}
+      }
+    ],
+    [
+      "visualization_agent",
+      {
+        "id": "visualization_agent",
+        "filename": "visualization_agent.json",
+        "configPath": "/Users/cryptojoker710/Desktop/AIOS/agents/configs/visualization_agent.json",
+        "config": {
+          "agentId": "visualization_agent_001",
+          "name": "VisualizationAgent",
+          "type": "visualizer",
+          "version": "2.0.0",
+          "description": "Specialized AI agent for data visualization, chart generation, and interactive dashboards",
+          "capabilities": [
+            "data_visualization",
+            "chart_generation",
+            "dashboard_creation",
+            "interactive_visuals",
+            "report_design",
+            "infographic_creation",
+            "animation_effects",
+            "responsive_design"
+          ],
+          "communication": {
+            "style": "creative",
+            "language": "en",
+            "greeting": "Hello! I'm your visualization specialist. I'll help you create beautiful, informative visual representations of your data.",
+            "acknowledgment": "I'll create stunning visuals for this data. Let me design the perfect visualization.",
+            "confirmation": "Visualization complete! Here's your interactive chart/dashboard:",
+            "error": "I need to adjust the visualization approach. Let me try a different design strategy."
+          },
+          "workflow": {
+            "steps": [
+              {
+                "step": 1,
+                "name": "Data Analysis",
+                "description": "Analyze data for visualization requirements",
+                "actions": [
+                  "Examine data structure",
+                  "Identify data types",
+                  "Determine visualization goals",
+                  "Assess data quality"
+                ],
+                "outputs": [
+                  "data_analysis",
+                  "visualization_requirements"
+                ]
+              },
+              {
+                "step": 2,
+                "name": "Design Planning",
+                "description": "Plan visualization design and layout",
+                "actions": [
+                  "Select appropriate chart types",
+                  "Design color schemes",
+                  "Plan layout structure",
+                  "Define interactivity features"
+                ],
+                "outputs": [
+                  "design_specification",
+                  "layout_plan"
+                ]
+              },
+              {
+                "step": 3,
+                "name": "Visualization Creation",
+                "description": "Create the actual visualization",
+                "actions": [
+                  "Generate charts and graphs",
+                  "Apply styling and colors",
+                  "Add interactive elements",
+                  "Implement animations"
+                ],
+                "outputs": [
+                  "visualization_output",
+                  "interactive_features"
+                ]
+              },
+              {
+                "step": 4,
+                "name": "Quality Assurance",
+                "description": "Review and optimize visualization",
+                "actions": [
+                  "Check visual accuracy",
+                  "Test interactivity",
+                  "Optimize performance",
+                  "Validate accessibility"
+                ],
+                "outputs": [
+                  "quality_report",
+                  "optimized_visualization"
+                ]
+              },
+              {
+                "step": 5,
+                "name": "Delivery",
+                "description": "Deliver final visualization",
+                "actions": [
+                  "Export in required formats",
+                  "Create documentation",
+                  "Provide usage instructions",
+                  "Share with stakeholders"
+                ],
+                "outputs": [
+                  "final_visualization",
+                  "documentation"
+                ]
+              }
+            ]
+          },
+          "rules": {
+            "visualization": [
+              "Ensure visual accuracy and clarity",
+              "Follow design best practices",
+              "Maintain consistent styling",
+              "Optimize for performance"
+            ],
+            "design": [
+              "Use appropriate color schemes",
+              "Maintain visual hierarchy",
+              "Ensure accessibility compliance",
+              "Create responsive designs"
+            ],
+            "communication": [
+              "Explain visualization choices clearly",
+              "Provide usage instructions",
+              "Highlight key insights visually",
+              "Offer customization options"
+            ],
+            "collaboration": [
+              "Work closely with data analysts",
+              "Coordinate with reporting teams",
+              "Share design templates",
+              "Support iterative improvements"
+            ]
+          },
+          "triggers": {
+            "visualization_request": {
+              "pattern": "visualize|chart|graph|dashboard|plot",
+              "priority": "normal",
+              "response": "I'll create beautiful visualizations for your data. Let me design the perfect charts and dashboards."
+            },
+            "dashboard_request": {
+              "pattern": "dashboard|report|summary|overview",
+              "priority": "normal",
+              "response": "I'll build an interactive dashboard that provides comprehensive insights into your data."
+            },
+            "urgent_visualization": {
+              "pattern": "urgent|asap|presentation|meeting",
+              "priority": "high",
+              "response": "I understand this is urgent. I'll prioritize creating your visualization for immediate use."
+            }
+          },
+          "chart_types": [
+            "bar_chart",
+            "line_chart",
+            "pie_chart",
+            "scatter_plot",
+            "histogram",
+            "heatmap",
+            "treemap",
+            "sankey_diagram",
+            "gantt_chart",
+            "funnel_chart"
+          ],
+          "visualization_tools": [
+            "d3.js",
+            "plotly",
+            "chart.js",
+            "highcharts",
+            "observable",
+            "tableau",
+            "power_bi",
+            "matplotlib",
+            "seaborn",
+            "ggplot2"
+          ],
+          "design_principles": [
+            "clarity_and_simplicity",
+            "data_accuracy",
+            "visual_hierarchy",
+            "color_accessibility",
+            "responsive_design",
+            "interactive_engagement",
+            "consistent_branding",
+            "performance_optimization"
+          ],
+          "output_formats": [
+            "html_interactive",
+            "png_static",
+            "svg_vector",
+            "pdf_report",
+            "json_data",
+            "csv_export",
+            "powerpoint_slide",
+            "excel_workbook"
+          ],
+          "performance_metrics": {
+            "creation_speed": "target: < 2 minutes for standard charts",
+            "visual_quality": "target: professional, publication-ready",
+            "interactivity": "target: smooth, responsive interactions",
+            "accessibility": "target: WCAG 2.1 AA compliance"
+          },
+          "learning_preferences": [
+            "Learn from user preferences",
+            "Adapt to new data types",
+            "Improve design aesthetics",
+            "Enhance interactivity features"
+          ],
+          "collaboration_partners": [
+            "data_analyst_agent",
+            "reporting_agent",
+            "coordinator_agent",
+            "learning_agent"
+          ],
+          "customization_options": [
+            "color_themes",
+            "chart_styles",
+            "layout_options",
+            "interaction_modes",
+            "export_formats",
+            "responsive_breakpoints",
+            "animation_settings",
+            "accessibility_features"
+          ],
+          "template_library": [
+            "executive_dashboard",
+            "operational_metrics",
+            "financial_reports",
+            "marketing_analytics",
+            "user_behavior",
+            "performance_monitoring",
+            "comparative_analysis",
+            "trend_analysis"
+          ]
+        },
+        "discoveredAt": "2025-09-18T21:22:26.877Z",
+        "lastModified": "2025-09-18T17:34:26.361Z",
+        "status": "discovered",
+        "dependencies": [],
+        "capabilities": [
+          "data_visualization",
+          "chart_generation",
+          "dashboard_creation",
+          "interactive_visuals",
+          "report_design",
+          "infographic_creation",
+          "animation_effects",
+          "responsive_design"
+        ],
+        "endpoints": {},
+        "settings": {}
+      }
+    ]
+  ],
+  "dependencyGraph": {
+    "bug_detector_agent": [],
+    "data_analyst_agent": [],
+    "learning_agent": [],
+    "monitoring_agent": [],
+    "task_coordinator_agent": [],
+    "visualization_agent": []
+  }
+}

@@ -1,20 +1,40 @@
-import React, { useState, useEffect, useRef } from 'react';
 import {
-  Box, Container, Typography, Grid, Card, CardContent, CardActions,
-  Button, TextField, Chip, LinearProgress, Alert, Dialog, DialogTitle,
-  DialogContent, DialogActions, List, ListItem, ListItemText, ListItemIcon,
-  IconButton, Badge, Tooltip, Paper, Divider, Switch, FormControlLabel,
-  Select, MenuItem, InputLabel, FormControl, Slider, Tabs, Tab
-} from '@mui/material';
-import {
-  SmartToy, Psychology, AutoAwesome, DataUsage, CloudSync, 
-  Memory, Speed, Analytics, BugReport, CheckCircle, Error,
-  Warning, Info, Refresh, PlayArrow, Pause, Stop, Settings,
-  TrendingUp, Insights, School, Lightbulb, Code, Database,
-  Security, Performance, NetworkCheck, Storage, Cached
+  Analytics,
+  AutoAwesome,
+  Badge,
+  CheckCircle,
+  CloudSync,
+  DataUsage,
+  Error,
+  Lightbulb,
+  PlayArrow,
+  Refresh,
+  SmartToy,
+  Stop
 } from '@mui/icons-material';
-import { osPlatformAPI } from '../services/osPlatformAPI';
+import {
+  Box,
+  Button,
+  Card,
+  CardActions,
+  CardContent,
+  Chip,
+  Container,
+  FormControlLabel,
+  Grid,
+  LinearProgress,
+  List,
+  ListItem,
+  ListItemIcon,
+  ListItemText,
+  Paper,
+  Switch,
+  TextField,
+  Typography
+} from '@mui/material';
+import { useEffect, useRef, useState } from 'react';
 import { getDataAgent } from '../services/api';
+import { osPlatformAPI } from '../services/osPlatformAPI';
 
 // ===========================================
 // AI Learning Loop Component
@@ -40,6 +60,14 @@ function AILearningLoop() {
     openai: { enabled: false, status: 'disabled', lastUsed: null },
     claude: { enabled: false, status: 'disabled', lastUsed: null },
     localLLM: { enabled: false, status: 'disabled', lastUsed: null }
+  });
+
+  // Agent Organizer State
+  const [agentOrganizer, setAgentOrganizer] = useState({
+    userRequest: '',
+    generatedPlan: null,
+    isGenerating: false,
+    planSteps: []
   });
 
   const [dataAgent, setDataAgent] = useState(null);
@@ -98,7 +126,7 @@ function AILearningLoop() {
   const initializeAITools = async () => {
     // Initialize available AI tools
     const tools = { ...aiTools };
-    
+
     // Check Gemini availability
     if (process.env.VITE_GEMINI_API_KEY) {
       tools.gemini.status = 'ready';
@@ -115,7 +143,7 @@ function AILearningLoop() {
 
   const startLearningLoop = async () => {
     setAiState(prev => ({ ...prev, isRunning: true, currentPhase: 'initializing' }));
-    
+
     try {
       // Start the learning cycle
       learningIntervalRef.current = setInterval(async () => {
@@ -125,9 +153,9 @@ function AILearningLoop() {
       setAiState(prev => ({ ...prev, currentPhase: 'learning' }));
     } catch (error) {
       console.error('Failed to start learning loop:', error);
-      setAiState(prev => ({ 
-        ...prev, 
-        isRunning: false, 
+      setAiState(prev => ({
+        ...prev,
+        isRunning: false,
         currentPhase: 'error',
         errors: [...prev.errors, { message: error.message, timestamp: new Date() }]
       }));
@@ -148,16 +176,16 @@ function AILearningLoop() {
 
       // Phase 1: Data Collection
       const data = await collectData();
-      
+
       // Phase 2: AI Analysis
       const analysis = await performAIAnalysis(data);
-      
+
       // Phase 3: Learning & Insights
       const insights = await generateInsights(analysis);
-      
+
       // Phase 4: Recommendations
       const recommendations = await generateRecommendations(insights);
-      
+
       // Phase 5: Update Performance Metrics
       updatePerformanceMetrics(analysis, insights);
 
@@ -169,7 +197,6 @@ function AILearningLoop() {
         dataProcessed: prev.dataProcessed + data.length,
         currentPhase: 'learning'
       }));
-
     } catch (error) {
       console.error('Learning cycle error:', error);
       setAiState(prev => ({
@@ -181,24 +208,24 @@ function AILearningLoop() {
 
   const collectData = async () => {
     const data = [];
-    
+
     // Collect from Firebase through Data Agent
     if (dataAgent && firebaseConnection.connected) {
       try {
         const osData = await osPlatformAPI.getOperatingSystems();
         const reviewsData = await osPlatformAPI.getReviews();
         const featuresData = await osPlatformAPI.getFeatures();
-        
+
         data.push(...osData, ...reviewsData, ...featuresData);
       } catch (error) {
         console.error('Data collection error:', error);
       }
     }
-    
+
     return data;
   };
 
-  const performAIAnalysis = async (data) => {
+  const performAIAnalysis = async data => {
     const analysis = {
       patterns: [],
       trends: [],
@@ -230,12 +257,16 @@ function AILearningLoop() {
     return analysis;
   };
 
-  const analyzeWithGemini = async (data) => {
+  const analyzeWithGemini = async data => {
     // Simulate Gemini analysis
     return {
       patterns: [
         { type: 'user_preference', confidence: 0.85, description: 'Users prefer mobile OS with high security ratings' },
-        { type: 'feature_correlation', confidence: 0.92, description: 'Gaming features correlate with high user ratings' }
+        {
+          type: 'feature_correlation',
+          confidence: 0.92,
+          description: 'Gaming features correlate with high user ratings'
+        }
       ],
       trends: [
         { direction: 'increasing', metric: 'security_features', change: '+15%' },
@@ -244,7 +275,7 @@ function AILearningLoop() {
     };
   };
 
-  const analyzeWithOpenAI = async (data) => {
+  const analyzeWithOpenAI = async data => {
     // Simulate OpenAI analysis
     return {
       anomalies: [
@@ -258,7 +289,7 @@ function AILearningLoop() {
     };
   };
 
-  const generateInsights = async (analysis) => {
+  const generateInsights = async analysis => {
     const insights = [];
 
     // Generate insights from patterns
@@ -286,7 +317,7 @@ function AILearningLoop() {
     return insights;
   };
 
-  const generateRecommendations = async (insights) => {
+  const generateRecommendations = async insights => {
     const recommendations = [];
 
     insights.forEach(insight => {
@@ -315,9 +346,9 @@ function AILearningLoop() {
   };
 
   const updatePerformanceMetrics = (analysis, insights) => {
-    const accuracy = Math.min(95, 70 + (insights.length * 2));
-    const speed = Math.min(100, 60 + (analysis.patterns.length * 5));
-    const efficiency = Math.min(90, 50 + (insights.filter(i => i.confidence > 0.8).length * 8));
+    const accuracy = Math.min(95, 70 + insights.length * 2);
+    const speed = Math.min(100, 60 + analysis.patterns.length * 5);
+    const efficiency = Math.min(90, 50 + insights.filter(i => i.confidence > 0.8).length * 8);
 
     setAiState(prev => ({
       ...prev,
@@ -325,7 +356,7 @@ function AILearningLoop() {
     }));
   };
 
-  const toggleAITool = (toolName) => {
+  const toggleAITool = toolName => {
     setAiTools(prev => ({
       ...prev,
       [toolName]: {
@@ -335,14 +366,176 @@ function AILearningLoop() {
     }));
   };
 
+  // Agent Organizer Functions
+  const handleUserRequestChange = event => {
+    setAgentOrganizer(prev => ({
+      ...prev,
+      userRequest: event.target.value
+    }));
+  };
+
+  const generatePlan = async () => {
+    if (!agentOrganizer.userRequest.trim()) {
+      alert('يرجى إدخال طلب قبل توليد الخطة');
+      return;
+    }
+
+    setAgentOrganizer(prev => ({
+      ...prev,
+      isGenerating: true
+    }));
+
+    try {
+      // Simulate AI plan generation
+      const plan = await simulatePlanGeneration(agentOrganizer.userRequest);
+
+      setAgentOrganizer(prev => ({
+        ...prev,
+        generatedPlan: plan,
+        planSteps: plan.steps,
+        isGenerating: false
+      }));
+    } catch (error) {
+      console.error('خطأ في توليد الخطة:', error);
+      setAgentOrganizer(prev => ({
+        ...prev,
+        isGenerating: false
+      }));
+      alert('حدث خطأ في توليد الخطة. يرجى المحاولة مرة أخرى.');
+    }
+  };
+
+  const simulatePlanGeneration = async request => {
+    // Simulate AI processing time
+    await new Promise(resolve => setTimeout(resolve, 2000));
+
+    // Generate a realistic plan based on the request
+    const plan = {
+      title: `خطة تنفيذ: ${request}`,
+      description: `تم تحليل الطلب وتوليد خطة شاملة لتنفيذه`,
+      steps: [],
+      estimatedTime: '15-30 دقيقة',
+      complexity: 'متوسط',
+      priority: 'عالي',
+      resources: ['مطور', 'مصمم UI', 'مختبر'],
+      dependencies: []
+    };
+
+    // Generate steps based on request content
+    if (request.includes('لون') || request.includes('color')) {
+      plan.steps = [
+        {
+          id: 1,
+          title: 'تحليل الملفات المستهدفة',
+          description: 'فحص جميع الملفات التي تحتوي على أزرار أساسية',
+          estimatedTime: '5 دقائق',
+          status: 'pending'
+        },
+        {
+          id: 2,
+          title: 'تحديد مكونات الأزرار',
+          description: 'العثور على مكونات Button في CodePilot.tsx',
+          estimatedTime: '3 دقائق',
+          status: 'pending'
+        },
+        {
+          id: 3,
+          title: 'تطبيق التغيير',
+          description: 'تغيير لون الأزرار الأساسية إلى الأزرق',
+          estimatedTime: '7 دقائق',
+          status: 'pending'
+        },
+        {
+          id: 4,
+          title: 'اختبار التغييرات',
+          description: 'التأكد من أن التغييرات تعمل بشكل صحيح',
+          estimatedTime: '5 دقائق',
+          status: 'pending'
+        },
+        {
+          id: 5,
+          title: 'مراجعة النتيجة',
+          description: 'مراجعة نهائية للتأكد من جودة التطبيق',
+          estimatedTime: '3 دقائق',
+          status: 'pending'
+        }
+      ];
+    } else if (request.includes('ميزة') || request.includes('feature')) {
+      plan.steps = [
+        {
+          id: 1,
+          title: 'تحليل المتطلبات',
+          description: 'فهم الميزة المطلوبة وتحديد المتطلبات',
+          estimatedTime: '10 دقائق',
+          status: 'pending'
+        },
+        {
+          id: 2,
+          title: 'تصميم الواجهة',
+          description: 'إنشاء تصميم للميزة الجديدة',
+          estimatedTime: '15 دقيقة',
+          status: 'pending'
+        },
+        {
+          id: 3,
+          title: 'تطوير الميزة',
+          description: 'كتابة الكود للميزة الجديدة',
+          estimatedTime: '20 دقيقة',
+          status: 'pending'
+        },
+        {
+          id: 4,
+          title: 'اختبار الميزة',
+          description: 'اختبار الميزة للتأكد من عملها',
+          estimatedTime: '10 دقائق',
+          status: 'pending'
+        }
+      ];
+    } else {
+      // Generic plan for other requests
+      plan.steps = [
+        {
+          id: 1,
+          title: 'تحليل الطلب',
+          description: 'فهم الطلب وتحديد المتطلبات',
+          estimatedTime: '5 دقائق',
+          status: 'pending'
+        },
+        {
+          id: 2,
+          title: 'تخطيط التنفيذ',
+          description: 'وضع خطة مفصلة للتنفيذ',
+          estimatedTime: '5 دقائق',
+          status: 'pending'
+        },
+        {
+          id: 3,
+          title: 'التنفيذ',
+          description: 'تنفيذ الطلب حسب الخطة',
+          estimatedTime: '15 دقيقة',
+          status: 'pending'
+        },
+        {
+          id: 4,
+          title: 'المراجعة',
+          description: 'مراجعة النتيجة والتأكد من الجودة',
+          estimatedTime: '5 دقائق',
+          status: 'pending'
+        }
+      ];
+    }
+
+    return plan;
+  };
+
   return (
-    <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
+    <Container maxWidth='lg' sx={{ mt: 4, mb: 4 }}>
       {/* Header */}
       <Box sx={{ mb: 4 }}>
-        <Typography variant="h4" component="h1" gutterBottom>
+        <Typography variant='h4' component='h1' gutterBottom>
           🤖 AI Learning Loop
         </Typography>
-        <Typography variant="subtitle1" color="text.secondary">
+        <Typography variant='subtitle1' color='text.secondary'>
           Intelligent data processing and learning system
         </Typography>
       </Box>
@@ -354,18 +547,18 @@ function AILearningLoop() {
             <CardContent>
               <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
                 <SmartToy sx={{ mr: 1, color: aiState.isRunning ? 'success.main' : 'text.secondary' }} />
-                <Typography variant="h6">AI Status</Typography>
+                <Typography variant='h6'>AI Status</Typography>
               </Box>
-              <Typography variant="h4" color={aiState.isRunning ? 'success.main' : 'text.secondary'}>
+              <Typography variant='h4' color={aiState.isRunning ? 'success.main' : 'text.secondary'}>
                 {aiState.isRunning ? 'ACTIVE' : 'IDLE'}
               </Typography>
-              <Typography variant="body2" color="text.secondary">
+              <Typography variant='body2' color='text.secondary'>
                 Phase: {aiState.currentPhase}
               </Typography>
             </CardContent>
             <CardActions>
               <Button
-                variant="contained"
+                variant='contained'
                 startIcon={aiState.isRunning ? <Stop /> : <PlayArrow />}
                 onClick={aiState.isRunning ? stopLearningLoop : startLearningLoop}
                 color={aiState.isRunning ? 'error' : 'primary'}
@@ -381,10 +574,10 @@ function AILearningLoop() {
             <CardContent>
               <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
                 <DataUsage sx={{ mr: 1, color: 'primary.main' }} />
-                <Typography variant="h6">Data Processed</Typography>
+                <Typography variant='h6'>Data Processed</Typography>
               </Box>
-              <Typography variant="h4">{aiState.dataProcessed}</Typography>
-              <Typography variant="body2" color="text.secondary">
+              <Typography variant='h4'>{aiState.dataProcessed}</Typography>
+              <Typography variant='body2' color='text.secondary'>
                 Learning Cycles: {aiState.learningCycles}
               </Typography>
             </CardContent>
@@ -396,12 +589,12 @@ function AILearningLoop() {
             <CardContent>
               <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
                 <CloudSync sx={{ mr: 1, color: firebaseConnection.connected ? 'success.main' : 'error.main' }} />
-                <Typography variant="h6">Firebase</Typography>
+                <Typography variant='h6'>Firebase</Typography>
               </Box>
-              <Typography variant="h4" color={firebaseConnection.connected ? 'success.main' : 'error.main'}>
+              <Typography variant='h4' color={firebaseConnection.connected ? 'success.main' : 'error.main'}>
                 {firebaseConnection.connected ? 'CONNECTED' : 'DISCONNECTED'}
               </Typography>
-              <Typography variant="body2" color="text.secondary">
+              <Typography variant='body2' color='text.secondary'>
                 Collections: {firebaseConnection.collections.length}
               </Typography>
             </CardContent>
@@ -413,10 +606,10 @@ function AILearningLoop() {
             <CardContent>
               <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
                 <Analytics sx={{ mr: 1, color: 'info.main' }} />
-                <Typography variant="h6">Performance</Typography>
+                <Typography variant='h6'>Performance</Typography>
               </Box>
-              <Typography variant="h4">{aiState.performance.accuracy}%</Typography>
-              <Typography variant="body2" color="text.secondary">
+              <Typography variant='h4'>{aiState.performance.accuracy}%</Typography>
+              <Typography variant='body2' color='text.secondary'>
                 Accuracy Score
               </Typography>
             </CardContent>
@@ -424,10 +617,108 @@ function AILearningLoop() {
         </Grid>
       </Grid>
 
+      {/* Agent Organizer */}
+      <Card sx={{ mb: 4 }}>
+        <CardContent>
+          <Typography variant='h6' gutterBottom>
+            🎯 الوكيل المُنظِّم - Agent Organizer
+          </Typography>
+          <Typography variant='body2' color='text.secondary' sx={{ mb: 3 }}>
+            أدخل طلبك عالي المستوى وسيقوم الذكاء الاصطناعي بتوليد خطة مفصلة لتنفيذه
+          </Typography>
+
+          <Box sx={{ mb: 3 }}>
+            <TextField
+              fullWidth
+              multiline
+              rows={3}
+              placeholder='مثال: غيّر لون جميع الأزرار الأساسية في CodePilot.tsx إلى اللون الأزرق'
+              value={agentOrganizer.userRequest}
+              onChange={handleUserRequestChange}
+              disabled={agentOrganizer.isGenerating}
+              sx={{ mb: 2 }}
+            />
+            <Button
+              variant='contained'
+              onClick={generatePlan}
+              disabled={agentOrganizer.isGenerating || !agentOrganizer.userRequest.trim()}
+              startIcon={agentOrganizer.isGenerating ? <Refresh /> : <AutoAwesome />}
+              sx={{ mb: 2 }}
+            >
+              {agentOrganizer.isGenerating ? 'جاري توليد الخطة...' : 'Generate Plan'}
+            </Button>
+          </Box>
+
+          {agentOrganizer.generatedPlan && (
+            <Box>
+              <Typography variant='h6' gutterBottom color='primary'>
+                {agentOrganizer.generatedPlan.title}
+              </Typography>
+              <Typography variant='body2' sx={{ mb: 3 }}>
+                {agentOrganizer.generatedPlan.description}
+              </Typography>
+
+              <Grid container spacing={2} sx={{ mb: 3 }}>
+                <Grid item xs={12} sm={6} md={3}>
+                  <Chip
+                    label={`الوقت المتوقع: ${agentOrganizer.generatedPlan.estimatedTime}`}
+                    color='info'
+                    variant='outlined'
+                  />
+                </Grid>
+                <Grid item xs={12} sm={6} md={3}>
+                  <Chip
+                    label={`التعقيد: ${agentOrganizer.generatedPlan.complexity}`}
+                    color='warning'
+                    variant='outlined'
+                  />
+                </Grid>
+                <Grid item xs={12} sm={6} md={3}>
+                  <Chip label={`الأولوية: ${agentOrganizer.generatedPlan.priority}`} color='error' variant='outlined' />
+                </Grid>
+                <Grid item xs={12} sm={6} md={3}>
+                  <Chip
+                    label={`الموارد: ${agentOrganizer.generatedPlan.resources.length}`}
+                    color='success'
+                    variant='outlined'
+                  />
+                </Grid>
+              </Grid>
+
+              <Typography variant='h6' gutterBottom>
+                خطوات التنفيذ:
+              </Typography>
+              <List>
+                {agentOrganizer.planSteps.map((step, index) => (
+                  <ListItem key={step.id}>
+                    <ListItemIcon>
+                      <Badge badgeContent={step.id} color='primary'>
+                        <CheckCircle color='primary' />
+                      </Badge>
+                    </ListItemIcon>
+                    <ListItemText
+                      primary={step.title}
+                      secondary={
+                        <Box>
+                          <Typography variant='body2' color='text.secondary'>
+                            {step.description}
+                          </Typography>
+                          <Chip label={step.estimatedTime} size='small' color='info' sx={{ mt: 1 }} />
+                        </Box>
+                      }
+                    />
+                  </ListItem>
+                ))}
+              </List>
+            </Box>
+          )}
+        </CardContent>
+      </Card>
+
       {/* AI Tools Configuration */}
       <Card sx={{ mb: 4 }}>
         <CardContent>
-          <Typography variant="h6" gutterBottom>
+          <Typography variant='h6' gutterBottom>
             🛠️ AI Tools Configuration
           </Typography>
           <Grid container spacing={2}>
@@ -435,14 +726,10 @@ function AILearningLoop() {
               <Grid item xs={12} sm={6} md={3} key={toolName}>
                 <Paper sx={{ p: 2, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                   <Box>
-                    <Typography variant="subtitle1" sx={{ textTransform: 'capitalize' }}>
+                    <Typography variant='subtitle1' sx={{ textTransform: 'capitalize' }}>
                       {toolName}
                     </Typography>
-                    <Chip 
-                      label={tool.status} 
-                      size="small" 
-                      color={tool.status === 'ready' ? 'success' : 'default'}
-                    />
+                    <Chip label={tool.status} size='small' color={tool.status === 'ready' ? 'success' : 'default'} />
                   </Box>
                   <FormControlLabel
                     control={
@@ -452,7 +739,7 @@ function AILearningLoop() {
                         disabled={tool.status !== 'ready'}
                       />
                     }
-                    label=""
+                    label=''
                   />
                 </Paper>
               </Grid>
@@ -464,41 +751,35 @@ function AILearningLoop() {
       {/* Performance Metrics */}
       <Card sx={{ mb: 4 }}>
         <CardContent>
-          <Typography variant="h6" gutterBottom>
+          <Typography variant='h6' gutterBottom>
             📊 Performance Metrics
           </Typography>
           <Grid container spacing={3}>
             <Grid item xs={12} md={4}>
               <Box>
-                <Typography variant="subtitle2" gutterBottom>Accuracy</Typography>
-                <LinearProgress 
-                  variant="determinate" 
-                  value={aiState.performance.accuracy} 
-                  sx={{ mb: 1 }}
-                />
-                <Typography variant="body2">{aiState.performance.accuracy}%</Typography>
+                <Typography variant='subtitle2' gutterBottom>
+                  Accuracy
+                </Typography>
+                <LinearProgress variant='determinate' value={aiState.performance.accuracy} sx={{ mb: 1 }} />
+                <Typography variant='body2'>{aiState.performance.accuracy}%</Typography>
               </Box>
             </Grid>
             <Grid item xs={12} md={4}>
               <Box>
-                <Typography variant="subtitle2" gutterBottom>Speed</Typography>
-                <LinearProgress 
-                  variant="determinate" 
-                  value={aiState.performance.speed} 
-                  sx={{ mb: 1 }}
-                />
-                <Typography variant="body2">{aiState.performance.speed}%</Typography>
+                <Typography variant='subtitle2' gutterBottom>
+                  Speed
+                </Typography>
+                <LinearProgress variant='determinate' value={aiState.performance.speed} sx={{ mb: 1 }} />
+                <Typography variant='body2'>{aiState.performance.speed}%</Typography>
               </Box>
             </Grid>
             <Grid item xs={12} md={4}>
               <Box>
-                <Typography variant="subtitle2" gutterBottom>Efficiency</Typography>
-                <LinearProgress 
-                  variant="determinate" 
-                  value={aiState.performance.efficiency} 
-                  sx={{ mb: 1 }}
-                />
-                <Typography variant="body2">{aiState.performance.efficiency}%</Typography>
+                <Typography variant='subtitle2' gutterBottom>
+                  Efficiency
+                </Typography>
+                <LinearProgress variant='determinate' value={aiState.performance.efficiency} sx={{ mb: 1 }} />
+                <Typography variant='body2'>{aiState.performance.efficiency}%</Typography>
               </Box>
             </Grid>
           </Grid>
@@ -510,24 +791,17 @@ function AILearningLoop() {
         <Grid item xs={12} md={6}>
           <Card>
             <CardContent>
-              <Typography variant="h6" gutterBottom>
+              <Typography variant='h6' gutterBottom>
                 💡 Recent Insights
               </Typography>
               <List>
                 {aiState.insights.slice(-5).map((insight, index) => (
                   <ListItem key={index}>
                     <ListItemIcon>
-                      <Lightbulb color="warning" />
+                      <Lightbulb color='warning' />
                     </ListItemIcon>
-                    <ListItemText
-                      primary={insight.title}
-                      secondary={insight.description}
-                    />
-                    <Chip 
-                      label={`${(insight.confidence * 100).toFixed(0)}%`} 
-                      size="small" 
-                      color="primary"
-                    />
+                    <ListItemText primary={insight.title} secondary={insight.description} />
+                    <Chip label={`${(insight.confidence * 100).toFixed(0)}%`} size='small' color='primary' />
                   </ListItem>
                 ))}
               </List>
@@ -538,24 +812,17 @@ function AILearningLoop() {
         <Grid item xs={12} md={6}>
           <Card>
             <CardContent>
-              <Typography variant="h6" gutterBottom>
+              <Typography variant='h6' gutterBottom>
                 🎯 Recommendations
               </Typography>
               <List>
                 {aiState.recommendations.slice(-5).map((rec, index) => (
                   <ListItem key={index}>
                     <ListItemIcon>
-                      <CheckCircle color="success" />
+                      <CheckCircle color='success' />
                     </ListItemIcon>
-                    <ListItemText
-                      primary={rec.title}
-                      secondary={rec.description}
-                    />
-                    <Chip 
-                      label={rec.priority} 
-                      size="small" 
-                      color={rec.priority === 'high' ? 'error' : 'default'}
-                    />
+                    <ListItemText primary={rec.title} secondary={rec.description} />
+                    <Chip label={rec.priority} size='small' color={rec.priority === 'high' ? 'error' : 'default'} />
                   </ListItem>
                 ))}
               </List>
@@ -568,19 +835,16 @@ function AILearningLoop() {
       {aiState.errors.length > 0 && (
         <Card sx={{ mt: 3 }}>
           <CardContent>
-            <Typography variant="h6" gutterBottom color="error">
+            <Typography variant='h6' gutterBottom color='error'>
               ⚠️ Recent Errors
             </Typography>
             <List>
               {aiState.errors.map((error, index) => (
                 <ListItem key={index}>
                   <ListItemIcon>
-                    <Error color="error" />
+                    <Error color='error' />
                   </ListItemIcon>
-                  <ListItemText
-                    primary={error.message}
-                    secondary={error.timestamp.toLocaleString()}
-                  />
+                  <ListItemText primary={error.message} secondary={error.timestamp.toLocaleString()} />
                 </ListItem>
               ))}
             </List>

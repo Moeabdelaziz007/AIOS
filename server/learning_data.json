@@ -1,0 +1,91 @@
+{
+  "learningData": [
+    [
+      "2025-09-18T12:11:47.913Z",
+      {
+        "timestamp": "2025-09-18T12:11:47.913Z",
+        "systems": {
+          "unifiedAutopilot": {
+            "timestamp": "2025-09-18T12:11:47.913Z",
+            "type": "error_processing",
+            "capabilities": [
+              "error_analysis",
+              "pattern_recognition",
+              "fix_generation"
+            ],
+            "metrics": {
+              "errorsProcessed": 0,
+              "patternsDetected": 0,
+              "fixesGenerated": 0
+            },
+            "events": [],
+            "patterns": {}
+          },
+          "quantumAutopilot": {
+            "timestamp": "2025-09-18T12:11:47.913Z",
+            "type": "multi_agent",
+            "capabilities": [
+              "telegram_integration",
+              "error_monitoring",
+              "system_health"
+            ],
+            "metrics": {
+              "notificationsSent": 0,
+              "commandsProcessed": 0,
+              "systemHealth": "unknown"
+            },
+            "events": [],
+            "patterns": {}
+          }
+        },
+        "metrics": {},
+        "patterns": {}
+      }
+    ],
+    [
+      "2025-09-18T17:53:27.067Z",
+      {
+        "timestamp": "2025-09-18T17:53:27.067Z",
+        "systems": {
+          "unifiedAutopilot": {
+            "timestamp": "2025-09-18T17:53:27.067Z",
+            "type": "error_processing",
+            "capabilities": [
+              "error_analysis",
+              "pattern_recognition",
+              "fix_generation"
+            ],
+            "metrics": {
+              "errorsProcessed": 0,
+              "patternsDetected": 0,
+              "fixesGenerated": 0
+            },
+            "events": [],
+            "patterns": {}
+          },
+          "quantumAutopilot": {
+            "timestamp": "2025-09-18T17:53:27.067Z",
+            "type": "multi_agent",
+            "capabilities": [
+              "telegram_integration",
+              "error_monitoring",
+              "system_health"
+            ],
+            "metrics": {
+              "notificationsSent": 0,
+              "commandsProcessed": 0,
+              "systemHealth": "unknown"
+            },
+            "events": [],
+            "patterns": {}
+          }
+        },
+        "metrics": {},
+        "patterns": {}
+      }
+    ]
+  ],
+  "patterns": [],
+  "metaLearning": [],
+  "lastSaved": "2025-09-18T17:53:33.094Z"
+}

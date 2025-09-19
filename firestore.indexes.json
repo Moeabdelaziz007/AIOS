@@ -20,8 +20,16 @@
       "collectionGroup": "operating_systems",
       "queryScope": "COLLECTION",
       "fields": [
+        { "fieldPath": "status", "order": "ASCENDING" },
+        { "fieldPath": "createdAt", "order": "DESCENDING" }
+      ]
+    },
+    {
+      "collectionGroup": "operating_systems",
+      "queryScope": "COLLECTION",
+      "fields": [
         { "fieldPath": "tags", "arrayConfig": "CONTAINS" },
-        { "fieldPath": "stats.averageRating", "order": "DESCENDING" }
+        { "fieldPath": "stats.viewCount", "order": "DESCENDING" }
       ]
     },
     {
@@ -49,10 +57,26 @@
       ]
     },
     {
+      "collectionGroup": "reviews",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "status", "order": "ASCENDING" },
+        { "fieldPath": "createdAt", "order": "DESCENDING" }
+      ]
+    },
+    {
       "collectionGroup": "favorites",
       "queryScope": "COLLECTION",
       "fields": [
         { "fieldPath": "userId", "order": "ASCENDING" },
+        { "fieldPath": "createdAt", "order": "DESCENDING" }
+      ]
+    },
+    {
+      "collectionGroup": "favorites",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "operatingSystemId", "order": "ASCENDING" },
         { "fieldPath": "createdAt", "order": "DESCENDING" }
       ]
     },
@@ -89,14 +113,6 @@
       ]
     },
     {
-      "collectionGroup": "features",
-      "queryScope": "COLLECTION",
-      "fields": [
-        { "fieldPath": "category", "order": "ASCENDING" },
-        { "fieldPath": "name", "order": "ASCENDING" }
-      ]
-    },
-    {
       "collectionGroup": "system_logs",
       "queryScope": "COLLECTION",
       "fields": [
@@ -109,6 +125,150 @@
       "queryScope": "COLLECTION",
       "fields": [
         { "fieldPath": "userId", "order": "ASCENDING" },
+        { "fieldPath": "timestamp", "order": "DESCENDING" }
+      ]
+    },
+    {
+      "collectionGroup": "system_logs",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "action", "order": "ASCENDING" },
+        { "fieldPath": "timestamp", "order": "DESCENDING" }
+      ]
+    },
+    {
+      "collectionGroup": "features",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "category", "order": "ASCENDING" },
+        { "fieldPath": "usage.popularity", "order": "DESCENDING" }
+      ]
+    },
+    {
+      "collectionGroup": "features",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "isActive", "order": "ASCENDING" },
+        { "fieldPath": "createdAt", "order": "DESCENDING" }
+      ]
+    },
+    {
+      "collectionGroup": "quantum_autopilot",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "sessionId", "order": "ASCENDING" },
+        { "fieldPath": "timestamp", "order": "DESCENDING" }
+      ]
+    },
+    {
+      "collectionGroup": "error_logs",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "level", "order": "ASCENDING" },
+        { "fieldPath": "timestamp", "order": "DESCENDING" }
+      ]
+    },
+    {
+      "collectionGroup": "error_logs",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "component", "order": "ASCENDING" },
+        { "fieldPath": "timestamp", "order": "DESCENDING" }
+      ]
+    },
+    {
+      "collectionGroup": "fix_patterns",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "patternType", "order": "ASCENDING" },
+        { "fieldPath": "successRate", "order": "DESCENDING" }
+      ]
+    },
+    {
+      "collectionGroup": "system_monitoring",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "metricType", "order": "ASCENDING" },
+        { "fieldPath": "timestamp", "order": "DESCENDING" }
+      ]
+    },
+    {
+      "collectionGroup": "learning_data",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "dataType", "order": "ASCENDING" },
+        { "fieldPath": "timestamp", "order": "DESCENDING" }
+      ]
+    },
+    {
+      "collectionGroup": "user_interactions",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "userId", "order": "ASCENDING" },
+        { "fieldPath": "timestamp", "order": "DESCENDING" }
+      ]
+    },
+    {
+      "collectionGroup": "user_interactions",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "type", "order": "ASCENDING" },
+        { "fieldPath": "timestamp", "order": "DESCENDING" }
+      ]
+    },
+    {
+      "collectionGroup": "sessions",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "userId", "order": "ASCENDING" },
+        { "fieldPath": "startTime", "order": "DESCENDING" }
+      ]
+    },
+    {
+      "collectionGroup": "sessions",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "status", "order": "ASCENDING" },
+        { "fieldPath": "startTime", "order": "DESCENDING" }
+      ]
+    },
+    {
+      "collectionGroup": "performance_metrics",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "metricName", "order": "ASCENDING" },
+        { "fieldPath": "timestamp", "order": "DESCENDING" }
+      ]
+    },
+    {
+      "collectionGroup": "agent_data",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "agentType", "order": "ASCENDING" },
+        { "fieldPath": "timestamp", "order": "DESCENDING" }
+      ]
+    },
+    {
+      "collectionGroup": "mcp_sessions",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "userId", "order": "ASCENDING" },
+        { "fieldPath": "startTime", "order": "DESCENDING" }
+      ]
+    },
+    {
+      "collectionGroup": "cursor_data",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "operationType", "order": "ASCENDING" },
+        { "fieldPath": "timestamp", "order": "DESCENDING" }
+      ]
+    },
+    {
+      "collectionGroup": "gemini_data",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "requestType", "order": "ASCENDING" },
         { "fieldPath": "timestamp", "order": "DESCENDING" }
       ]
     }

@@ -1,0 +1,32 @@
+{
+  "name": "aios-integrated-system",
+  "version": "1.0.0",
+  "description": "Integrated AIOS System with Quantum Agents - Free Implementation",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "nodemon server.js",
+    "test": "node test_integration.js",
+    "setup": "node setup_system.js"
+  },
+  "dependencies": {
+    "express": "^4.18.2",
+    "socket.io": "^4.7.4",
+    "cors": "^2.8.5",
+    "firebase": "^10.7.0",
+    "firebase-admin": "^11.11.0",
+    "dotenv": "^16.3.1"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.1"
+  },
+  "keywords": [
+    "aios",
+    "quantum",
+    "agents",
+    "ai",
+    "free"
+  ],
+  "author": "AIOS Team",
+  "license": "MIT"
+}

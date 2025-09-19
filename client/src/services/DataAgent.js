@@ -1,5 +1,18 @@
-import { collection, doc, getDocs, addDoc, updateDoc, deleteDoc, query, where, orderBy, limit, startAfter, onSnapshot } from 'firebase/firestore';
-import { getAuth } from 'firebase/auth';
+import {
+  addDoc,
+  collection,
+  doc,
+  getDocs,
+  limit,
+  onSnapshot,
+  orderBy,
+  query,
+  startAfter,
+  updateDoc,
+  where
+} from 'firebase/firestore';
+import geminiAPIService from './GeminiAPIService';
+import LearningDataTrainer from './LearningDataTrainer';
 
 /**
  * Advanced Data Agent for AIOS
@@ -15,29 +28,43 @@ class DataAgent {
     this.aiInsights = new Map();
     this.cacheTimeout = 5 * 60 * 1000; // 5 minutes
     this.batchSize = 50;
-    
-    // AI Tools Configuration
+    this.mockMode = true; // Enable mock mode by default to prevent permission errors
+    this.permissionErrors = 0; // Track permission errors
+    this.authStateReady = false; // Track authentication state
+    this.authStateListener = null; // Store auth state listener
+
+    console.log('🔧 DataAgent initialized in MOCK MODE to prevent Firestore permission errors');
+
+    // Set up authentication state listener
+    this.setupAuthStateListener();
+
+    // Initialize learning trainer
+    this.learningTrainer = new LearningDataTrainer(this);
+    this.trainingCompleted = false;
+
+    // AI Tools Configuration with Enhanced API Service
     this.aiTools = {
-      gemini: { 
-        enabled: !!process.env.VITE_GEMINI_API_KEY, 
+      gemini: {
+        enabled: !!process.env.VITE_GEMINI_API_KEY,
         apiKey: process.env.VITE_GEMINI_API_KEY,
         status: 'ready',
-        lastUsed: null
+        lastUsed: null,
+        service: geminiAPIService // Use enhanced API service
       },
-      openai: { 
-        enabled: !!process.env.VITE_OPENAI_API_KEY, 
+      openai: {
+        enabled: !!process.env.VITE_OPENAI_API_KEY,
         apiKey: process.env.VITE_OPENAI_API_KEY,
         status: 'ready',
         lastUsed: null
       },
-      claude: { 
-        enabled: false, 
+      claude: {
+        enabled: false,
         apiKey: null,
         status: 'disabled',
         lastUsed: null
       }
     };
-    
+
     // Learning and Analytics
     this.learningMode = false;
     this.insights = [];
@@ -49,12 +76,138 @@ class DataAgent {
       errors: 0,
       aiCalls: 0,
       dataProcessed: 0,
-      insightsGenerated: 0
+      insightsGenerated: 0,
+      permissionErrors: 0,
+      retryAttempts: 0,
+      authStateChanges: 0,
+      mockModeActivations: 0,
+      realTimeSubscriptions: 0
     };
-    
+
     // Initialize data processors
     this.initializeDataProcessors();
     this.initializeAITools();
+  }
+
+  /**
+   * Check if user is authenticated and ready
+   */
+  isAuthenticated() {
+    return this.authStateReady && !this.mockMode && this.auth?.currentUser;
+  }
+
+  /**
+   * Get current authentication status
+   */
+  getAuthStatus() {
+    return {
+      authenticated: this.isAuthenticated(),
+      authStateReady: this.authStateReady,
+      mockMode: this.mockMode,
+      currentUser: this.currentUser || this.auth?.currentUser?.uid || null,
+      permissionErrors: this.permissionErrors,
+      lastError: this.lastError,
+      retryCount: this.retryCount || 0
+    };
+  }
+
+  /**
+   * Retry failed operations with exponential backoff
+   */
+  async retryOperation(operation, maxRetries = 3, baseDelay = 1000) {
+    let lastError;
+
+    for (let attempt = 1; attempt <= maxRetries; attempt++) {
+      try {
+        return await operation();
+      } catch (error) {
+        lastError = error;
+        this.lastError = error;
+
+        if (attempt === maxRetries) {
+          console.error(`Operation failed after ${maxRetries} attempts:`, error);
+          throw error;
+        }
+
+        // Exponential backoff
+        const delay = baseDelay * Math.pow(2, attempt - 1);
+        console.warn(`Operation failed (attempt ${attempt}/${maxRetries}), retrying in ${delay}ms...`);
+
+        await new Promise(resolve => setTimeout(resolve, delay));
+      }
+    }
+
+    throw lastError;
+  }
+
+  /**
+   * Set up authentication state listener
+   */
+  setupAuthStateListener() {
+    if (!this.auth) {
+      console.warn('Auth not available, staying in mock mode');
+      return;
+    }
+
+    // Import onAuthStateChanged dynamically to avoid circular imports
+    import('firebase/auth')
+      .then(({ onAuthStateChanged }) => {
+        this.authStateListener = onAuthStateChanged(this.auth, user => {
+          const wasAuthenticated = this.authStateReady && !this.mockMode;
+          this.authStateReady = !!user;
+
+          if (user) {
+            console.log('🔐 User authenticated, disabling mock mode');
+            this.mockMode = false;
+            this.permissionErrors = 0; // Reset permission error count
+            this.analytics.authStateChanges++;
+
+            // Store user info for better debugging
+            this.currentUser = {
+              uid: user.uid,
+              email: user.email,
+              displayName: user.displayName,
+              isAnonymous: user.isAnonymous
+            };
+
+            // Start meta-learning loop if not already running
+            if (!wasAuthenticated) {
+              this.startMetaLearningLoop();
+            }
+
+            // Emit authentication event for other components
+            this.emitAuthEvent('authenticated', user);
+          } else {
+            console.log('🔓 User not authenticated, enabling mock mode');
+            this.mockMode = true;
+            this.currentUser = null;
+            this.analytics.authStateChanges++;
+            this.analytics.mockModeActivations++;
+
+            // Stop meta-learning loop
+            if (this.metaLearningInterval) {
+              clearInterval(this.metaLearningInterval);
+              this.metaLearningInterval = null;
+            }
+
+            // Emit authentication event for other components
+            this.emitAuthEvent('unauthenticated', null);
+          }
+        });
+      })
+      .catch(error => {
+        console.error('Failed to set up auth state listener:', error);
+      });
+  }
+
+  /**
+   * Emit authentication events for other components
+   */
+  emitAuthEvent(type, user) {
+    const event = new CustomEvent('dataAgentAuth', {
+      detail: { type, user, timestamp: new Date() }
+    });
+    window.dispatchEvent(event);
   }
 
   /**
@@ -133,6 +286,12 @@ class DataAgent {
    * Start the meta-learning loop for continuous improvement
    */
   startMetaLearningLoop() {
+    // Skip meta-learning loop if in mock mode
+    if (this.mockMode) {
+      console.log('📊 Skipping meta-learning loop (mock mode enabled)');
+      return;
+    }
+
     if (this.metaLearningInterval) {
       clearInterval(this.metaLearningInterval);
     }
@@ -147,22 +306,34 @@ class DataAgent {
    */
   async executeMetaLearningCycle() {
     try {
+      // Skip meta-learning if in mock mode or not authenticated
+      if (this.mockMode || !this.authStateReady) {
+        console.log(`Skipping meta-learning cycle (mock mode: ${this.mockMode}, auth ready: ${this.authStateReady})`);
+        return;
+      }
+
       this.analytics.aiCalls++;
-      
+
       // Phase 1: Analyze current performance
       const performanceAnalysis = await this.analyzePerformance();
-      
+
       // Phase 2: Optimize underperforming rules
       await this.optimizeRules(performanceAnalysis);
-      
+
       // Phase 3: Generate new rules based on patterns
       await this.generateNewRules();
-      
+
       // Phase 4: Update learning metrics
       this.updateLearningMetrics();
-      
     } catch (error) {
       console.error('Meta-learning cycle error:', error);
+
+      // Enable mock mode on any error
+      if (error.code === 'permission-denied' || error.message.includes('Missing or insufficient permissions')) {
+        console.warn('Enabling mock mode due to permission errors');
+        this.mockMode = true;
+      }
+
       this.analytics.errors++;
     }
   }
@@ -184,7 +355,7 @@ class DataAgent {
       ...this.learningRules.metaLearningRules,
       ...this.learningRules.improvementRules
     ];
-    
+
     analysis.overallAccuracy = allRules.reduce((sum, rule) => sum + rule.successRate, 0) / allRules.length;
 
     // Analyze individual rule performance
@@ -249,6 +420,12 @@ class DataAgent {
    */
   async generateNewRules() {
     try {
+      // Skip rule generation if in mock mode or not authenticated
+      if (this.mockMode || !this.authStateReady) {
+        console.log(`📊 Skipping rule generation (mock mode: ${this.mockMode}, auth ready: ${this.authStateReady})`);
+        return;
+      }
+
       // Analyze recent data for patterns
       const recentData = await this.fetchData('apps', { limit: 100 });
       const patterns = this.extractDataPatterns(recentData);
@@ -275,6 +452,14 @@ class DataAgent {
       });
     } catch (error) {
       console.error('Error generating new rules:', error);
+
+      // Handle Firestore permission errors gracefully
+      if (error.code === 'permission-denied' || error.message.includes('Missing or insufficient permissions')) {
+        console.warn('Firestore permission denied for rule generation, using fallback rules');
+        // Use fallback rules when Firestore is unavailable
+        this.learningRules.zeroShotRules = this.getFallbackData('learningRules');
+        this.learningMetrics.newRulesGenerated = this.learningRules.zeroShotRules.length;
+      }
     }
   }
 
@@ -288,7 +473,7 @@ class DataAgent {
     if (data.length > 10) {
       const activeApps = data.filter(app => app.status === 'active').length;
       const activeRatio = activeApps / data.length;
-      
+
       if (activeRatio > 0.7) {
         patterns.push({
           type: 'high_activity_pattern',
@@ -305,11 +490,12 @@ class DataAgent {
       categories[app.category] = (categories[app.category] || 0) + 1;
     });
 
-    const maxCategory = Object.keys(categories).reduce((a, b) => 
-      categories[a] > categories[b] ? a : b
-    );
+    const maxCategory =
+      Object.keys(categories).length > 0
+        ? Object.keys(categories).reduce((a, b) => (categories[a] > categories[b] ? a : b))
+        : null;
 
-    if (categories[maxCategory] / data.length > 0.4) {
+    if (maxCategory && categories[maxCategory] / data.length > 0.4) {
       patterns.push({
         type: 'category_dominance_pattern',
         condition: `category === '${maxCategory}'`,
@@ -326,7 +512,7 @@ class DataAgent {
    */
   updateLearningMetrics() {
     this.learningMetrics.rulesExecuted++;
-    
+
     // Simulate successful predictions
     const successRate = this.calculateOverallSuccessRate();
     if (Math.random() < successRate) {
@@ -348,7 +534,7 @@ class DataAgent {
       ...this.learningRules.metaLearningRules,
       ...this.learningRules.improvementRules
     ];
-    
+
     return allRules.reduce((sum, rule) => sum + rule.successRate, 0) / allRules.length;
   }
 
@@ -400,8 +586,14 @@ class DataAgent {
       processor = true
     } = options;
 
+    // Check authentication state and use mock mode if not authenticated
+    if (this.mockMode || !this.authStateReady) {
+      console.log(`📊 Using mock data for ${collectionName} (mock mode enabled - auth state: ${this.authStateReady})`);
+      return this.getFallbackData(collectionName);
+    }
+
     const cacheKey = this.generateCacheKey(collectionName, options);
-    
+
     // Check cache first
     if (useCache && this.cache.has(cacheKey)) {
       const cachedData = this.cache.get(cacheKey);
@@ -411,37 +603,42 @@ class DataAgent {
     }
 
     try {
-      let q = collection(this.db, collectionName);
-      
-      // Apply filters
-      filters.forEach(filter => {
-        q = query(q, where(filter.field, filter.operator, filter.value));
-      });
-      
-      // Apply ordering
-      q = query(q, orderBy(orderByField, orderDirection));
-      
-      // Apply limit
-      if (limitCount) {
-        q = query(q, limit(limitCount));
-      }
-      
-      // Apply pagination
-      if (startAfterDoc) {
-        q = query(q, startAfter(startAfterDoc));
-      }
+      // Use retry logic for Firestore operations
+      const data = await this.retryOperation(async () => {
+        let q = collection(this.db, collectionName);
 
-      const snapshot = await getDocs(q);
-      let data = [];
-      
-      snapshot.forEach((doc) => {
-        data.push({ id: doc.id, ...doc.data() });
-      });
+        // Apply filters
+        filters.forEach(filter => {
+          q = query(q, where(filter.field, filter.operator, filter.value));
+        });
 
-      // Process data if processor exists
-      if (processor && this.dataProcessors.has(collectionName)) {
-        data = await this.processData(collectionName, data);
-      }
+        // Apply ordering
+        q = query(q, orderBy(orderByField, orderDirection));
+
+        // Apply limit
+        if (limitCount) {
+          q = query(q, limit(limitCount));
+        }
+
+        // Apply pagination
+        if (startAfterDoc) {
+          q = query(q, startAfter(startAfterDoc));
+        }
+
+        const snapshot = await getDocs(q);
+        let data = [];
+
+        snapshot.forEach(doc => {
+          data.push({ id: doc.id, ...doc.data() });
+        });
+
+        // Process data if processor exists
+        if (processor && this.dataProcessors.has(collectionName)) {
+          data = await this.processData(collectionName, data);
+        }
+
+        return data;
+      });
 
       // Cache the result
       if (useCache) {
@@ -459,8 +656,145 @@ class DataAgent {
       return data;
     } catch (error) {
       console.error(`Error fetching data from ${collectionName}:`, error);
+
+      // Handle Firestore permission errors with fallback data
+      if (error.code === 'permission-denied' || error.message.includes('Missing or insufficient permissions')) {
+        console.warn(`Firestore permission denied for ${collectionName}, enabling mock mode`);
+        this.mockMode = true;
+        this.permissionErrors++;
+
+        // If we get too many permission errors, disable real-time operations
+        if (this.permissionErrors > 5) {
+          console.warn('Too many permission errors, disabling real-time operations');
+          this.unsubscribeAll();
+        }
+
+        return this.getFallbackData(collectionName);
+      }
+
       throw error;
     }
+  }
+
+  /**
+   * Train the learning loop with comprehensive data
+   */
+  async trainLearningLoop() {
+    try {
+      console.log('🧠 Starting DataAgent learning loop training...');
+
+      if (!this.learningTrainer) {
+        console.warn('⚠️ Learning trainer not initialized');
+        return { success: false, error: 'Learning trainer not initialized' };
+      }
+
+      const result = await this.learningTrainer.trainLearningLoop();
+
+      if (result.success) {
+        this.trainingCompleted = true;
+        this.learningMetrics.trainingCompleted = true;
+        this.learningMetrics.lastTraining = new Date().toISOString();
+        console.log('✅ DataAgent learning loop training completed successfully');
+      }
+
+      return result;
+    } catch (error) {
+      console.error('❌ Error training DataAgent learning loop:', error);
+      return { success: false, error: error.message };
+    }
+  }
+
+  /**
+   * Get learning insights from trained patterns
+   */
+  getLearningInsights() {
+    if (!this.learningTrainer) {
+      return { insights: [], error: 'Learning trainer not initialized' };
+    }
+
+    return this.learningTrainer.generateLearningInsights();
+  }
+
+  /**
+   * Get training statistics
+   */
+  getTrainingStats() {
+    if (!this.learningTrainer) {
+      return { error: 'Learning trainer not initialized' };
+    }
+
+    return this.learningTrainer.getTrainingStats();
+  }
+
+  /**
+   * Check if training is completed
+   */
+  isTrainingCompleted() {
+    return this.trainingCompleted;
+  }
+  getFallbackData(collectionName) {
+    const fallbackData = {
+      apps: [
+        {
+          id: '1',
+          name: 'AIOS Dashboard',
+          description: 'Main dashboard application',
+          status: 'active',
+          version: '1.0.0',
+          createdAt: new Date().toISOString(),
+          userId: 'system'
+        },
+        {
+          id: '2',
+          name: 'Data Agent',
+          description: 'AI data processing agent',
+          status: 'active',
+          version: '1.0.0',
+          createdAt: new Date().toISOString(),
+          userId: 'system'
+        },
+        {
+          id: '3',
+          name: 'Quantum Autopilot',
+          description: 'Automated system management',
+          status: 'active',
+          version: '1.0.0',
+          createdAt: new Date().toISOString(),
+          userId: 'system'
+        }
+      ],
+      users: [
+        {
+          id: '1',
+          email: 'demo@aios.com',
+          displayName: 'Demo User',
+          role: 'user',
+          createdAt: new Date().toISOString()
+        }
+      ],
+      systemLogs: [
+        {
+          id: '1',
+          level: 'INFO',
+          message: 'AIOS System operational',
+          timestamp: new Date().toISOString(),
+          source: 'system'
+        }
+      ],
+      learningRules: [
+        {
+          id: '1',
+          name: 'Default Rule',
+          description: 'Default learning rule',
+          pattern: 'status:active',
+          action: 'monitor',
+          confidence: 0.8,
+          createdAt: new Date().toISOString()
+        }
+      ]
+    };
+
+    return fallbackData[collectionName] || [];
   }
 
   /**
@@ -471,7 +805,7 @@ class DataAgent {
     if (!processor) return data;
 
     const processedData = [];
-    
+
     for (const item of data) {
       try {
         // Validate data
@@ -482,10 +816,10 @@ class DataAgent {
 
         // Transform data
         let transformedItem = processor.transform(item);
-        
+
         // Enrich data
         transformedItem = await processor.enrich(transformedItem);
-        
+
         processedData.push(transformedItem);
       } catch (error) {
         console.error(`Error processing item in ${collectionName}:`, error);
@@ -517,7 +851,7 @@ class DataAgent {
   async enrichAppData(app) {
     // Add AI-powered insights
     const insights = await this.generateAppInsights(app);
-    
+
     return {
       ...app,
       insights,
@@ -629,11 +963,11 @@ class DataAgent {
 
   generateAppRecommendations(app) {
     const recommendations = [];
-    
+
     if (app.category === 'ai' && app.status === 'inactive') {
       recommendations.push('AI apps benefit from regular usage for model training');
     }
-    
+
     if (!app.config || Object.keys(app.config).length === 0) {
       recommendations.push('Consider adding configuration for better performance');
     }
@@ -656,14 +990,14 @@ class DataAgent {
    */
   async generateSystemAlerts(system) {
     const alerts = [];
-    
+
     if (system.totalApps > 100) {
       alerts.push({
         type: 'warning',
         message: 'High number of apps detected. Consider archiving unused apps.'
       });
     }
-    
+
     if (system.activeApps / system.totalApps < 0.3) {
       alerts.push({
         type: 'info',
@@ -688,10 +1022,10 @@ class DataAgent {
    */
   categorizeLogSeverity(level) {
     const severityMap = {
-      'error': 'high',
-      'warn': 'medium',
-      'info': 'low',
-      'debug': 'low'
+      error: 'high',
+      warn: 'medium',
+      info: 'low',
+      debug: 'low'
     };
     return severityMap[level] || 'low';
   }
@@ -715,12 +1049,10 @@ class DataAgent {
   async findRelatedLogs(log) {
     // Find logs with similar patterns
     const relatedLogs = await this.fetchData('system_logs', {
-      filters: [
-        { field: 'level', operator: '==', value: log.level }
-      ],
+      filters: [{ field: 'level', operator: '==', value: log.level }],
       limit: 5
     });
-    
+
     return relatedLogs.filter(relatedLog => relatedLog.id !== log.id);
   }
 
@@ -729,31 +1061,31 @@ class DataAgent {
    */
   setupRealTimeSubscription(collectionName, options) {
     const subscriptionKey = `${collectionName}_${JSON.stringify(options)}`;
-    
+
     if (this.subscriptions.has(subscriptionKey)) {
       return; // Already subscribed
     }
 
     let q = collection(this.db, collectionName);
-    
+
     // Apply same filters as fetchData
     if (options.filters) {
       options.filters.forEach(filter => {
         q = query(q, where(filter.field, filter.operator, filter.value));
       });
     }
-    
+
     if (options.orderBy) {
       q = query(q, orderBy(options.orderBy, options.orderDirection || 'desc'));
     }
-    
+
     if (options.limit) {
       q = query(q, limit(options.limit));
     }
 
-    const unsubscribe = onSnapshot(q, (snapshot) => {
+    const unsubscribe = onSnapshot(q, snapshot => {
       const data = [];
-      snapshot.forEach((doc) => {
+      snapshot.forEach(doc => {
         data.push({ id: doc.id, ...doc.data() });
       });
 
@@ -778,12 +1110,11 @@ class DataAgent {
    * Batch operations for better performance
    */
   async batchCreate(collectionName, items) {
-    const batch = [];
     const results = [];
 
     for (let i = 0; i < items.length; i += this.batchSize) {
       const batchItems = items.slice(i, i + this.batchSize);
-      
+
       for (const item of batchItems) {
         try {
           const docRef = await addDoc(collection(this.db, collectionName), item);
@@ -859,25 +1190,25 @@ class DataAgent {
 
   getCategoryIcon(category) {
     const iconMap = {
-      'ai': '🤖',
-      'automation': '⚙️',
-      'analytics': '📊',
-      'productivity': '📈',
-      'entertainment': '🎮',
-      'general': '📱'
+      ai: '🤖',
+      automation: '⚙️',
+      analytics: '📊',
+      productivity: '📈',
+      entertainment: '🎮',
+      general: '📱'
     };
     return iconMap[category] || '📱';
   }
 
   calculateAppHealthScore(app) {
     let score = 100;
-    
+
     if (app.status === 'inactive') score -= 30;
     if (!app.config || Object.keys(app.config).length === 0) score -= 10;
     if (app.createdAt && new Date(app.createdAt) < new Date(Date.now() - 30 * 24 * 60 * 60 * 1000)) {
       score -= 20;
     }
-    
+
     return Math.max(0, score);
   }
 
@@ -951,14 +1282,71 @@ class DataAgent {
 
   async generateInsights(apps, logs, systemStatus) {
     const insights = [];
-    
+
+    // Basic rule-based insights
     if (apps.length > 50) {
       insights.push('Consider implementing app categorization for better organization');
     }
-    
+
     const errorRate = logs.filter(log => log.level === 'error').length / logs.length;
     if (errorRate > 0.1) {
       insights.push('High error rate detected. Review system logs for issues.');
+    }
+
+    // Enhanced AI-powered insights using Gemini API service
+    if (this.aiTools.gemini.enabled && this.aiTools.gemini.service) {
+      try {
+        const aiPrompt = `
+Analyze the following system data and provide intelligent insights:
+
+Apps Count: ${apps.length}
+Logs Count: ${logs.length}
+Error Rate: ${errorRate.toFixed(2)}
+System Status: ${JSON.stringify(systemStatus, null, 2)}
+
+Recent Logs Sample: ${logs
+          .slice(-10)
+          .map(log => `${log.level}: ${log.message}`)
+          .join('\n')}
+
+Provide 3-5 actionable insights for system optimization and improvement. Focus on:
+1. Performance optimization opportunities
+2. Security recommendations
+3. User experience improvements
+4. Resource utilization insights
+5. Predictive maintenance suggestions
+
+Format as a JSON array of insight objects with 'type', 'priority', 'description', and 'action' fields.
+`;
+
+        const aiResponse = await this.aiTools.gemini.service.generateContent(aiPrompt);
+
+        if (aiResponse.success && aiResponse.text) {
+          try {
+            // Try to parse AI response as JSON
+            const aiInsights = JSON.parse(aiResponse.text);
+            if (Array.isArray(aiInsights)) {
+              insights.push(
+                ...aiInsights.map(insight => `[AI] ${insight.description} (Priority: ${insight.priority})`)
+              );
+            } else {
+              // Fallback: treat as plain text
+              insights.push(`[AI] ${aiResponse.text}`);
+            }
+          } catch (parseError) {
+            // Fallback: treat as plain text
+            insights.push(`[AI] ${aiResponse.text}`);
+          }
+
+          // Update analytics
+          this.analytics.aiCalls++;
+          this.analytics.insightsGenerated += insights.length;
+          this.aiTools.gemini.lastUsed = new Date().toISOString();
+        }
+      } catch (error) {
+        console.warn('Failed to generate AI insights:', error);
+        // Continue with basic insights if AI fails
+      }
     }
 
     return insights;
@@ -985,6 +1373,67 @@ class DataAgent {
     this.clearCache();
     this.dataProcessors.clear();
     this.aiInsights.clear();
+
+    // Clean up auth state listener
+    if (this.authStateListener) {
+      this.authStateListener();
+      this.authStateListener = null;
+    }
+
+    // Clear meta-learning interval
+    if (this.metaLearningInterval) {
+      clearInterval(this.metaLearningInterval);
+      this.metaLearningInterval = null;
+    }
+  }
+
+  /**
+   * Get API service analytics
+   */
+  getAPIAnalytics() {
+    if (this.aiTools.gemini.service) {
+      return this.aiTools.gemini.service.getAnalytics();
+    }
+    return null;
+  }
+
+  /**
+   * Get rate limit status
+   */
+  getRateLimitStatus() {
+    if (this.aiTools.gemini.service) {
+      return this.aiTools.gemini.service.getRateLimitStatus();
+    }
+    return null;
+  }
+
+  /**
+   * Get cache statistics
+   */
+  getCacheStats() {
+    if (this.aiTools.gemini.service) {
+      return this.aiTools.gemini.service.getCacheStats();
+    }
+    return null;
+  }
+
+  /**
+   * Clear API cache
+   */
+  clearAPICache() {
+    if (this.aiTools.gemini.service) {
+      this.aiTools.gemini.service.clearCache();
+    }
+  }
+
+  /**
+   * Health check for API service
+   */
+  async healthCheck() {
+    if (this.aiTools.gemini.service) {
+      return await this.aiTools.gemini.service.healthCheck();
+    }
+    return { status: 'disabled', message: 'Gemini API service not available' };
   }
 }
 

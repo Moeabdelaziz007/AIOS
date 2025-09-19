@@ -1,0 +1,62 @@
+{
+  "name": "aios-agents",
+  "version": "1.0.0",
+  "description": "High-quality agent architecture for AIOS system",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "build:watch": "tsc --watch",
+    "dev": "ts-node --esm src/index.ts",
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "test:coverage": "jest --coverage",
+    "lint": "eslint . --ext .ts",
+    "lint:fix": "eslint . --ext .ts --fix",
+    "format": "prettier --write \"**/*.{ts,js,json,md}\"",
+    "format:check": "prettier --check \"**/*.{ts,js,json,md}\"",
+    "clean": "rimraf dist",
+    "prebuild": "npm run clean",
+    "prepublishOnly": "npm run build"
+  },
+  "keywords": [
+    "aios",
+    "agents",
+    "ai",
+    "typescript",
+    "architecture",
+    "security",
+    "monitoring"
+  ],
+  "author": "AIOS Team",
+  "license": "MIT",
+  "dependencies": {
+    "crypto": "^1.0.1"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "@typescript-eslint/eslint-plugin": "^6.0.0",
+    "@typescript-eslint/parser": "^6.0.0",
+    "eslint": "^8.0.0",
+    "eslint-config-prettier": "^9.0.0",
+    "eslint-plugin-prettier": "^5.0.0",
+    "jest": "^29.0.0",
+    "prettier": "^3.0.0",
+    "rimraf": "^5.0.0",
+    "ts-jest": "^29.0.0",
+    "ts-node": "^10.0.0",
+    "typescript": "^5.0.0"
+  },
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=8.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/aios/agents.git"
+  },
+  "bugs": {
+    "url": "https://github.com/aios/agents/issues"
+  },
+  "homepage": "https://github.com/aios/agents#readme"
+}

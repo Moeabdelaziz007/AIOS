@@ -1,0 +1,4 @@
+
+    "syntax:check": "find . -name '*.js' -not -path './node_modules/*' -not -path './client/node_modules/*' -not -path './server/node_modules/*' -not -path './build/*' -not -path './dist/*' -exec node -c {} \;",
+    "json:check": "find . -name '*.json' -not -path './node_modules/*' -not -path './client/node_modules/*' -not -path './server/node_modules/*' -exec node -e 'JSON.parse(require(\"fs\").readFileSync(process.argv[1], \"utf8\"))' {} \;",
+

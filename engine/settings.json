@@ -1,0 +1,102 @@
+{
+  "emulator_settings": {
+    "memory_size_kb": 64,
+    "basic_rom_size_kb": 8,
+    "basic_rom_start_address": "0xC000",
+    "debug_mode": false,
+    "step_delay_ms": 10,
+    "max_instructions": 1000000,
+    "io_handler": "default",
+    "interrupt_frequency_hz": 60,
+    "cpu_speed": {
+      "frequency_hz": 1000000,
+      "cycle_delay_ms": 0.001,
+      "speed_multiplier": 1.0,
+      "max_speed": true,
+      "adaptive_speed": false
+    },
+    "performance_monitoring": {
+      "enabled": true,
+      "track_instructions": true,
+      "track_memory_access": true,
+      "track_basic_commands": true,
+      "profile_execution": true,
+      "instruction_timing": true
+    }
+  },
+  "logging_settings": {
+    "log_level": "INFO",
+    "log_to_file": true,
+    "log_to_console": true,
+    "log_file_path": "logs/emulator.log",
+    "log_rotation": {
+      "enabled": true,
+      "max_file_size_mb": 10,
+      "backup_count": 5,
+      "rotation_when": "size"
+    },
+    "log_categories": {
+      "cpu_state": true,
+      "memory_access": true,
+      "basic_commands": true,
+      "io_operations": true,
+      "error_handling": true,
+      "performance": true,
+      "debug_info": false
+    },
+    "log_format": "%(asctime)s - %(name)s - %(levelname)s - %(message)s",
+    "log_date_format": "%Y-%m-%d %H:%M:%S"
+  },
+  "paths": {
+    "basic_rom_file": "src/m6502.asm",
+    "sample_programs_dir": "sample_programs",
+    "logs_dir": "logs",
+    "temp_dir": "temp"
+  },
+  "cli_settings": {
+    "default_program": "hello.bas",
+    "history_file": ".emulator_history",
+    "log_level": "INFO",
+    "speed_control": true,
+    "interactive_mode": true
+  },
+  "advanced_settings": {
+    "zero_page_start": "0x0000",
+    "stack_start": "0x0100",
+    "io_registers_start": "0x0200",
+    "ram_start": "0x0800",
+    "memory_layout": {
+      "zero_page": "0x0000-0x00FF",
+      "stack": "0x0100-0x01FF",
+      "basic_variables": "0x0000-0x1FFF",
+      "basic_strings": "0x2000-0x3FFF",
+      "basic_program": "0x4000-0x7FFF",
+      "user_program": "0x8000-0x9FFF",
+      "basic_rom": "0xA000-0xBFFF",
+      "system_rom": "0xC000-0xFFFF"
+    },
+    "io_handlers": {
+      "keyboard": true,
+      "display": true,
+      "printer": false,
+      "disk": false
+    }
+  },
+  "basic_settings": {
+    "max_line_length": 255,
+    "max_variables": 1000,
+    "max_arrays": 100,
+    "floating_point": true,
+    "string_handling": true,
+    "file_operations": false
+  },
+  "debug_settings": {
+    "step_delay": 0.1,
+    "show_instructions": true,
+    "show_memory_access": false,
+    "show_register_changes": true,
+    "breakpoints": [],
+    "watch_variables": [],
+    "trace_execution": false
+  }
+}

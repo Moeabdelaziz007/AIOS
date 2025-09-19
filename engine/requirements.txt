@@ -1,0 +1,31 @@
+# Python Requirements for BASIC-M6502 Engine Integration
+
+## Core Dependencies
+```
+py65>=1.0.0          # 6502 microprocessor emulator
+numpy>=1.21.0        # Numerical operations
+asyncio>=3.4.3       # Asynchronous operations
+threading>=3.0       # Multi-threading support
+subprocess>=3.0     # Process management
+```
+
+## Development Dependencies
+```
+pytest>=6.0.0       # Testing framework
+pytest-asyncio>=0.15.0  # Async testing
+black>=21.0.0       # Code formatting
+flake8>=3.9.0       # Linting
+mypy>=0.910         # Type checking
+```
+
+## Assembly Tools
+```
+py65mon>=1.0.0      # 6502 monitor/debugger
+cc65>=2.19.0        # 6502 C compiler (if needed)
+```
+
+## Integration Notes
+- The BASIC-M6502 source code is in assembly language
+- Python will provide the runtime environment and emulation
+- py65 library handles 6502 microprocessor emulation
+- Integration will create a Python wrapper around the assembly code

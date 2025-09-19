@@ -1,11 +1,11 @@
 {
+  "functions": {
+    "source": "functions",
+    "runtime": "nodejs20"
+  },
   "hosting": {
     "public": "client/build",
-    "ignore": [
-      "firebase.json",
-      "**/.*",
-      "**/node_modules/**"
-    ],
+    "ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
     "rewrites": [
       {
         "source": "**",

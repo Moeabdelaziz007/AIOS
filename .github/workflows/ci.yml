@@ -1,0 +1,213 @@
+name: AIOS CI/CD Pipeline
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main, develop ]
+
+jobs:
+  # Security scanning
+  security-scan:
+    name: Security Scan
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # Full history for secret scanning
+      
+      - name: Run Gitleaks
+        uses: gitleaks/gitleaks-action@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      
+      - name: Run Trivy vulnerability scanner
+        uses: aquasecurity/trivy-action@master
+        with:
+          scan-type: 'fs'
+          scan-ref: '.'
+          format: 'sarif'
+          output: 'trivy-results.sarif'
+      
+      - name: Upload Trivy scan results
+        uses: github/codeql-action/upload-sarif@v2
+        if: always()
+        with:
+          sarif_file: 'trivy-results.sarif'
+
+  # Backend tests
+  backend-tests:
+    name: Backend Tests
+    runs-on: ubuntu-latest
+    needs: security-scan
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+      
+      - name: Install dependencies
+        run: |
+          npm ci
+          cd server && npm ci
+      
+      - name: Run linting
+        run: npm run lint || true
+      
+      - name: Run backend tests
+        run: npm test
+        env:
+          NODE_ENV: test
+          FIREBASE_PROJECT_ID: aios-test
+          FIREBASE_API_KEY: test-api-key
+      
+      - name: Generate coverage report
+        run: npm run test:coverage || true
+      
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v3
+        if: always()
+        with:
+          files: ./coverage/lcov.info
+
+  # Frontend tests
+  frontend-tests:
+    name: Frontend Tests
+    runs-on: ubuntu-latest
+    needs: security-scan
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+          cache-dependency-path: 'client/package-lock.json'
+      
+      - name: Install client dependencies
+        run: cd client && npm ci
+      
+      - name: Run client linting
+        run: cd client && npm run lint || true
+      
+      - name: Run client tests
+        run: cd client && npm test -- --coverage --watchAll=false
+        env:
+          CI: true
+          REACT_APP_FIREBASE_API_KEY: test-api-key
+          REACT_APP_FIREBASE_AUTH_DOMAIN: test.firebaseapp.com
+          REACT_APP_FIREBASE_PROJECT_ID: test-project
+      
+      - name: Build client
+        run: cd client && npm run build
+      
+      - name: Upload client coverage
+        uses: codecov/codecov-action@v3
+        if: always()
+        with:
+          files: ./client/coverage/lcov.info
+
+  # Integration tests
+  integration-tests:
+    name: Integration Tests
+    runs-on: ubuntu-latest
+    needs: [backend-tests, frontend-tests]
+    services:
+      firebase:
+        image: firebase/emulators:latest
+        ports:
+          - 4000:4000  # Firestore
+          - 5000:5000  # Hosting
+          - 9000:9000  # Functions
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+      
+      - name: Install dependencies
+        run: npm ci
+      
+      - name: Start Firebase emulators
+        run: |
+          firebase emulators:start --only firestore,hosting,functions &
+          sleep 10
+        env:
+          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
+      
+      - name: Run integration tests
+        run: npm run test:integration || true
+        env:
+          NODE_ENV: test
+          FIREBASE_EMULATOR_HOST: localhost:4000
+
+  # Build and deploy
+  build-deploy:
+    name: Build and Deploy
+    runs-on: ubuntu-latest
+    needs: [backend-tests, frontend-tests, integration-tests]
+    if: github.ref == 'refs/heads/main'
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+      
+      - name: Install dependencies
+        run: npm ci
+      
+      - name: Build client
+        run: cd client && npm ci && npm run build
+      
+      - name: Deploy to Firebase
+        uses: FirebaseExtended/action-hosting-deploy@v0
+        with:
+          repoToken: '${{ secrets.GITHUB_TOKEN }}'
+          firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT }}'
+          projectId: aios-97581
+          channelId: live
+        env:
+          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
+
+  # Performance monitoring
+  performance-test:
+    name: Performance Test
+    runs-on: ubuntu-latest
+    needs: build-deploy
+    if: github.ref == 'refs/heads/main'
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+      
+      - name: Install dependencies
+        run: npm ci
+      
+      - name: Run Lighthouse CI
+        run: |
+          npm install -g @lhci/cli@0.12.x
+          lhci autorun
+        env:
+          LHCI_GITHUB_APP_TOKEN: ${{ secrets.LHCI_GITHUB_APP_TOKEN }}
+          LHCI_SERVER_URL: ${{ secrets.LHCI_SERVER_URL }}
+          LHCI_TOKEN: ${{ secrets.LHCI_TOKEN }}

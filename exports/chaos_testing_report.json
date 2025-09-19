@@ -1,0 +1,77 @@
+{
+  "timestamp": "2025-09-18T18:51:37.252Z",
+  "report": {
+    "status": "active",
+    "config": {
+      "enabled": false,
+      "intensity": "medium",
+      "interval": 30000,
+      "maxFailures": 10,
+      "recoveryTime": 5000,
+      "scenarios": {
+        "agentCrash": true,
+        "networkFailure": true,
+        "resourceExhaustion": true,
+        "memoryLeak": true,
+        "diskSpaceFull": true,
+        "cpuSpike": true,
+        "randomDelay": true,
+        "dataCorruption": false
+      }
+    },
+    "metrics": {
+      "totalChaosEvents": 0,
+      "successfulRecoveries": 0,
+      "failedRecoveries": 0,
+      "averageRecoveryTime": 0,
+      "systemUptime": 74.807158469
+    },
+    "activeChaos": [],
+    "recentHistory": [],
+    "recoveryStrategies": {
+      "agentCrash": {
+        "strategy": "restart",
+        "timeout": 10000,
+        "retries": 3,
+        "fallback": "replace"
+      },
+      "networkFailure": {
+        "strategy": "retry",
+        "timeout": 5000,
+        "retries": 5,
+        "fallback": "circuit_breaker"
+      },
+      "resourceExhaustion": {
+        "strategy": "scale_down",
+        "timeout": 15000,
+        "retries": 2,
+        "fallback": "emergency_shutdown"
+      },
+      "memoryLeak": {
+        "strategy": "gc_force",
+        "timeout": 3000,
+        "retries": 1,
+        "fallback": "restart"
+      },
+      "diskSpaceFull": {
+        "strategy": "cleanup",
+        "timeout": 20000,
+        "retries": 1,
+        "fallback": "alert"
+      },
+      "cpuSpike": {
+        "strategy": "throttle",
+        "timeout": 5000,
+        "retries": 3,
+        "fallback": "kill_process"
+      },
+      "randomDelay": {
+        "strategy": "wait",
+        "timeout": 1000,
+        "retries": 0,
+        "fallback": "skip"
+      }
+    }
+  },
+  "fullHistory": []
+}

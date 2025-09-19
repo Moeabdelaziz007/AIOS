@@ -1,0 +1,494 @@
+{
+  "timestamp": "2025-09-18T18:51:37.338Z",
+  "report": {
+    "status": "active",
+    "config": {
+      "enabled": false,
+      "testDuration": 300000,
+      "rampUpTime": 60000,
+      "maxConcurrentAgents": 1000,
+      "testScenarios": {
+        "linearRamp": true,
+        "stepRamp": true,
+        "spikeTest": true,
+        "stressTest": true,
+        "enduranceTest": true
+      },
+      "metrics": {
+        "responseTime": true,
+        "throughput": true,
+        "errorRate": true,
+        "resourceUsage": true,
+        "memoryUsage": true,
+        "cpuUsage": true
+      }
+    },
+    "performanceMetrics": {
+      "totalRequests": 20,
+      "successfulRequests": 20,
+      "failedRequests": 0,
+      "averageResponseTime": 0.5,
+      "maxResponseTime": 1,
+      "minResponseTime": 1,
+      "throughput": 20000,
+      "errorRate": 0,
+      "memoryPeak": 7482376,
+      "cpuPeak": 1.129284
+    },
+    "capacityLimits": {
+      "maxAgents": 20,
+      "maxThroughput": 1.13751312100752e-8,
+      "maxMemory": 8117944,
+      "maxCpu": 1.108395
+    },
+    "bottlenecks": [
+      {
+        "type": "cpu_usage",
+        "severity": "high",
+        "value": 1.108364,
+        "threshold": 0.9,
+        "agentCount": 20
+      }
+    ],
+    "activeTests": [],
+    "completedTests": [
+      {
+        "id": "load_test_1758221477241_6wpbaolr3",
+        "scenario": "spikeTest",
+        "startTime": "2025-09-18T18:51:17.241Z",
+        "status": "completed",
+        "options": {
+          "enabled": false,
+          "testDuration": 15000,
+          "rampUpTime": 60000,
+          "maxConcurrentAgents": 30,
+          "testScenarios": {
+            "linearRamp": true,
+            "stepRamp": true,
+            "spikeTest": true,
+            "stressTest": true,
+            "enduranceTest": true
+          },
+          "metrics": {
+            "responseTime": true,
+            "throughput": true,
+            "errorRate": true,
+            "resourceUsage": true,
+            "memoryUsage": true,
+            "cpuUsage": true
+          }
+        },
+        "results": {
+          "agents": [
+            {
+              "agentId": 14,
+              "operation": "data_processing",
+              "responseTime": 131,
+              "timestamp": "2025-09-18T18:51:17.373Z",
+              "success": true
+            },
+            {
+              "agentId": 10,
+              "operation": "data_processing",
+              "responseTime": 131,
+              "timestamp": "2025-09-18T18:51:17.373Z",
+              "success": true
+            },
+            {
+              "agentId": 3,
+              "operation": "data_processing",
+              "responseTime": 165,
+              "timestamp": "2025-09-18T18:51:17.406Z",
+              "success": true
+            },
+            {
+              "agentId": 13,
+              "operation": "data_processing",
+              "responseTime": 164,
+              "timestamp": "2025-09-18T18:51:17.406Z",
+              "success": true
+            },
+            {
+              "agentId": 7,
+              "operation": "database_query",
+              "responseTime": 165,
+              "timestamp": "2025-09-18T18:51:17.406Z",
+              "success": true
+            },
+            {
+              "agentId": 16,
+              "operation": "data_processing",
+              "responseTime": 164,
+              "timestamp": "2025-09-18T18:51:17.406Z",
+              "success": true
+            },
+            {
+              "agentId": 1,
+              "operation": "database_query",
+              "responseTime": 177,
+              "timestamp": "2025-09-18T18:51:17.418Z",
+              "success": true
+            },
+            {
+              "agentId": 11,
+              "operation": "database_query",
+              "responseTime": 184,
+              "timestamp": "2025-09-18T18:51:17.426Z",
+              "success": true
+            },
+            {
+              "agentId": 12,
+              "operation": "api_call",
+              "responseTime": 213,
+              "timestamp": "2025-09-18T18:51:17.455Z",
+              "success": true
+            },
+            {
+              "agentId": 2,
+              "operation": "database_query",
+              "responseTime": 216,
+              "timestamp": "2025-09-18T18:51:17.457Z",
+              "success": true
+            },
+            {
+              "agentId": 6,
+              "operation": "database_query",
+              "responseTime": 225,
+              "timestamp": "2025-09-18T18:51:17.466Z",
+              "success": true
+            },
+            {
+              "agentId": 15,
+              "operation": "api_call",
+              "responseTime": 230,
+              "timestamp": "2025-09-18T18:51:17.472Z",
+              "success": true
+            },
+            {
+              "agentId": 17,
+              "operation": "file_operation",
+              "responseTime": 313,
+              "timestamp": "2025-09-18T18:51:17.555Z",
+              "success": true
+            },
+            {
+              "agentId": 8,
+              "operation": "file_operation",
+              "responseTime": 346,
+              "timestamp": "2025-09-18T18:51:17.587Z",
+              "success": true
+            },
+            {
+              "agentId": 0,
+              "operation": "file_operation",
+              "responseTime": 353,
+              "timestamp": "2025-09-18T18:51:17.594Z",
+              "success": true
+            },
+            {
+              "agentId": 9,
+              "operation": "network_request",
+              "responseTime": 514,
+              "timestamp": "2025-09-18T18:51:17.755Z",
+              "success": true
+            },
+            {
+              "agentId": 4,
+              "operation": "network_request",
+              "responseTime": 537,
+              "timestamp": "2025-09-18T18:51:17.778Z",
+              "success": true
+            },
+            {
+              "agentId": 18,
+              "operation": "network_request",
+              "responseTime": 558,
+              "timestamp": "2025-09-18T18:51:17.800Z",
+              "success": true
+            },
+            {
+              "agentId": 5,
+              "operation": "network_request",
+              "responseTime": 572,
+              "timestamp": "2025-09-18T18:51:17.814Z",
+              "success": true
+            },
+            {
+              "agentId": 19,
+              "operation": "network_request",
+              "responseTime": 582,
+              "timestamp": "2025-09-18T18:51:17.824Z",
+              "success": true
+            }
+          ],
+          "metrics": [
+            {
+              "timestamp": "2025-09-18T18:51:17.242Z",
+              "agentCount": 20,
+              "responseTime": 1,
+              "throughput": 20000,
+              "memoryUsage": 8116216,
+              "cpuUsage": 1.108332
+            }
+          ],
+          "bottlenecks": [],
+          "errors": []
+        },
+        "endTime": "2025-09-18T18:51:32.255Z",
+        "duration": 15014,
+        "finalMetrics": {
+          "averageResponseTime": 1,
+          "maxResponseTime": 1,
+          "minResponseTime": 1,
+          "averageThroughput": 20000,
+          "maxThroughput": 20000,
+          "averageMemoryUsage": 8116216,
+          "maxMemoryUsage": 8116216,
+          "averageCpuUsage": 1.108332,
+          "maxCpuUsage": 1.108332,
+          "totalOperations": 20,
+          "errorRate": 0,
+          "bottleneckCount": 0
+        }
+      }
+    ],
+    "recommendations": [
+      {
+        "type": "resource",
+        "priority": "medium",
+        "recommendation": "Optimize CPU-intensive operations and implement load balancing",
+        "impact": "Reduce CPU usage by 15-30%"
+      },
+      {
+        "type": "scalability",
+        "priority": "medium",
+        "recommendation": "System can handle up to 20 agents before performance degradation",
+        "impact": "Provides clear capacity planning guidelines"
+      }
+    ]
+  },
+  "rawData": {
+    "testResults": [
+      {
+        "id": "load_test_1758221477241_6wpbaolr3",
+        "scenario": "spikeTest",
+        "startTime": "2025-09-18T18:51:17.241Z",
+        "status": "completed",
+        "options": {
+          "enabled": false,
+          "testDuration": 15000,
+          "rampUpTime": 60000,
+          "maxConcurrentAgents": 30,
+          "testScenarios": {
+            "linearRamp": true,
+            "stepRamp": true,
+            "spikeTest": true,
+            "stressTest": true,
+            "enduranceTest": true
+          },
+          "metrics": {
+            "responseTime": true,
+            "throughput": true,
+            "errorRate": true,
+            "resourceUsage": true,
+            "memoryUsage": true,
+            "cpuUsage": true
+          }
+        },
+        "results": {
+          "agents": [
+            {
+              "agentId": 14,
+              "operation": "data_processing",
+              "responseTime": 131,
+              "timestamp": "2025-09-18T18:51:17.373Z",
+              "success": true
+            },
+            {
+              "agentId": 10,
+              "operation": "data_processing",
+              "responseTime": 131,
+              "timestamp": "2025-09-18T18:51:17.373Z",
+              "success": true
+            },
+            {
+              "agentId": 3,
+              "operation": "data_processing",
+              "responseTime": 165,
+              "timestamp": "2025-09-18T18:51:17.406Z",
+              "success": true
+            },
+            {
+              "agentId": 13,
+              "operation": "data_processing",
+              "responseTime": 164,
+              "timestamp": "2025-09-18T18:51:17.406Z",
+              "success": true
+            },
+            {
+              "agentId": 7,
+              "operation": "database_query",
+              "responseTime": 165,
+              "timestamp": "2025-09-18T18:51:17.406Z",
+              "success": true
+            },
+            {
+              "agentId": 16,
+              "operation": "data_processing",
+              "responseTime": 164,
+              "timestamp": "2025-09-18T18:51:17.406Z",
+              "success": true
+            },
+            {
+              "agentId": 1,
+              "operation": "database_query",
+              "responseTime": 177,
+              "timestamp": "2025-09-18T18:51:17.418Z",
+              "success": true
+            },
+            {
+              "agentId": 11,
+              "operation": "database_query",
+              "responseTime": 184,
+              "timestamp": "2025-09-18T18:51:17.426Z",
+              "success": true
+            },
+            {
+              "agentId": 12,
+              "operation": "api_call",
+              "responseTime": 213,
+              "timestamp": "2025-09-18T18:51:17.455Z",
+              "success": true
+            },
+            {
+              "agentId": 2,
+              "operation": "database_query",
+              "responseTime": 216,
+              "timestamp": "2025-09-18T18:51:17.457Z",
+              "success": true
+            },
+            {
+              "agentId": 6,
+              "operation": "database_query",
+              "responseTime": 225,
+              "timestamp": "2025-09-18T18:51:17.466Z",
+              "success": true
+            },
+            {
+              "agentId": 15,
+              "operation": "api_call",
+              "responseTime": 230,
+              "timestamp": "2025-09-18T18:51:17.472Z",
+              "success": true
+            },
+            {
+              "agentId": 17,
+              "operation": "file_operation",
+              "responseTime": 313,
+              "timestamp": "2025-09-18T18:51:17.555Z",
+              "success": true
+            },
+            {
+              "agentId": 8,
+              "operation": "file_operation",
+              "responseTime": 346,
+              "timestamp": "2025-09-18T18:51:17.587Z",
+              "success": true
+            },
+            {
+              "agentId": 0,
+              "operation": "file_operation",
+              "responseTime": 353,
+              "timestamp": "2025-09-18T18:51:17.594Z",
+              "success": true
+            },
+            {
+              "agentId": 9,
+              "operation": "network_request",
+              "responseTime": 514,
+              "timestamp": "2025-09-18T18:51:17.755Z",
+              "success": true
+            },
+            {
+              "agentId": 4,
+              "operation": "network_request",
+              "responseTime": 537,
+              "timestamp": "2025-09-18T18:51:17.778Z",
+              "success": true
+            },
+            {
+              "agentId": 18,
+              "operation": "network_request",
+              "responseTime": 558,
+              "timestamp": "2025-09-18T18:51:17.800Z",
+              "success": true
+            },
+            {
+              "agentId": 5,
+              "operation": "network_request",
+              "responseTime": 572,
+              "timestamp": "2025-09-18T18:51:17.814Z",
+              "success": true
+            },
+            {
+              "agentId": 19,
+              "operation": "network_request",
+              "responseTime": 582,
+              "timestamp": "2025-09-18T18:51:17.824Z",
+              "success": true
+            }
+          ],
+          "metrics": [
+            {
+              "timestamp": "2025-09-18T18:51:17.242Z",
+              "agentCount": 20,
+              "responseTime": 1,
+              "throughput": 20000,
+              "memoryUsage": 8116216,
+              "cpuUsage": 1.108332
+            }
+          ],
+          "bottlenecks": [],
+          "errors": []
+        },
+        "endTime": "2025-09-18T18:51:32.255Z",
+        "duration": 15014,
+        "finalMetrics": {
+          "averageResponseTime": 1,
+          "maxResponseTime": 1,
+          "minResponseTime": 1,
+          "averageThroughput": 20000,
+          "maxThroughput": 20000,
+          "averageMemoryUsage": 8116216,
+          "maxMemoryUsage": 8116216,
+          "averageCpuUsage": 1.108332,
+          "maxCpuUsage": 1.108332,
+          "totalOperations": 20,
+          "errorRate": 0,
+          "bottleneckCount": 0
+        }
+      }
+    ],
+    "bottlenecks": [
+      {
+        "type": "cpu_usage",
+        "severity": "high",
+        "value": 1.108364,
+        "threshold": 0.9,
+        "agentCount": 20
+      }
+    ],
+    "performanceMetrics": {
+      "totalRequests": 20,
+      "successfulRequests": 20,
+      "failedRequests": 0,
+      "averageResponseTime": 0.5,
+      "maxResponseTime": 1,
+      "minResponseTime": 1,
+      "throughput": 20000,
+      "errorRate": 0,
+      "memoryPeak": 7482376,
+      "cpuPeak": 1.129284
+    }
+  }
+}

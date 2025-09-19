@@ -8,6 +8,15 @@ export const ProtectedRoute = ({ children, requiredRole = 'user', requiredPermis
   const { user, loading, hasRole, hasPermission } = useAuth();
   const location = useLocation();
 
+  console.log('ProtectedRoute:', { 
+    user: user ? 'present' : 'null', 
+    loading, 
+    requiredRole, 
+    requiredPermission,
+    hasRole: hasRole(requiredRole),
+    hasPermission: requiredPermission ? hasPermission(requiredPermission) : 'not required'
+  });
+
   if (loading) {
     return (
       <Box sx={{ 

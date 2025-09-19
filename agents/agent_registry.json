@@ -1,0 +1,206 @@
+{
+  "aios_agents_registry": {
+    "version": "2.0.0",
+    "schema_version": "2025-09-18-v1",
+    "description": "AIOS Agent Registry - Complete configuration for all AI agents",
+    "owner_contact": "team@aios.local",
+    "last_updated": "2024-01-20",
+    "total_agents": 6,
+
+    "agents": [
+      {
+        "agentId": "data_analyst_001",
+        "name": "DataAnalysisAgent",
+        "type": "analyst",
+        "config_file": "../agents/configs/data_analyst_agent.json",
+        "status": "active",
+        "capabilities": [
+          "data_analysis",
+          "statistics",
+          "visualization",
+          "pattern_recognition"
+        ],
+        "communication_style": "professional"
+      },
+      {
+        "agentId": "bug_detector_001",
+        "name": "BugDetectionAgent",
+        "type": "debugger",
+        "config_file": "../agents/configs/bug_detector_agent.json",
+        "status": "active",
+        "capabilities": [
+          "bug_detection",
+          "code_analysis",
+          "automated_fixing",
+          "security_scanning"
+        ],
+        "communication_style": "technical"
+      },
+      {
+        "agentId": "task_coordinator_001",
+        "name": "TaskCoordinatorAgent",
+        "type": "coordinator",
+        "config_file": "../agents/configs/task_coordinator_agent.json",
+        "status": "active",
+        "capabilities": [
+          "task_coordination",
+          "project_management",
+          "workflow_orchestration",
+          "resource_allocation"
+        ],
+        "communication_style": "friendly"
+      },
+      {
+        "agentId": "learning_agent_001",
+        "name": "LearningAgent",
+        "type": "learner",
+        "config_file": "../agents/configs/learning_agent.json",
+        "status": "active",
+        "capabilities": [
+          "pattern_recognition",
+          "continuous_learning",
+          "knowledge_extraction",
+          "adaptive_behavior"
+        ],
+        "communication_style": "curious"
+      },
+      {
+        "agentId": "monitoring_agent_001",
+        "name": "MonitoringAgent",
+        "type": "monitor",
+        "config_file": "../agents/configs/monitoring_agent.json",
+        "status": "active",
+        "capabilities": [
+          "system_monitoring",
+          "performance_tracking",
+          "health_checks",
+          "alert_management"
+        ],
+        "communication_style": "alert"
+      },
+      {
+        "agentId": "visualization_agent_001",
+        "name": "VisualizationAgent",
+        "type": "visualizer",
+        "config_file": "../agents/configs/visualization_agent.json",
+        "status": "active",
+        "capabilities": [
+          "data_visualization",
+          "chart_generation",
+          "dashboard_creation",
+          "interactive_visuals"
+        ],
+        "communication_style": "creative"
+      }
+    ],
+
+    "communication_protocols": {
+      "default_language": "en",
+      "supported_patterns": [
+        "greeting",
+        "request",
+        "status",
+        "task",
+        "learning",
+        "collaboration",
+        "emergency"
+      ],
+      "priority_levels": ["low", "normal", "high", "critical"],
+      "message_types": [
+        "text",
+        "command",
+        "data",
+        "alert",
+        "response",
+        "notification"
+      ]
+    },
+
+    "workflow_templates": {
+      "data_analysis_workflow": [
+        "data_analyst_001",
+        "visualization_agent_001",
+        "learning_agent_001"
+      ],
+      "bug_fixing_workflow": [
+        "monitoring_agent_001",
+        "bug_detector_001",
+        "learning_agent_001"
+      ],
+      "project_coordination_workflow": [
+        "task_coordinator_001",
+        "monitoring_agent_001",
+        "learning_agent_001"
+      ],
+      "system_monitoring_workflow": [
+        "monitoring_agent_001",
+        "bug_detector_001",
+        "task_coordinator_001"
+      ]
+    },
+
+    "collaboration_matrix": {
+      "data_analyst_001": [
+        "visualization_agent_001",
+        "learning_agent_001",
+        "task_coordinator_001"
+      ],
+      "bug_detector_001": [
+        "monitoring_agent_001",
+        "learning_agent_001",
+        "task_coordinator_001"
+      ],
+      "task_coordinator_001": ["all_agents"],
+      "learning_agent_001": ["all_agents"],
+      "monitoring_agent_001": [
+        "bug_detector_001",
+        "task_coordinator_001",
+        "learning_agent_001"
+      ],
+      "visualization_agent_001": [
+        "data_analyst_001",
+        "learning_agent_001",
+        "task_coordinator_001"
+      ]
+    },
+
+    "performance_targets": {
+      "response_time_ms": 2000,
+      "accuracy_pct": 95,
+      "availability_pct": 99.9,
+      "collaboration_efficiency_pct": 90,
+      "human_readable": {
+        "response_time": "< 2 seconds for standard requests",
+        "accuracy": "> 95% for specialized tasks",
+        "availability": "> 99.9% uptime",
+        "collaboration_efficiency": "> 90% successful multi-agent tasks"
+      }
+    },
+
+    "learning_objectives": [
+      "Improve inter-agent communication",
+      "Enhance collaborative problem-solving",
+      "Optimize workflow efficiency",
+      "Develop adaptive capabilities",
+      "Strengthen pattern recognition",
+      "Advance predictive analytics"
+    ],
+
+    "integration_points": [
+      "AIOS_Communication_System",
+      "Learning_Loop_System",
+      "MCP_Server",
+      "Firebase_Database",
+      "Cursor_CLI_Integration",
+      "Telegram_Autopilot"
+    ],
+
+    "usage_guidelines": {
+      "agent_selection": "Choose agents based on task requirements and capabilities",
+      "communication": "Use clear, specific language with appropriate priority levels",
+      "collaboration": "Leverage multi-agent workflows for complex tasks",
+      "monitoring": "Track performance and learning progress continuously",
+      "optimization": "Regularly update configurations based on experience"
+    }
+  }
+}

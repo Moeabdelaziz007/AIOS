@@ -12,11 +12,8 @@ import {
   Avatar,
   Chip,
   IconButton,
-  Divider,
-  Badge,
   Tooltip,
   CircularProgress,
-  Alert,
   Dialog,
   DialogTitle,
   DialogContent,
@@ -27,10 +24,7 @@ import {
   Send,
   People,
   Add,
-  Close,
   Chat,
-  Person,
-  SmartToy,
   OnlinePrediction,
   OfflineBolt
 } from '@mui/icons-material';
@@ -46,7 +40,6 @@ const LiveChat = () => {
   const [messageInput, setMessageInput] = useState('');
   const [isTyping, setIsTyping] = useState(false);
   const [typingUsers, setTypingUsers] = useState([]);
-  const [chatRooms, setChatRooms] = useState([]);
   const [isConnected, setIsConnected] = useState(false);
   const [showCreateRoom, setShowCreateRoom] = useState(false);
   const [newRoomName, setNewRoomName] = useState('');
